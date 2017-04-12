@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark"
+    android:padding="10dp"
+    tools:context="com.example.netobserve.MainActivity">
+
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/frameLayout1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@android:color/holo_orange_light">
+
+                <ImageButton
+                    android:id="@+id/imageButton1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/gongchengguanli"
+                    app:srcCompat="@drawable/gongchengguanli" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/frameLayout3"
+                    android:layout_alignStart="@+id/frameLayout3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="110dp"
+                    android:clickable="false"
+                    android:text="工程管理"
+                    android:textSize="20dp"></TextView>
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frameLayout2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignBottom="@+id/frameLayout1"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/frameLayout1"
+                android:background="@android:color/holo_orange_light">
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/xitongshezhi"
+                    app:srcCompat="@drawable/xitongshezhi" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/frameLayout3"
+                    android:layout_alignStart="@+id/frameLayout3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="110dp"
+                    android:clickable="false"
+                    android:text="系统设置"
+                    android:textSize="20dp"></TextView>
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:weightSum="1">
+
+            <FrameLayout
+                android:id="@+id/frameLayout3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@android:color/holo_green_light">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/frameLayout3"
+                    android:layout_alignStart="@+id/frameLayout3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="110dp"
+                    android:clickable="false"
+                    android:text="连接设置"
+                    android:textSize="20dp"></TextView>
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/lianjieshebei"
+                    app:srcCompat="@drawable/lianjieshebei" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frameLayout4"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignLeft="@+id/frameLayout2"
+                android:background="@android:color/holo_green_light"
+                android:layout_weight="0.03">
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/guance"
+                    app:srcCompat="@drawable/guance" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/frameLayout3"
+                    android:layout_alignStart="@+id/frameLayout3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="110dp"
+                    android:clickable="false"
+                    android:text="观测"
+                    android:textSize="20dp"></TextView>
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+            android:id="@+id/frameLayout5"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignEnd="@+id/frameLayout3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/frameLayout3"
+            android:layout_below="@+id/frameLayout3"
+            android:background="@android:color/holo_green_light">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/frameLayout3"
+                android:layout_alignStart="@+id/frameLayout3"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="110dp"
+                android:clickable="false"
+                android:text="查看数据"
+                android:textSize="20dp"></TextView>
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/chakanshuju"
+                    app:srcCompat="@drawable/chakanshuju" />
+        </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frameLayout6"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignLeft="@+id/frameLayout5"
+                android:background="@android:color/holo_green_light">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/frameLayout3"
+                    android:layout_alignStart="@+id/frameLayout3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="110dp"
+                    android:clickable="false"
+                    android:text="注册"
+                    android:textSize="20dp"></TextView>
+
+                <ImageButton
+                    android:id="@+id/imageButton6"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/zhuce"
+                    app:srcCompat="@drawable/zhuce" />
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/frameLayout7"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@color/colorPrimaryDark">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/frameLayout3"
+                    android:layout_alignStart="@+id/frameLayout3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="110dp"
+                    android:clickable="false"
+                    android:text="信息"
+                    android:textSize="20dp"></TextView>
+
+                <ImageButton
+                    android:id="@+id/imageButton7"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/xinxi"
+                    app:srcCompat="@drawable/xinxi"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frameLayout8"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignLeft="@+id/frameLayout5"
+                android:layout_marginLeft="10dp"
+                android:background="@color/colorPrimaryDark">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/frameLayout3"
+                    android:layout_alignStart="@+id/frameLayout3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="110dp"
+                    android:clickable="false"
+                    android:text="退出"
+                    android:textSize="20dp"></TextView>
+
+                <ImageButton
+                    android:id="@+id/imageButton8"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/tuichu"
+                    app:srcCompat="@drawable/tuichu" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>

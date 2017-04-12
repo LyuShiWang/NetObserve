@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark">
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/xianchashezhi_big"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="水平角设置"
+        android:textColor="@android:color/background_light"
+        android:textSize="36sp" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/textView14">
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/editText_liangcicha"
+            android:layout_toStartOf="@+id/editText_liangcicha"
+            android:text="两次照准读数差："
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editText_liangcicha"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_toLeftOf="@+id/textView17"
+            android:layout_toStartOf="@+id/textView17"
+            android:background="@drawable/textview_border"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="2"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:text="秒"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativeLayout6"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/editText_bancihui"
+            android:layout_alignBottom="@+id/editText_bancihui"
+            android:layout_toLeftOf="@+id/editText_bancihui"
+            android:layout_toStartOf="@+id/editText_bancihui"
+            android:text="半测回归零差："
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editText_bancihui"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/textView20"
+            android:layout_toStartOf="@+id/textView20"
+            android:background="@drawable/textview_border"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="6"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/editText_bancihui"
+            android:layout_alignBottom="@+id/editText_bancihui"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:text="秒"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/relativeLayout7"
+        android:id="@+id/relativeLayout8">
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一测回2C互差："
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp"
+            android:layout_alignBaseline="@+id/editText_yicihui"
+            android:layout_alignBottom="@+id/editText_yicihui"
+            android:layout_toLeftOf="@+id/editText_yicihui"
+            android:layout_toStartOf="@+id/editText_yicihui" />
+
+        <EditText
+            android:id="@+id/editText_yicihui"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/textView22"
+            android:layout_toStartOf="@+id/textView22"
+            android:background="@drawable/textview_border"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="9"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:text="秒"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp"
+            android:layout_alignBaseline="@+id/editText_yicihui"
+            android:layout_alignBottom="@+id/editText_yicihui"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="30dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/relativeLayout8"
+        android:id="@+id/relativeLayout9">
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/editText_gecehui"
+            android:layout_alignBottom="@+id/editText_gecehui"
+            android:layout_toLeftOf="@+id/editText_gecehui"
+            android:layout_toStartOf="@+id/editText_gecehui"
+            android:text="同方向各测回互差："
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editText_gecehui"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/textView24"
+            android:layout_toStartOf="@+id/textView24"
+            android:background="@drawable/textview_border"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="6"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/editText_gecehui"
+            android:layout_alignBottom="@+id/editText_gecehui"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:text="秒"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/button_queding"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/relativeLayout9"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorPrimary"
+        android:text="确定"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/button_qingchu"
+        android:layout_marginTop="20dp"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/button_queding"
+        android:layout_alignStart="@+id/button_queding"
+        android:layout_below="@+id/button_queding"
+        android:background="@color/colorPrimary"
+        android:text="清除"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/imageButton_houtui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_qingchu"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:background="#00000000"
+        app:srcCompat="@drawable/houtui" />
+
+</RelativeLayout>
