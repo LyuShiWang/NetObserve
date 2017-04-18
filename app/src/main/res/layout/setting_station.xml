@@ -276,7 +276,7 @@
         android:layout_marginBottom="30dp" />
 
     <Button
-        android:id="@+id/button_queding_common"
+        android:id="@+id/button_queding_setting"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
@@ -289,9 +289,9 @@
         android:id="@+id/button_qingchu_common"
         android:layout_width="150dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/button_queding_common"
-        android:layout_alignStart="@+id/button_queding_common"
-        android:layout_below="@+id/button_queding_common"
+        android:layout_alignLeft="@+id/button_queding_setting"
+        android:layout_alignStart="@+id/button_queding_setting"
+        android:layout_below="@+id/button_queding_setting"
         android:layout_marginTop="15dp"
         android:background="@color/colorPrimary"
         android:text="清除" />

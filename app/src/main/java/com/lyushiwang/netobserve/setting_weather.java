@@ -2,7 +2,6 @@ package com.lyushiwang.netobserve;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -45,7 +44,7 @@ public class setting_weather extends AppCompatActivity {
         editText_dry_tempe = (EditText) findViewById(R.id.editText_dry_tempe);
         editText_wet_tempe = (EditText) findViewById(R.id.editText_wet_tempe);
         editText_weather_quality = (EditText) findViewById(R.id.editText_weather_quality);
-        button_queding = (Button) findViewById(R.id.button_queding_common);
+        button_queding = (Button) findViewById(R.id.button_queding_setting);
         button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
@@ -67,11 +66,16 @@ public class setting_weather extends AppCompatActivity {
                             bw.flush();
                         }
                         bw.close();
-                        my_functions.makeToast("设置成功！");
+                        makeToast("设置成功！");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        my_functions.makeToast("Error：无法为Weather Parameters文件创建BufferedWriter!");
+                        makeToast("Error：无法为Weather Parameters文件创建BufferedWriter!");
                     }
+                }else {
+                    AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_weather.this);
+                    AD_check.setTitle("警告");
+                    AD_check.setMessage("输入有错误，请重新输入！");
+                    AD_check.show();
                 }
             }
         });
@@ -110,11 +114,11 @@ public class setting_weather extends AppCompatActivity {
         if (error == 0) {
             return List_text;
         } else {
-            AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_weather.this);
-            AD_check.setTitle("警告");
-            AD_check.setMessage("输入有错误，请重新输入！");
-            AD_check.show();
             return null;
         }
+    }
+
+    public void makeToast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

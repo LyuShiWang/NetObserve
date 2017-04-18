@@ -2,7 +2,6 @@ package com.lyushiwang.netobserve;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +43,7 @@ public class setting_tolerance_distance extends AppCompatActivity {
     protected void define_palettes(){
         editText_dushucha=(EditText)findViewById(R.id.editText_dushucha);
         editText_cehuicha=(EditText)findViewById(R.id.editText_cehuicha);
-        button_queding=(Button)findViewById(R.id.button_queding_common);
+        button_queding=(Button)findViewById(R.id.button_queding_setting);
         button_qingchu=(Button)findViewById(R.id.button_qingchu_common);
         imageButton_houtui=(ImageButton)findViewById(R.id.imageButton_houtui);
     }
@@ -70,11 +69,16 @@ public class setting_tolerance_distance extends AppCompatActivity {
                             bw.flush();
                         }
                         bw.close();
-                        my_functions.makeToast("设置成功！");
+                        makeToast("设置成功！");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        my_functions.makeToast("Error：无法为Tolerance_Settings文件创建BufferedWriter!");
+                        makeToast("Error：无法为Tolerance_Settings文件创建BufferedWriter!");
                     }
+                }else{
+                    AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_tolerance_distance.this);
+                    AD_check.setTitle("警告");
+                    AD_check.setMessage("输入有错误，请重新输入！");
+                    AD_check.show();
                 }
             }
         });
@@ -109,10 +113,6 @@ public class setting_tolerance_distance extends AppCompatActivity {
         if (error == 0) {
             return List_text;
         } else {
-            AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_tolerance_distance.this);
-            AD_check.setTitle("警告");
-            AD_check.setMessage("输入有错误，请重新输入！");
-            AD_check.show();
             return null;
         }
     }
@@ -128,7 +128,7 @@ public class setting_tolerance_distance extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            my_functions.makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
+            makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
         }
 
         //用新数据替换旧数据
@@ -139,5 +139,9 @@ public class setting_tolerance_distance extends AppCompatActivity {
             line_code += 1;
         }
         return List_new;
+    }
+
+    public void makeToast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

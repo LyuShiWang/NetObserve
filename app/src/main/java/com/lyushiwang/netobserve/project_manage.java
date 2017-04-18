@@ -46,7 +46,7 @@ public class project_manage extends AppCompatActivity {
                 ProjectList.createNewFile();//用于储存所有的工程名
             } catch (Exception e) {
                 e.printStackTrace();
-                my_functions.makeToast("Error：无法创建工程列表文件！");
+                makeToast("Error：无法创建工程列表文件！");
             }
         }
         define_palettes();
@@ -84,7 +84,7 @@ public class project_manage extends AppCompatActivity {
                         ProjectNow.createNewFile();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        my_functions.makeToast("Error：无法创建ProjectNow文件！");
+                        makeToast("Error：无法创建ProjectNow文件！");
                     }
                 }//该文件用于储存当前工程名
 
@@ -99,7 +99,7 @@ public class project_manage extends AppCompatActivity {
                     AD_dakai.setItems(List, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            my_functions.makeToast("工程 " + List[which] + " 已打开！");
+                            makeToast("工程 " + List[which] + " 已打开！");
                             final String ProjcetName_now = List[which];
                             try {
                                 ProjectNow.delete();
@@ -110,13 +110,13 @@ public class project_manage extends AppCompatActivity {
                                 outputStream.close();
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                my_functions.makeToast("Error：无法为ProjectNow文件创建写入流！");
+                                makeToast("Error：无法为ProjectNow文件创建写入流！");
                             }
                         }
                     });
                     AD_dakai.show();
                 } else {
-                    my_functions.makeToast("暂无工程，请创建！");
+                    makeToast("暂无工程，请创建！");
                 }
             }
         });
@@ -136,13 +136,13 @@ public class project_manage extends AppCompatActivity {
                             AD_close.show();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            my_functions.makeToast("无法在删除ProjectNow文件后重新创建！");
+                            makeToast("无法在删除ProjectNow文件后重新创建！");
                         }
                     } else {
-                        my_functions.makeToast("Error：ProjectNow文件不存在！");
+                        makeToast("Error：ProjectNow文件不存在！");
                     }
                 } else {
-                    my_functions.makeToast("还未打开工程！");
+                    makeToast("还未打开工程！");
                 }
             }
         });
@@ -171,9 +171,9 @@ public class project_manage extends AppCompatActivity {
                             String Name_now = my_functions.read_ProjectNow_Name(my_functions.get_ProjectNow());
                             if (Name_now == ProjectName) {
                                 Delete_Project(my_functions.get_ProjectList(), ProjectName, which);
-                                my_functions.makeToast("工程" + ProjectName + "已删除！");
+                                makeToast("工程" + ProjectName + "已删除！");
                             } else {
-                                my_functions.makeToast("该工程还未关闭！无法删除！");
+                                makeToast("该工程还未关闭！无法删除！");
                             }
                         }
                     });
@@ -185,7 +185,7 @@ public class project_manage extends AppCompatActivity {
                     });
                     AD_delete.show();
                 } else {
-                    my_functions.makeToast("还没有工程！请先创建！");
+                    makeToast("还没有工程！请先创建！");
                 }
             }
         });
@@ -235,7 +235,7 @@ public class project_manage extends AppCompatActivity {
             bw.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            my_functions.makeToast("Error：无法将当前的工程名写入ProjectList文件中！");
+            makeToast("Error：无法将当前的工程名写入ProjectList文件中！");
         }
         //从工程列表文件中删除它
 
@@ -269,5 +269,9 @@ public class project_manage extends AppCompatActivity {
             i = i + 1;
         }
         return List;
+    }
+
+    public void makeToast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

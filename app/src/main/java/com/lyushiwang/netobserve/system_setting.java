@@ -82,7 +82,7 @@ public class system_setting extends AppCompatActivity {
                     bw.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    my_functions.makeToast("Error：无法为Tolerance_Settings文件写入初始数据！");
+                    makeToast("Error：无法为Tolerance_Settings文件写入初始数据！");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -171,5 +171,9 @@ public class system_setting extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void makeToast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

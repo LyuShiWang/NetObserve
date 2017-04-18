@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton guance;
     private ImageButton chakanshuju;
 
+    private ImageButton tuichu;
+
     @Override
     //主程序
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         lianjieshezhi = (ImageButton) findViewById(R.id.imageButton3);
         guance = (ImageButton) findViewById(R.id.imageButton4);
         chakanshuju = (ImageButton) findViewById(R.id.imageButton5);
+
+        tuichu=(ImageButton)findViewById(R.id.imageButton8);
     }
 
     protected void do_click() {
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    my_functions.makeToast("Error：无法读取ProjectNow文件！");
+                    makeToast("Error：无法读取ProjectNow文件！");
                 }
 
             }
@@ -91,22 +95,33 @@ public class MainActivity extends AppCompatActivity {
         lianjieshezhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                my_functions.makeToast("连接设置点击成功！");
+                makeToast("连接设置点击成功！");
             }
         });
 
         guance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                my_functions.makeToast("观测点击成功！");
+                makeToast("观测点击成功！");
             }
         });
 
         chakanshuju.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                my_functions.makeToast("查看数据点击成功！");
+                makeToast("查看数据点击成功！");
             }
         });
+
+        tuichu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    public void makeToast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

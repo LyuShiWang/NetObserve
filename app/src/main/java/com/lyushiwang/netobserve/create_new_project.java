@@ -66,7 +66,7 @@ public class create_new_project extends AppCompatActivity {
                     bw.flush();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    my_functions.makeToast("Error：无法将当前的工程名写入ProjectList文件中！");
+                    makeToast("Error：无法将当前的工程名写入ProjectList文件中！");
                 }
 
                 //一个工程占据一个文件夹，创建它
@@ -91,16 +91,16 @@ public class create_new_project extends AppCompatActivity {
                 if (!ProjectLocation.exists()) {
                     ProjectLocation.mkdir();
                     create_observe_files(ProjectLocation);//在该工程文件夹内创建必需的测量文件
-                    my_functions.makeToast(ProjectName + "已创建！");
+                    makeToast(ProjectName + "已创建！");
                 } else {
-                    my_functions.makeToast("该工程已存在！");
+                    makeToast("该工程已存在！");
                 }
             } else {
-                my_functions.makeToast("SD卡不存在！");
+                makeToast("SD卡不存在！");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            my_functions.makeToast("Error：数据写入失败");
+            makeToast("Error：数据写入失败");
         }
     }
 
@@ -114,7 +114,11 @@ public class create_new_project extends AppCompatActivity {
             observe_distance.createNewFile();
         } catch (Exception e) {
             e.printStackTrace();
-            my_functions.makeToast("Error：工程设置文件创建失败！");
+            makeToast("Error：工程设置文件创建失败！");
         }
+    }
+
+    public void makeToast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

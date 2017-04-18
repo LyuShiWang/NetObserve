@@ -137,7 +137,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/button_queding_common"
+        android:id="@+id/button_queding_setting"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"

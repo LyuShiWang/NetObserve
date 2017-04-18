@@ -2,17 +2,16 @@ package com.lyushiwang.netobserve;
 
 import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Environment;
 import android.os.Bundle;
 import android.text.method.DigitsKeyListener;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
 import android.content.Context;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -65,7 +64,7 @@ public class setting_station extends AppCompatActivity {
             radioGroup_ob_time.check(radioButton_once.getId());
         }
         editText_tolerance = (EditText) findViewById(R.id.editText_tolerance);
-        button_queding = (Button) findViewById(R.id.button_queding_common);
+        button_queding = (Button) findViewById(R.id.button_queding_setting);
         button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
         IB_houtui = (ImageButton) findViewById(R.id.imageButton_seting_station);
     }
@@ -88,11 +87,16 @@ public class setting_station extends AppCompatActivity {
                             bw.flush();
                         }
                         bw.close();
-                        my_functions.makeToast("设置成功！");
+                        makeToast("设置成功！");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        my_functions.makeToast("Error：无法为Station_Settings文件创建BufferedWriter!");
+                        makeToast("Error：无法为Station_Settings文件创建BufferedWriter!");
                     }
+                }else{
+                    AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_station.this);
+                    AD_check.setTitle("警告");
+                    AD_check.setMessage("输入有错误，请重新输入！");
+                    AD_check.show();
                 }
             }
         });
@@ -105,7 +109,7 @@ public class setting_station extends AppCompatActivity {
                 editText_group_number.setText("");
                 editText_hight.setText("");
                 editText_tolerance.setText("");
-                my_functions.makeToast("已清除！");
+                makeToast("已清除！");
             }
         });
 
@@ -149,10 +153,6 @@ public class setting_station extends AppCompatActivity {
         int error = 0;
         for (String canshu : text) {
             if (canshu.equals("") || canshu.equals(null)) {
-                AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_station.this);
-                AD_check.setTitle("警告");
-                AD_check.setMessage("输入有错误，请重新输入！");
-                AD_check.show();
                 error += 1;
             }
         }
@@ -161,5 +161,9 @@ public class setting_station extends AppCompatActivity {
         } else {
             return null;
         }
+    }
+
+    public void makeToast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }
