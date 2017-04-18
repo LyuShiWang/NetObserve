@@ -1,4 +1,4 @@
-package com.example.netobserve;
+package com.lyushiwang.netobserve;
 
 import org.junit.Test;
 

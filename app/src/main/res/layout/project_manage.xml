@@ -1,148 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context="com.example.netobserve.project_manage">
+    tools:context="com.lyushiwang.netobserve.project_manage">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/linearLayout0"
         android:layout_width="match_parent"
-        android:layout_height="600dp">
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linearLayout0"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout0"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/gongcheng_button1"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_blue_bright"
+            android:text="新建工程"
+            android:textSize="24sp" />
+    </LinearLayout>
 
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linearLayout1"
+        <Button
+            android:id="@+id/gongcheng_button2"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout0"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_blue_bright"
+            android:text="打开工程"
+            android:textSize="24sp" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/gongcheng_button1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/holo_blue_bright"
-                android:text="新建工程"
-                android:textSize="24sp" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
+        <Button
+            android:id="@+id/gongcheng_button3"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout1"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:text="关闭工程"
+            android:textSize="24sp" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/gongcheng_button2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/holo_blue_bright"
-                android:text="打开工程"
-                android:textSize="24sp" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
+        <Button
+            android:id="@+id/gongcheng_button4"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout2"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:text="另存工程"
+            android:textSize="24sp" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/gongcheng_button3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/holo_blue_bright"
-                android:text="关闭工程"
-                android:textSize="24sp" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout4"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linearLayout4"
+        <Button
+            android:id="@+id/gongcheng_button5"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout3"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:text="删除工程"
+            android:textSize="24sp" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/gongcheng_button4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/holo_blue_bright"
-                android:text="另存工程"
-                android:textSize="24sp" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout5"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linearLayout5"
+        <Button
+            android:id="@+id/gongcheng_button6"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout4"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_bright"
+            android:text="最近使用工程"
+            android:textSize="24sp" />
 
-            <Button
-                android:id="@+id/gongcheng_button5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/holo_blue_bright"
-                android:text="删除工程"
-                android:textSize="24sp" />
-        </LinearLayout>
+    </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout6"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout5"
-            android:orientation="horizontal">
+    <ImageButton
+        android:id="@+id/imageButton_houtui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout6"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:background="#00000000"
+        app:srcCompat="@drawable/houtui" />
 
-            <Button
-                android:id="@+id/gongcheng_button6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/holo_blue_bright"
-                android:text="最近使用工程"
-                android:textSize="24sp" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/imageButton_houtui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout6"
-            android:background="#00000000"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            app:srcCompat="@drawable/houtui" />
-
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

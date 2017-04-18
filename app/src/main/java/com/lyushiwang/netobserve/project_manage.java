@@ -1,4 +1,4 @@
-package com.example.netobserve;
+package com.lyushiwang.netobserve;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,8 +22,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class project_manage extends Activity {
-
+public class project_manage extends AppCompatActivity {
+    private My_Functions my_functions = new My_Functions();
     private Context mContext;
     private Button xinjiangongcheng;
     private Button dakaigongcheng;
@@ -45,7 +46,7 @@ public class project_manage extends Activity {
                 ProjectList.createNewFile();//用于储存所有的工程名
             } catch (Exception e) {
                 e.printStackTrace();
-                makeToast("Error：无法创建工程列表文件！");
+                my_functions.makeToast("Error：无法创建工程列表文件！");
             }
         }
         define_palettes();
@@ -60,7 +61,7 @@ public class project_manage extends Activity {
         lingcungongcheng = (Button) findViewById(R.id.gongcheng_button4);
         shanchugongcheng = (Button) findViewById(R.id.gongcheng_button5);
         zuijinshiyonggongcheng = (Button) findViewById(R.id.gongcheng_button6);
-        imageButton_houtui=(ImageButton)findViewById(R.id.imageButton_houtui);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
     protected void do_click() {
@@ -77,18 +78,18 @@ public class project_manage extends Activity {
         dakaigongcheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final File ProjectNow = new File(get_main_file_path(), "ProjectNow.name");
+                final File ProjectNow = new File(my_functions.get_main_file_path(), "ProjectNow.name");
                 if (!ProjectNow.exists()) {
                     try {
                         ProjectNow.createNewFile();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        makeToast("Error：无法创建ProjectNow文件！");
+                        my_functions.makeToast("Error：无法创建ProjectNow文件！");
                     }
                 }//该文件用于储存当前工程名
 
                 //导入已有的所有工程的名字
-                final File ProjectList = get_ProjectList();
+                final File ProjectList = my_functions.get_ProjectList();
                 final String[] List = Input_All_Project(ProjectList);//获取所有工程文件名的函数
 
                 //弹出窗口
@@ -98,7 +99,7 @@ public class project_manage extends Activity {
                     AD_dakai.setItems(List, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            makeToast("工程 " + List[which] + " 已打开！");
+                            my_functions.makeToast("工程 " + List[which] + " 已打开！");
                             final String ProjcetName_now = List[which];
                             try {
                                 ProjectNow.delete();
@@ -109,13 +110,13 @@ public class project_manage extends Activity {
                                 outputStream.close();
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                makeToast("Error：无法为ProjectNow文件创建写入流！");
+                                my_functions.makeToast("Error：无法为ProjectNow文件创建写入流！");
                             }
                         }
                     });
                     AD_dakai.show();
                 } else {
-                    makeToast("暂无工程，请创建！");
+                    my_functions.makeToast("暂无工程，请创建！");
                 }
             }
         });
@@ -123,8 +124,8 @@ public class project_manage extends Activity {
         guanbigongcheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File ProjectNow = get_ProjectNow();
-                String ProjectName_now = read_ProjectNow_Name(ProjectNow);//获取当前文件名的函数
+                File ProjectNow = my_functions.get_ProjectNow();
+                String ProjectName_now = my_functions.read_ProjectNow_Name(ProjectNow);//获取当前文件名的函数
                 if (ProjectName_now != null) {
                     if (ProjectNow.exists()) {
                         ProjectNow.delete();
@@ -135,13 +136,13 @@ public class project_manage extends Activity {
                             AD_close.show();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            makeToast("无法在删除ProjectNow文件后重新创建！");
+                            my_functions.makeToast("无法在删除ProjectNow文件后重新创建！");
                         }
                     } else {
-                        makeToast("Error：ProjectNow文件不存在！");
+                        my_functions.makeToast("Error：ProjectNow文件不存在！");
                     }
                 } else {
-                    makeToast("还未打开工程！");
+                    my_functions.makeToast("还未打开工程！");
                 }
             }
         });
@@ -156,7 +157,7 @@ public class project_manage extends Activity {
         shanchugongcheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final File ProjectList = get_ProjectList();
+                final File ProjectList = my_functions.get_ProjectList();
                 final String[] List = Input_All_Project(ProjectList);//获取所有工程文件名的函数
 
                 if (List.length != 0) {
@@ -167,12 +168,12 @@ public class project_manage extends Activity {
                         public void onClick(DialogInterface dialog, int which) {
                             final String ProjectName = List[which];
                             //要删除的工程必须先关闭
-                            String Name_now = read_ProjectNow_Name(get_ProjectNow());
+                            String Name_now = my_functions.read_ProjectNow_Name(my_functions.get_ProjectNow());
                             if (Name_now == ProjectName) {
-                                Delete_Project(get_ProjectList(), ProjectName, which);
-                                makeToast("工程" + ProjectName + "已删除！");
+                                Delete_Project(my_functions.get_ProjectList(), ProjectName, which);
+                                my_functions.makeToast("工程" + ProjectName + "已删除！");
                             } else {
-                                makeToast("该工程还未关闭！无法删除！");
+                                my_functions.makeToast("该工程还未关闭！无法删除！");
                             }
                         }
                     });
@@ -184,7 +185,7 @@ public class project_manage extends Activity {
                     });
                     AD_delete.show();
                 } else {
-                    makeToast( "还没有工程！请先创建！");
+                    my_functions.makeToast("还没有工程！请先创建！");
                 }
             }
         });
@@ -202,12 +203,6 @@ public class project_manage extends Activity {
                 finish();
             }
         });
-    }
-
-    public File get_main_file_path(){
-        File storage_path=Environment.getExternalStorageDirectory();
-        File main_file_path=new File(storage_path,"a_NetObserve");
-        return main_file_path;
     }
 
     protected void Delete_Project(File ProjectList, String ProjectName, int which) {
@@ -240,7 +235,7 @@ public class project_manage extends Activity {
             bw.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            makeToast("Error：无法将当前的工程名写入ProjectList文件中！");
+            my_functions.makeToast("Error：无法将当前的工程名写入ProjectList文件中！");
         }
         //从工程列表文件中删除它
 
@@ -252,16 +247,6 @@ public class project_manage extends Activity {
             }
             Project_dir.delete();
         }//删除该工程所在的文件夹及其下属文件
-    }
-
-    public File get_ProjectNow() {
-        File file = new File(get_main_file_path(), "ProjectNow.name");
-        return file;
-    }
-
-    public File get_ProjectList() {
-        File file = new File(get_main_file_path(), "ProjectList.list");
-        return file;
     }
 
     public String[] Input_All_Project(File ProjectList) {
@@ -284,21 +269,5 @@ public class project_manage extends Activity {
             i = i + 1;
         }
         return List;
-    }
-
-    public String read_ProjectNow_Name(File ProjectNow) {
-        String ProjectName_now = null;
-        try {
-            BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
-            ProjectName_now = bf.readLine();
-        } catch (Exception e) {
-            e.printStackTrace();
-            makeToast("Error：无法读取ProjectNow文件！");
-        }
-        return ProjectName_now;
-    }
-
-    protected void makeToast(String text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

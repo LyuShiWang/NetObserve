@@ -1,4 +1,4 @@
-package com.example.netobserve;
+package com.lyushiwang.netobserve;
 
 import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 
 public class setting_station extends AppCompatActivity {
-
+    private My_Functions my_functions = new My_Functions();
     private Context mContext;
 
     private EditText editText_observe_number;
@@ -65,8 +65,8 @@ public class setting_station extends AppCompatActivity {
             radioGroup_ob_time.check(radioButton_once.getId());
         }
         editText_tolerance = (EditText) findViewById(R.id.editText_tolerance);
-        button_queding = (Button) findViewById(R.id.button_queding);
-        button_qingchu = (Button) findViewById(R.id.button_qingchu);
+        button_queding = (Button) findViewById(R.id.button_queding_common);
+        button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
         IB_houtui = (ImageButton) findViewById(R.id.imageButton_seting_station);
     }
 
@@ -76,7 +76,7 @@ public class setting_station extends AppCompatActivity {
             public void onClick(View v) {
                 List<String> List_station_settings = get_and_check_text();
                 if (List_station_settings != null) {
-                    File Filepath = get_main_file_path();
+                    File Filepath = my_functions.get_main_file_path();
                     File Station_Settings = new File(Filepath, "Station Settings.ini");//测站设置文件
                     Station_Settings.delete();
                     try {
@@ -88,10 +88,10 @@ public class setting_station extends AppCompatActivity {
                             bw.flush();
                         }
                         bw.close();
-                        makeToast("设置成功！");
+                        my_functions.makeToast("设置成功！");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        makeToast("Error：无法为Station_Settings文件创建BufferedWriter!");
+                        my_functions.makeToast("Error：无法为Station_Settings文件创建BufferedWriter!");
                     }
                 }
             }
@@ -105,7 +105,7 @@ public class setting_station extends AppCompatActivity {
                 editText_group_number.setText("");
                 editText_hight.setText("");
                 editText_tolerance.setText("");
-                makeToast("已清除！");
+                my_functions.makeToast("已清除！");
             }
         });
 
@@ -161,15 +161,5 @@ public class setting_station extends AppCompatActivity {
         } else {
             return null;
         }
-    }
-
-    public File get_main_file_path(){
-        File storage_path=Environment.getExternalStorageDirectory();
-        File main_file_path=new File(storage_path,"a_NetObserve");
-        return main_file_path;
-    }
-
-    protected void makeToast(String text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

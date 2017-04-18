@@ -1,4 +1,4 @@
-package com.example.netobserve;
+package com.lyushiwang.netobserve;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,7 +19,9 @@ import java.io.FileWriter;
 import java.lang.String;
 
 public class system_setting extends AppCompatActivity {
+    private My_Functions my_functions = new My_Functions();
     private Context mContext;
+
     private TextView dangqiangongcheng;
     private Button cezhanshezhi;
     private Button xianchashezhi;
@@ -55,7 +57,7 @@ public class system_setting extends AppCompatActivity {
     }
 
     protected void create_setting_files() {
-        File Filepath = get_main_file_path();
+        File Filepath = my_functions.get_main_file_path();
 
         File Station_Settings = new File(Filepath, "Station Settings.ini");//测站设置文件
         if (!Station_Settings.exists()) {
@@ -80,14 +82,14 @@ public class system_setting extends AppCompatActivity {
                     bw.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    makeToast("Error：无法为Tolerance_Settings文件写入初始数据！");
+                    my_functions.makeToast("Error：无法为Tolerance_Settings文件写入初始数据！");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        File Weather_Parameters = new File(Filepath, "Weather_Parameters.ini");//气象参数文件
+        File Weather_Parameters = new File(Filepath, "Weather Parameters.ini");//气象参数文件
         if (!Weather_Parameters.exists()) {
             try {
                 Weather_Parameters.createNewFile();
@@ -96,7 +98,7 @@ public class system_setting extends AppCompatActivity {
             }
         }
 
-        File Common_Settings = new File(Filepath, "Common_Settings.ini");//常用参数文件
+        File Common_Settings = new File(Filepath, "Common Settings.ini");//常用参数文件
         if (!Common_Settings.exists()) {
             try {
                 Common_Settings.createNewFile();
@@ -110,10 +112,10 @@ public class system_setting extends AppCompatActivity {
         cezhanshezhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_settings2station = new Intent();
-                intent_settings2station.setClass(system_setting.this, setting_station.class);
-                intent_settings2station.putExtra("ProjectName_now", ProjectName_now);
-                startActivity(intent_settings2station);
+                Intent intent_setting2station = new Intent();
+                intent_setting2station.setClass(system_setting.this, setting_station.class);
+                intent_setting2station.putExtra("ProjectName_now", ProjectName_now);
+                startActivity(intent_setting2station);
             }
         });
 
@@ -148,14 +150,18 @@ public class system_setting extends AppCompatActivity {
         qixiangcanshu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent_setting2weather = new Intent();
+                intent_setting2weather.setClass(system_setting.this, setting_weather.class);
+                startActivity(intent_setting2weather);
             }
         });
 
         changyongcanshu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent_setting2common = new Intent();
+                intent_setting2common.setClass(system_setting.this, setting_common.class);
+                startActivity(intent_setting2common);
             }
         });
 
@@ -165,15 +171,5 @@ public class system_setting extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    public File get_main_file_path(){
-        File storage_path=Environment.getExternalStorageDirectory();
-        File main_file_path=new File(storage_path,"a_NetObserve");
-        return main_file_path;
-    }
-
-    protected void makeToast(String text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

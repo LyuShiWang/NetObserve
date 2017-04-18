@@ -1,10 +1,10 @@
-package com.example.netobserve;
+package com.lyushiwang.netobserve;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,9 +23,10 @@ import java.util.List;
  * Created by win10 on 2017/4/10.
  */
 
-public class setting_tolerance_horizontal extends Activity {
-
+public class setting_tolerance_horizontal extends AppCompatActivity {
+    private My_Functions my_functions = new My_Functions();
     private Context mContext;
+
     private EditText editText_liangcicha;
     private EditText editText_bancehui;
     private EditText editText_yicehui;
@@ -50,8 +51,8 @@ public class setting_tolerance_horizontal extends Activity {
         editText_bancehui = (EditText) findViewById(R.id.editText_bancihui);
         editText_yicehui = (EditText) findViewById(R.id.editText_yicihui);
         editText_gecehui = (EditText) findViewById(R.id.editText_gecehui);
-        button_queding = (Button) findViewById(R.id.button_queding);
-        button_qingchu = (Button) findViewById(R.id.button_qingchu);
+        button_queding = (Button) findViewById(R.id.button_queding_common);
+        button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
@@ -60,27 +61,25 @@ public class setting_tolerance_horizontal extends Activity {
             @Override
             public void onClick(View v) {
                 List<String> List_tolerance_horizontal = get_and_check_text();
-                int tolerance_code=0;//
                 if (List_tolerance_horizontal != null) {
-                    File Tolerance_Settings = new File(get_main_file_path(), "Tolerance Settings.ini");//观测限差文件
+                    File Tolerance_Settings = new File(my_functions.get_main_file_path(), "Tolerance Settings.ini");//观测限差文件
                     //将旧数据更改为新数据↓
-                    List<String> List_new = vertical_tolerance_change(Tolerance_Settings, List_tolerance_horizontal);
+                    List<String> List_new = horizrontal_tolerance_change(Tolerance_Settings, List_tolerance_horizontal);
                     //将新数据写入文件中↓
                     Tolerance_Settings.delete();
                     try {
                         Tolerance_Settings.createNewFile();
                         BufferedWriter bw = new BufferedWriter(new FileWriter(Tolerance_Settings, true));
-
                         for (String item : List_new) {
                             bw.flush();
                             bw.write(item + "\n");
                             bw.flush();
                         }
                         bw.close();
-                        makeToast("设置成功！");
+                        my_functions.makeToast("设置成功！");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        makeToast("Error：无法为Tolerance_Settings文件创建BufferedWriter!");
+                        my_functions.makeToast("Error：无法为Tolerance_Settings文件创建BufferedWriter!");
                     }
                 }
             }
@@ -128,13 +127,7 @@ public class setting_tolerance_horizontal extends Activity {
         }
     }
 
-    public File get_main_file_path(){
-        File storage_path=Environment.getExternalStorageDirectory();
-        File main_file_path=new File(storage_path,"a_NetObserve");
-        return main_file_path;
-    }
-
-    public List<String> vertical_tolerance_change(File file, List<String> List_vertical) {
+    public List<String> horizrontal_tolerance_change(File file, List<String> List_vertical) {
         //存储已存在的数据↓
         List<String> List_old = new ArrayList<String>();
         String line = "";
@@ -145,7 +138,7 @@ public class setting_tolerance_horizontal extends Activity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
+            my_functions.makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
         }
         //用新数据替换旧数据↓
         List<String> List_new = List_old;
@@ -155,9 +148,5 @@ public class setting_tolerance_horizontal extends Activity {
             line_code += 1;
         }
         return List_new;
-    }
-
-    protected void makeToast(String text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

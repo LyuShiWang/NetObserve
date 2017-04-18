@@ -5,14 +5,15 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    android:padding="10dp"
-    tools:context="com.example.netobserve.MainActivity">
+    android:padding="20dp"
+    tools:context="com.lyushiwang.netobserve.MainActivity">
 
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -31,7 +32,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/gongchengguanli"
+                    android:background="#00000000"
                     app:srcCompat="@drawable/gongchengguanli" />
 
                 <TextView
@@ -64,7 +65,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/xitongshezhi"
+                    android:background="#00000000"
                     app:srcCompat="@drawable/xitongshezhi" />
 
                 <TextView
@@ -112,7 +113,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/lianjieshebei"
+                    android:background="#00000000"
                     app:srcCompat="@drawable/lianjieshebei" />
             </FrameLayout>
 
@@ -131,7 +132,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/guance"
+                    android:background="#00000000"
                     app:srcCompat="@drawable/guance" />
 
                 <TextView
@@ -182,8 +183,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/chakanshuju"
-                    app:srcCompat="@drawable/chakanshuju" />
+                    android:background="@drawable/chakanshuju" />
         </FrameLayout>
 
             <FrameLayout
@@ -212,7 +212,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/zhuce"
+                    android:background="#00000000"
                     app:srcCompat="@drawable/zhuce" />
 
             </FrameLayout>
@@ -247,7 +247,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/xinxi"
+                    android:background="#00000000"
                     app:srcCompat="@drawable/xinxi"/>
             </FrameLayout>
 
@@ -273,11 +273,11 @@
 
                 <ImageButton
                     android:id="@+id/imageButton8"
-                    android:layout_marginTop="5dp"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/tuichu"
+                    android:layout_marginTop="5dp"
+                    android:background="#00000000"
                     app:srcCompat="@drawable/tuichu" />
             </FrameLayout>
 

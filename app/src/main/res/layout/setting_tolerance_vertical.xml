@@ -11,18 +11,19 @@
         android:id="@+id/linearlayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal">
 
         <ImageView
             android:id="@+id/imageView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
             app:srcCompat="@drawable/xianchashezhi_big" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearlayout2"
+        android:id="@+id/linearlayout3_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -33,10 +34,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:text="垂直角观测"
             android:textColor="@android:color/background_light"
-            android:textSize="36sp"
-            tools:gravity="center_horizontal" />
+            android:textSize="30sp" />
     </LinearLayout>
 
     <RelativeLayout
@@ -55,7 +56,7 @@
             android:layout_toStartOf="@+id/editText_liangcicha"
             android:text="两次读数互差："
             android:textColor="@android:color/background_light"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editText_liangcicha"
@@ -66,7 +67,7 @@
             android:layout_toStartOf="@+id/textView19"
             android:background="@drawable/textview_border"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="number"
             android:text="1"
             android:textColor="@android:color/background_light"
             android:textSize="20sp"
@@ -80,10 +81,10 @@
             android:layout_alignBottom="@+id/editText_liangcicha"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="40dp"
             android:text="秒"
             android:textColor="@android:color/background_light"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
 
     </RelativeLayout>
@@ -104,7 +105,7 @@
             android:layout_toStartOf="@+id/editText_zhibiancha"
             android:text="指标差互差："
             android:textColor="@android:color/background_light"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editText_zhibiancha"
@@ -115,7 +116,7 @@
             android:layout_toStartOf="@+id/textView15"
             android:background="@drawable/textview_border"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="number"
             android:text="10"
             android:textColor="@android:color/background_light"
             android:textSize="20sp"
@@ -129,11 +130,10 @@
             android:layout_alignBottom="@+id/editText_zhibiancha"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="40dp"
             android:text="秒"
             android:textColor="@android:color/background_light"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -146,13 +146,13 @@
             android:id="@+id/textView29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="各测回垂直角互差："
-            android:textColor="@android:color/background_light"
-            android:textSize="20sp"
             android:layout_alignBaseline="@+id/editText_gecehui"
             android:layout_alignBottom="@+id/editText_gecehui"
             android:layout_toLeftOf="@+id/editText_gecehui"
-            android:layout_toStartOf="@+id/editText_gecehui" />
+            android:layout_toStartOf="@+id/editText_gecehui"
+            android:text="各测回垂直角互差："
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editText_gecehui"
@@ -163,7 +163,7 @@
             android:layout_toStartOf="@+id/textView28"
             android:background="@drawable/textview_border"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="number"
             android:text="10"
             android:textColor="@android:color/background_light"
             android:textSize="20sp"
@@ -173,29 +173,28 @@
             android:id="@+id/textView28"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="秒"
-            android:layout_marginRight="30dp"
-            android:textColor="@android:color/background_light"
-            android:textSize="20sp"
             android:layout_alignBaseline="@+id/editText_gecehui"
             android:layout_alignBottom="@+id/editText_gecehui"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="30dp" />
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:text="秒"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <Button
-        android:id="@+id/button_queding"
+        android:id="@+id/button_queding_common"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:background="@color/colorPrimary"
         android:text="确定"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/button_qingchu"
+        android:id="@+id/button_qingchu_common"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
@@ -208,8 +207,8 @@
         android:id="@+id/imageButton_houtui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
         android:background="#00000000"
         app:srcCompat="@drawable/houtui" />
 

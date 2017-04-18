@@ -1,6 +1,5 @@
 package com.lyushiwang.netobserve;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +23,7 @@ import java.util.List;
  */
 
 public class setting_tolerance_vertical extends AppCompatActivity {
+    private My_Functions my_functions = new My_Functions();
 
     private EditText editText_liangcicha;
     private EditText editText_zhibiaocha;
@@ -46,8 +46,8 @@ public class setting_tolerance_vertical extends AppCompatActivity {
         editText_liangcicha = (EditText) findViewById(R.id.editText_liangcicha);
         editText_zhibiaocha = (EditText) findViewById(R.id.editText_zhibiancha);
         editText_gecehui = (EditText) findViewById(R.id.editText_gecehui);
-        button_queding = (Button) findViewById(R.id.button_queding);
-        button_qingchu = (Button) findViewById(R.id.button_qingchu);
+        button_queding = (Button) findViewById(R.id.button_queding_common);
+        button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
@@ -57,7 +57,7 @@ public class setting_tolerance_vertical extends AppCompatActivity {
             public void onClick(View v) {
                 List<String> List_tolerance_vertical = get_and_check_text();
                 if (List_tolerance_vertical != null) {
-                    File Tolerance_Settings = new File(get_main_file_path(), "Tolerance Settings.ini");//观测限差文件
+                    File Tolerance_Settings = new File(my_functions.get_main_file_path(), "Tolerance Settings.ini");//观测限差文件
                     //将旧数据更改为新数据
                     List<String> List_new = vertical_tolerance_change(Tolerance_Settings, List_tolerance_vertical);
 
@@ -72,10 +72,10 @@ public class setting_tolerance_vertical extends AppCompatActivity {
                             bw.flush();
                         }
                         bw.close();
-                        makeToast("设置成功！");
+                        my_functions.makeToast("设置成功！");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        makeToast("Error：无法为Tolerance_Settings文件创建BufferedWriter!");
+                        my_functions.makeToast("Error：无法为Tolerance_Settings文件创建BufferedWriter!");
                     }
                 }
             }
@@ -96,12 +96,6 @@ public class setting_tolerance_vertical extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    public File get_main_file_path() {
-        File storage_path = Environment.getExternalStorageDirectory();
-        File main_file_path = new File(storage_path, "a_NetObserve");
-        return main_file_path;
     }
 
     public List<String> get_and_check_text() {
@@ -138,7 +132,7 @@ public class setting_tolerance_vertical extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
+            my_functions.makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
         }
 
         //用新数据替换旧数据
@@ -149,9 +143,5 @@ public class setting_tolerance_vertical extends AppCompatActivity {
             line_code += 1;
         }
         return List_new;
-    }
-
-    protected void makeToast(String text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

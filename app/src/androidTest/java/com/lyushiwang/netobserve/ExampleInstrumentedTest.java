@@ -1,4 +1,4 @@
-package com.example.netobserve;
+package com.lyushiwang.netobserve;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
