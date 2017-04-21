@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Environment;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -49,7 +48,7 @@ public class system_setting extends AppCompatActivity {
 
     protected void define_palettes() {
         dangqiangongcheng = (TextView) findViewById(R.id.textview_dangqiangongcheng);
-        cezhanshezhi = (Button) findViewById(R.id.button_cezhanshezhi);
+        cezhanshezhi = (Button) findViewById(R.id.button_observe);
         xianchashezhi = (Button) findViewById(R.id.button_xianchashezhi);
         qixiangcanshu = (Button) findViewById(R.id.button_qixiangcanshu);
         changyongcanshu = (Button) findViewById(R.id.button_changyongcanshu);

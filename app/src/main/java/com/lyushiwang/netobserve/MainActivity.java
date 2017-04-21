@@ -1,6 +1,5 @@
 package com.lyushiwang.netobserve;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.Bundle;
@@ -62,18 +61,15 @@ public class MainActivity extends AppCompatActivity {
         gongchengguanli.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getApplicationContext(),"工程管理点击成功！",Toast.LENGTH_LONG).show();
                 Intent intent_main2manage = new Intent();
                 intent_main2manage.setClass(MainActivity.this, project_manage.class);
                 startActivity(intent_main2manage);
-
             }
         });
 
         xitongshezhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getApplicationContext(),"系统设置点击成功！",Toast.LENGTH_SHORT).show();
                 try {
                     final File ProjectNow = new File(my_functions.get_main_file_path(), "ProjectNow.name");
                     BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
@@ -102,7 +98,20 @@ public class MainActivity extends AppCompatActivity {
         guance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeToast("观测点击成功！");
+                try {
+                    final File ProjectNow = new File(my_functions.get_main_file_path(), "ProjectNow.name");
+                    BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
+                    String ProjectName_now = bf.readLine();
+                    if (ProjectName_now != null) {
+                        Intent intent_main2observe = new Intent();
+                        intent_main2observe.setClass(MainActivity.this, observe_menu.class);
+                        intent_main2observe.putExtra("ProjectName_now", ProjectName_now);
+                        startActivity(intent_main2observe);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    makeToast("Error：无法读取ProjectNow文件！");
+                }
             }
         });
 

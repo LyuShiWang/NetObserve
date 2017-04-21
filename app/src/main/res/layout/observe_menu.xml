@@ -37,7 +37,7 @@
             android:layout_alignBottom="@+id/button_observe"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/cezhanshezhi_small" />
+            app:srcCompat="@drawable/observe_small" />
 
         <TextView
             android:id="@+id/textView"
@@ -49,7 +49,7 @@
             android:editable="false"
             android:layout_toEndOf="@+id/imageView2"
             android:layout_toRightOf="@+id/imageView2"
-            android:text="测站设置"
+            android:text="观测"
             android:textColor="@android:color/background_light"
             android:textSize="25sp" />
 
@@ -68,7 +68,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_below="@+id/relativeLayout"
         android:id="@+id/relativeLayout2">
 
@@ -80,7 +80,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/xianchashezhi_small" />
+            app:srcCompat="@drawable/data_sort_small" />
 
         <TextView
             android:id="@+id/textView9"
@@ -92,12 +92,12 @@
             android:editable="false"
             android:layout_toEndOf="@+id/imageView3"
             android:layout_toRightOf="@+id/imageView3"
-            android:text="限差设置"
+            android:text="水平角整理"
             android:textColor="@android:color/background_light"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/button_xianchashezhi"
+            android:id="@+id/button_sort_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -115,7 +115,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/relativeLayout2"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="30dp">
 
         <ImageView
             android:id="@+id/imageView4"
@@ -124,7 +124,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/qixiangshezhi_small" />
+            app:srcCompat="@drawable/data_sort_small" />
 
         <TextView
             android:id="@+id/textView10"
@@ -136,12 +136,12 @@
             android:editable="false"
             android:layout_toEndOf="@+id/imageView4"
             android:layout_toRightOf="@+id/imageView4"
-            android:text="气象参数设置"
+            android:text="竖直角整理"
             android:textColor="@android:color/background_light"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/button_qixiangcanshu"
+            android:id="@+id/button_sort_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -151,53 +151,13 @@
             android:background="#00000000" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout3"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/changyongcanshu_small" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:clickable="false"
-            android:editable="false"
-            android:layout_toEndOf="@+id/imageView5"
-            android:layout_toRightOf="@+id/imageView5"
-            android:text="常用参数设置"
-            android:textColor="@android:color/background_light"
-            android:textSize="25sp"
-            android:maxLines="1" />
-
-        <Button
-            android:id="@+id/button_changyongcanshu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="#00000000"/>
-    </RelativeLayout>
-
     <ImageButton
         android:id="@+id/imageButton_houtui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textview_dangqiangongcheng"
         android:layout_alignStart="@+id/textview_dangqiangongcheng"
-        android:layout_below="@+id/relativeLayout4"
+        android:layout_below="@+id/relativeLayout3"
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
