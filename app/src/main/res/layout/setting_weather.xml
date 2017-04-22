@@ -18,7 +18,7 @@
             android:id="@+id/imageView9"
             android:layout_width="95dp"
             android:layout_height="95dp"
-            app:srcCompat="@drawable/tianqicanshu" />
+            app:srcCompat="@drawable/qixiangshezhi_big" />
 
     </LinearLayout>
 
