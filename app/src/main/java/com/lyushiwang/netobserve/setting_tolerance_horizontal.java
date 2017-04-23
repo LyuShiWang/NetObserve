@@ -46,10 +46,10 @@ public class setting_tolerance_horizontal extends AppCompatActivity {
     }
 
     protected void define_palettes() {
-        editText_liangcicha = (EditText) findViewById(R.id.editText_liangcicha_vertical);
+        editText_liangcicha = (EditText) findViewById(R.id.editText_point_name);
         editText_bancehui = (EditText) findViewById(R.id.editText_bancehui);
         editText_yicehui = (EditText) findViewById(R.id.editText_yicehui);
-        editText_gecehui = (EditText) findViewById(R.id.editText_gecehui_vertical);
+        editText_gecehui = (EditText) findViewById(R.id.editText_object_hight);
         button_queding = (Button) findViewById(R.id.button_queding_setting);
         button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
