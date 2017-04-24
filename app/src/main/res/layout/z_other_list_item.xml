@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/text_name"
         android:layout_width="0dip"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/squre_border"
         android:gravity="center"
@@ -26,7 +26,7 @@
     <TextView
         android:id="@+id/text_order_number"
         android:layout_width="0dip"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1.25"
         android:background="@drawable/squre_border"
         android:gravity="center"
@@ -45,7 +45,7 @@
     <TextView
         android:id="@+id/text_Hz"
         android:layout_width="0dip"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_weight="2"
         android:background="@drawable/squre_border"
         android:gravity="center"
@@ -64,7 +64,7 @@
     <TextView
         android:id="@+id/text_V"
         android:layout_width="0dip"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_weight="2"
         android:background="@drawable/squre_border"
         android:gravity="center"
@@ -83,7 +83,7 @@
     <TextView
         android:id="@+id/text_S"
         android:layout_width="0dip"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1.75"
         android:background="@drawable/squre_border"
         android:gravity="center"
