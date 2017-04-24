@@ -29,7 +29,8 @@
         <activity android:name="com.lyushiwang.netobserve.setting_tolerance_distance"/>
         <activity android:name="com.lyushiwang.netobserve.setting_weather"/>
         <activity android:name="com.lyushiwang.netobserve.setting_common"/>
-        <activity android:name="com.lyushiwang.netobserve.observe_menu"/>
+        <activity android:name="com.lyushiwang.netobserve.observe_manage"/>
+        <activity android:name="com.lyushiwang.netobserve.observe_now"/>
     </application>
 
 </manifest>

@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     String ProjectName_now = bf.readLine();
                     if (ProjectName_now != null) {
                         Intent intent_main2observe = new Intent();
-                        intent_main2observe.setClass(MainActivity.this, observe_menu.class);
+                        intent_main2observe.setClass(MainActivity.this, observe_manage.class);
                         intent_main2observe.putExtra("ProjectName_now", ProjectName_now);
                         startActivity(intent_main2observe);
                     }

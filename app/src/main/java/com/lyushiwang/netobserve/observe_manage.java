@@ -21,7 +21,7 @@ import java.lang.String;
  * Created by win10 on 2017/4/21.
  */
 
-public class observe_menu extends AppCompatActivity {
+public class observe_manage extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
 
     private TextView dangqiangongcheng;
@@ -53,6 +53,14 @@ public class observe_menu extends AppCompatActivity {
     }
 
     protected void do_click(){
+        button_observe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_manage2observe=new Intent();
+                intent_manage2observe.setClass(observe_manage.this,observe_now.class);
+                startActivity(intent_manage2observe);
+            }
+        });
 
         imageButton_houtui.setOnClickListener(new View.OnClickListener() {
             @Override
