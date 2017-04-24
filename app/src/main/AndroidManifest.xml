@@ -31,6 +31,7 @@
         <activity android:name="com.lyushiwang.netobserve.setting_common"/>
         <activity android:name="com.lyushiwang.netobserve.observe_manage"/>
         <activity android:name="com.lyushiwang.netobserve.observe_now"/>
+        <activity android:name="com.lyushiwang.netobserve.observe_known_point"/>
     </application>
 
 </manifest>

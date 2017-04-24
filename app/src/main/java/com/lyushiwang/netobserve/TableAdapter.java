@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 public class TableAdapter extends BaseAdapter {
 
-    private List<Points> list;
+    private List<ListView_observe_now> list;
     private LayoutInflater inflater;
 
-    public TableAdapter(Context context, List<Points> list){
+    public TableAdapter(Context context, List<ListView_observe_now> list){
         this.list = list;
         inflater = LayoutInflater.from(context);
     }
@@ -42,7 +42,7 @@ public class TableAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Points points = (Points) this.getItem(position);
+        ListView_observe_now points = (ListView_observe_now) this.getItem(position);
 
         ViewHolder viewHolder;
 

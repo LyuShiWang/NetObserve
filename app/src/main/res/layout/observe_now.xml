@@ -24,7 +24,6 @@
             app:srcCompat="@drawable/observe_big" />
     </LinearLayout>
 
-
     <RelativeLayout
         android:id="@+id/relativelayout2"
         android:layout_width="match_parent"
@@ -88,8 +87,6 @@
             android:text="自加："
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
-
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -144,10 +141,10 @@
         android:id="@+id/relativelayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/relativelayout3"
-        android:layout_marginTop="10dp">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/textView29"
@@ -203,7 +200,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/relativelayout4"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:background="@color/colorPrimary"
             android:text="测量" />
 
@@ -224,8 +221,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/relativelayout4"
-            android:layout_marginRight="10dp"
+            android:layout_below="@+id/relativelayout5"
+            android:layout_marginRight="20dp"
             android:background="@color/colorPrimary"
             android:text="保存" />
 
@@ -235,13 +232,13 @@
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relativelayout5"
         android:layout_marginLeft="3dip"
         android:layout_marginRight="3dip"
-        android:layout_marginTop="10dp"
         android:background="@drawable/squre_border"
         android:orientation="vertical"
-        android:layout_above="@+id/imageButton">
+        android:layout_marginTop="10dp"
+        android:layout_above="@+id/imageButton"
+        android:layout_below="@+id/relativelayout5">
 
         <View
             android:layout_width="match_parent"
@@ -258,7 +255,7 @@
             android:background="#00000000" />
 
         <ListView
-            android:id="@+id/listview"
+            android:id="@+id/listview_observe"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:cacheColorHint="@android:color/transparent"

@@ -25,12 +25,7 @@ import java.util.List;
 public class project_manage extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
     private Context mContext;
-    private Button xinjiangongcheng;
-    private Button dakaigongcheng;
-    private Button guanbigongcheng;
-    private Button lingcungongcheng;
-    private Button shanchugongcheng;
-    private Button zuijinshiyonggongcheng;
+    private Button xinjiangongcheng,dakaigongcheng,guanbigongcheng,lingcungongcheng,shanchugongcheng,zuijinshiyonggongcheng;
     private ImageButton imageButton_houtui;
 
     @Override

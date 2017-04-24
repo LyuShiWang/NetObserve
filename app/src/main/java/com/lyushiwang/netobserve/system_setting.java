@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.lang.String;
 
-public class system_setting extends AppCompatActivity {
+public class  system_setting extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
     private Context mContext;
 

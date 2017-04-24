@@ -22,13 +22,58 @@
         android:textSize="35sp" />
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/textview_dangqiangongcheng"
+        android:id="@+id/relativeLayout0">
+
+        <ImageView
+            android:id="@+id/imageView22"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/button_observe"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="20dp"
+            app:srcCompat="@drawable/known_point" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:editable="false"
+            android:text="输入已知点坐标"
+            android:textColor="@android:color/background_light"
+            android:layout_marginLeft="15dp"
+            android:textSize="25sp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView22"
+            android:layout_toEndOf="@+id/imageView22" />
+
+        <Button
+            android:id="@+id/button_known_point"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="#00000000" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/relativeLayout0"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textview_dangqiangongcheng"
-        android:layout_marginTop="30dp">
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -37,21 +82,21 @@
             android:layout_alignBottom="@+id/button_observe"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/observe_small" />
+            app:srcCompat="@drawable/observe_big" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
             android:clickable="false"
             android:editable="false"
-            android:layout_toEndOf="@+id/imageView2"
-            android:layout_toRightOf="@+id/imageView2"
             android:text="观测"
             android:textColor="@android:color/background_light"
-            android:textSize="25sp" />
+            android:layout_marginLeft="15dp"
+            android:textSize="25sp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView2"
+            android:layout_toEndOf="@+id/imageView2" />
 
         <Button
             android:id="@+id/button_observe"
@@ -63,13 +108,14 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:background="#00000000" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/relativeLayout"
+        android:layout_below="@+id/relativeLayout1"
         android:id="@+id/relativeLayout2">
 
         <ImageView
@@ -80,7 +126,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/data_sort_small" />
+            app:srcCompat="@drawable/data_sort_big" />
 
         <TextView
             android:id="@+id/textView9"
@@ -124,7 +170,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/data_sort_small" />
+            app:srcCompat="@drawable/data_sort_big" />
 
         <TextView
             android:id="@+id/textView10"

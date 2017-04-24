@@ -1,9 +1,10 @@
 package com.lyushiwang.netobserve;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,6 +16,10 @@ import java.util.List;
  */
 
 public class observe_now extends AppCompatActivity {
+    private Button button_observe;
+
+    private List<ListView_observe_now> list_observe_now = new ArrayList<ListView_observe_now>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,28 +27,36 @@ public class observe_now extends AppCompatActivity {
 
         define_palettes();
 
-        ViewGroup tableTitle = (ViewGroup) findViewById(R.id.table_title);
+        do_click();
 
-        List<Points> list = new ArrayList<Points>();
-        list.add(new Points("101", "1", 168.39182, 168.39182, 199.999));
-        list.add(new Points("102", "1", 34, 23, 23));
-        list.add(new Points("103", "1", 34.33, 23, 23));
-        list.add(new Points("104", "1", 34, 23, 23));
-        list.add(new Points("105", "1", 34, 23, 23));
-        list.add(new Points("106", "1", 34, 23, 23));
-        list.add(new Points("107", "1", 34, 23, 23));
-        list.add(new Points("108", "1", 34, 23, 23));
-        list.add(new Points("109", "1", 34, 23, 23));
+//        //不能用于使用Button来动态增删数据的情景
+//        ListView tableListView = (ListView) findViewById(R.id.listview_observe);
+//        tableListView.setScrollbarFadingEnabled(true);
+//        TableAdapter adapter = new TableAdapter(this, list_observe_now);
+//        list_observe_now.add(new ListView_observe_now("101", "1", 168.39182, 168.39182, 199.999));
+//        list_observe_now.add(new ListView_observe_now("102", "1", 34, 23, 23));
+//        list_observe_now.add(new ListView_observe_now("103", "1", 34.33, 23, 23));
+//        list_observe_now.add(new ListView_observe_now("104", "1", 34, 23, 23));
+//        list_observe_now.add(new ListView_observe_now("105", "1", 34, 23, 23));
+//        list_observe_now.add(new ListView_observe_now("106", "1", 34, 23, 23));
+//        list_observe_now.add(new ListView_observe_now("107", "1", 34, 23, 23));
+//        list_observe_now.add(new ListView_observe_now("108", "1", 34, 23, 23));
+//        list_observe_now.add(new ListView_observe_now("109", "1", 34, 23, 23));
+//        tableListView.setAdapter(adapter);
 
-        ListView tableListView = (ListView) findViewById(R.id.listview);
-        tableListView.setScrollbarFadingEnabled(true);
-        TableAdapter adapter = new TableAdapter(this, list);
-
-        tableListView.setAdapter(adapter);
     }
 
-    protected void define_palettes(){
+    protected void define_palettes() {
+        button_observe = (Button) findViewById(R.id.button_observe);
+    }
 
+    protected void do_click(){
+        button_observe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void makeToast(String text) {

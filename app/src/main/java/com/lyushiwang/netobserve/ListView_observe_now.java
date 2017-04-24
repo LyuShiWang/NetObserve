@@ -4,18 +4,18 @@ package com.lyushiwang.netobserve;
  * Created by win10 on 2017/4/24.
  */
 
-public class Points {
+public class ListView_observe_now {
     private String id;
     private String order_number;
     private double Hz;
     private double V;
     private double S;
 
-    public Points() {
+    public ListView_observe_now() {
         super();
     }
 
-    public Points(String id, String order_number, double Hz, double V, double S) {
+    public ListView_observe_now(String id, String order_number, double Hz, double V, double S) {
         super();
         this.id = id;
         this.order_number = order_number;

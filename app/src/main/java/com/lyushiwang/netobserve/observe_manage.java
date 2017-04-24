@@ -1,8 +1,6 @@
 package com.lyushiwang.netobserve;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Environment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -10,10 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
-import android.content.Context;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.File;
 import java.lang.String;
 
@@ -25,6 +20,7 @@ public class observe_manage extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
 
     private TextView dangqiangongcheng;
+    private Button button_known_point;
     private Button button_observe;
     private Button button_sort_horizontal;
     private Button button_sort_vertical;
@@ -33,7 +29,7 @@ public class observe_manage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.observe_menu);
+        setContentView(R.layout.observe_manage);
 
         define_palettes();
 
@@ -46,6 +42,7 @@ public class observe_manage extends AppCompatActivity {
 
     protected void define_palettes(){
         dangqiangongcheng=(TextView)findViewById(R.id.textview_dangqiangongcheng);
+        button_known_point=(Button)findViewById(R.id.button_known_point);
         button_observe=(Button)findViewById(R.id.button_observe);
         button_sort_horizontal=(Button)findViewById(R.id.button_sort_horizontal);
         button_sort_vertical=(Button)findViewById(R.id.button_sort_vertical);
@@ -53,6 +50,23 @@ public class observe_manage extends AppCompatActivity {
     }
 
     protected void do_click(){
+        button_known_point.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File known_points=new File(my_functions.get_main_file_path(),"know points.txt");
+                if(!known_points.exists()){
+                    try{
+                        known_points.createNewFile();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        makeToast("无法创建know points文件！");
+                    }
+                }
+                Intent intent_mange2knownPoint=new Intent();
+                intent_mange2knownPoint.setClass(observe_manage.this,observe_known_point.class);
+                startActivity(intent_mange2knownPoint);
+            }
+        });
         button_observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
