@@ -79,11 +79,11 @@
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
         android:layout_below="@+id/linearLayout3"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/gongcheng_button4"
@@ -116,7 +116,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
@@ -128,12 +128,14 @@
         <Button
             android:id="@+id/gongcheng_button6"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/linearLayout5"
             android:layout_weight="1"
             android:background="@android:color/holo_blue_bright"
             android:text="最近使用工程"
             android:textSize="24sp" />
-
     </LinearLayout>
 
     <ImageButton
@@ -142,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout5"
+        android:layout_below="@+id/linearLayout6"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:background="#00000000"

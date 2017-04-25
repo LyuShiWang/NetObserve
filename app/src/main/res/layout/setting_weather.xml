@@ -50,7 +50,7 @@
             android:background="@drawable/textview_border"
             android:ems="10"
             android:gravity="center"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:text="1013" />
 
         <TextView
@@ -96,7 +96,7 @@
             android:background="@drawable/textview_border"
             android:ems="10"
             android:gravity="center"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:text="12" />
 
         <TextView
@@ -134,14 +134,14 @@
             android:id="@+id/editText_wet_tempe"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/textView42"
-            android:layout_toStartOf="@+id/textView42"
             android:background="@drawable/textview_border"
             android:ems="10"
             android:gravity="center"
-            android:inputType="number"
-            android:text="8.6" />
+            android:inputType="numberDecimal"
+            android:text="8.6"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/textView42"
+            android:layout_toStartOf="@+id/textView42" />
 
         <TextView
             android:id="@+id/textView42"

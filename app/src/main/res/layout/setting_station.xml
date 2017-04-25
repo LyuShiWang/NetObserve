@@ -88,7 +88,6 @@
             android:background="@drawable/textview_border"
             android:ems="10"
             android:gravity="center"
-            android:inputType="number"
             android:textColor="@android:color/background_light" />
 
     </LinearLayout>
@@ -157,7 +156,7 @@
             android:ems="10"
             android:gravity="center"
             android:text="0.000"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColor="@android:color/background_light" />
 
         <TextView
@@ -249,7 +248,7 @@
             android:gravity="center"
             android:numeric="integer"
             android:text="5"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColor="@android:color/background_light" />
 
         <TextView

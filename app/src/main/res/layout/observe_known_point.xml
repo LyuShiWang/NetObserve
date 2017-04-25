@@ -48,13 +48,13 @@
 
         <EditText
             android:id="@+id/editText_point_Z"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="50dp"
             android:background="@drawable/textview_border"
             android:ems="10"
             android:gravity="center"
-            android:inputType="number"
-            android:layout_marginRight="30dp"
+            android:inputType="numberDecimal"
+            android:layout_marginRight="20dp"
             android:text="0.000"
             android:textColor="@android:color/background_light"
             android:textSize="20sp"
@@ -66,29 +66,29 @@
             android:id="@+id/textView26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="点名："
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/editText_point_name"
-            android:layout_toStartOf="@+id/editText_point_name" />
+            android:layout_marginLeft="20dp"
+            android:text="点名：  "
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editText_point_name"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="50dp"
+            android:layout_marginLeft="2dp"
             android:background="@drawable/textview_border"
             android:ems="10"
             android:gravity="center"
             android:inputType="text"
             android:text="101"
             android:textColor="@android:color/background_light"
-            android:layout_marginRight="30dp"
             android:textSize="20sp"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/textView38"
-            android:layout_toStartOf="@+id/textView38"
-            android:layout_marginEnd="30dp" />
+            android:layout_toRightOf="@+id/textView26"
+            android:layout_toEndOf="@+id/textView26" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -107,25 +107,25 @@
             android:text="X坐标："
             android:textColor="@android:color/background_light"
             android:textSize="18sp"
+            android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/editText_point_X"
-            android:layout_toStartOf="@+id/editText_point_X" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <EditText
             android:id="@+id/editText_point_X"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="50dp"
             android:background="@drawable/textview_border"
             android:ems="10"
             android:gravity="center"
-            android:layout_marginRight="30dp"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:text="100.00"
             android:textColor="@android:color/background_light"
             android:textSize="20sp"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/textView28"
-            android:layout_toStartOf="@+id/textView28" />
+            android:layout_toRightOf="@+id/textView27"
+            android:layout_toEndOf="@+id/textView27" />
 
         <TextView
             android:id="@+id/textView28"
@@ -141,15 +141,15 @@
 
         <EditText
             android:id="@+id/editText_point_Y"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="50dp"
             android:background="@drawable/textview_border"
             android:ems="10"
             android:gravity="center"
-            android:inputType="number"
+            android:inputType="numberDecimal"
+            android:layout_marginRight="20dp"
             android:text="100.00"
             android:textColor="@android:color/background_light"
-            android:layout_marginRight="30dp"
             android:textSize="20sp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
@@ -199,7 +199,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/linearLayout444"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/relativelayout4"

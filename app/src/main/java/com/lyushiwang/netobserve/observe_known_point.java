@@ -41,10 +41,9 @@ public class observe_known_point extends AppCompatActivity {
 
     private File known_points = new File(my_functions.get_main_file_path(), "know points.txt");
 
+    Map<String, Object> map;
     private List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
     private MyAdapter adapter;
-    private int i = 0;
-    Map<String, Object> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +51,6 @@ public class observe_known_point extends AppCompatActivity {
         setContentView(R.layout.observe_known_point);
 
         define_palettes();
-
-        map = new HashMap<String, Object>();
-        map.put("Id", "100");
-        map.put("Name", "100.000");
-        map.put("CC", "200.000");
-        map.put("DD", "300.000");
-        list.add(map);
-        adapter = new MyAdapter(observe_known_point.this, list);
-        listview.setAdapter(adapter);
-
         do_click();
     }
 
@@ -101,16 +90,17 @@ public class observe_known_point extends AppCompatActivity {
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                adapter = new MyAdapter(observe_known_point.this, list);
+                listview.setAdapter(adapter);
+
                 List<String> List_known_points = get_and_check_text();
                 if (List_known_points != null) {
-
                     map = new HashMap<String, Object>();
-                    map.put("Id", "200");
-                    map.put("Name","150.000");
-                    map.put("CC", "250.000");
-                    map.put("DD", "350.000");
+                    map.put("Name", List_known_points.get(0).toString());
+                    map.put("X_coor",List_known_points.get(1).toString());
+                    map.put("Y_coor", List_known_points.get(2).toString());
+                    map.put("Z_coor", List_known_points.get(3).toString());
                     list.add(map);
-
                     adapter.notifyDataSetChanged();
                 } else {
                     AlertDialog.Builder AD_check = new AlertDialog.Builder(observe_known_point.this);
@@ -191,10 +181,10 @@ public class observe_known_point extends AppCompatActivity {
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            viewHolder.tv1.setText(list.get(position).get("Id").toString());
-            viewHolder.tv2.setText(list.get(position).get("Name").toString());
-            viewHolder.tv3.setText(list.get(position).get("CC").toString());
-            viewHolder.tv4.setText(list.get(position).get("DD").toString());
+            viewHolder.tv1.setText(list.get(position).get("Name").toString());
+            viewHolder.tv2.setText(list.get(position).get("X_coor").toString());
+            viewHolder.tv3.setText(list.get(position).get("Y_coor").toString());
+            viewHolder.tv4.setText(list.get(position).get("Z_coor").toString());
             return convertView;
         }
 
