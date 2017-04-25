@@ -1,18 +1,26 @@
 package com.lyushiwang.netobserve;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 吕世望 on 2017/4/24.
@@ -28,9 +36,15 @@ public class observe_known_point extends AppCompatActivity {
     private Button button_add;
     private Button button_clear;
     private Button button_delete;
+    private ListView listview;
     private ImageButton imageButton_houtui;
 
     private File known_points = new File(my_functions.get_main_file_path(), "know points.txt");
+
+    private List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    private MyAdapter adapter;
+    private int i = 0;
+    Map<String, Object> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +53,16 @@ public class observe_known_point extends AppCompatActivity {
 
         define_palettes();
 
-        do_click();
+        map = new HashMap<String, Object>();
+        map.put("Id", "100");
+        map.put("Name", "100.000");
+        map.put("CC", "200.000");
+        map.put("DD", "300.000");
+        list.add(map);
+        adapter = new MyAdapter(observe_known_point.this, list);
+        listview.setAdapter(adapter);
 
-//        list.add(new ListView_observe_now("101", "1", 168.39182, 168.39182, 199.999));
-//        list.add(new ListView_observe_now("102", "1", 34, 23, 23));
-//        list.add(new ListView_observe_now("103", "1", 34.33, 23, 23));
-//        list.add(new ListView_observe_now("104", "1", 34, 23, 23));
-//        list.add(new ListView_observe_now("105", "1", 34, 23, 23));
-//        list.add(new ListView_observe_now("106", "1", 34, 23, 23));
-//        list.add(new ListView_observe_now("107", "1", 34, 23, 23));
-//        list.add(new ListView_observe_now("108", "1", 34, 23, 23));
-//        list.add(new ListView_observe_now("109", "1", 34, 23, 23));
-//
-//        ListView tableListView = (ListView) findViewById(R.id.listview_observe_know);
-//        tableListView.setScrollbarFadingEnabled(true);
-//        TableAdapter adapter = new TableAdapter(this, list);
-//
-//        tableListView.setAdapter(adapter);
+        do_click();
     }
 
     protected void define_palettes() {
@@ -66,6 +73,7 @@ public class observe_known_point extends AppCompatActivity {
         button_add = (Button) findViewById(R.id.button_add);
         button_clear = (Button) findViewById(R.id.button_clear);
         button_delete = (Button) findViewById(R.id.button_delete);
+        listview = (ListView) findViewById(R.id.listview_observe_known);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
@@ -93,10 +101,18 @@ public class observe_known_point extends AppCompatActivity {
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> List_known_points=get_and_check_text();
-                if (List_known_points!=null){
+                List<String> List_known_points = get_and_check_text();
+                if (List_known_points != null) {
 
-                }else {
+                    map = new HashMap<String, Object>();
+                    map.put("Id", "200");
+                    map.put("Name","150.000");
+                    map.put("CC", "250.000");
+                    map.put("DD", "350.000");
+                    list.add(map);
+
+                    adapter.notifyDataSetChanged();
+                } else {
                     AlertDialog.Builder AD_check = new AlertDialog.Builder(observe_known_point.this);
                     AD_check.setTitle("警告");
                     AD_check.setMessage("输入有错误，请重新输入！");
@@ -132,5 +148,63 @@ public class observe_known_point extends AppCompatActivity {
 
     public void makeToast(String text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+
+    //自定义adapter
+    public class MyAdapter extends BaseAdapter {
+        List<Map<String, Object>> list;
+        LayoutInflater inflater;
+
+        public MyAdapter(Context context, List<Map<String, Object>> list) {
+            this.list = list;
+            inflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return list.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.item, null);
+                viewHolder = new ViewHolder();
+                viewHolder.tv1 = (TextView) convertView.findViewById(R.id.tv1);
+                viewHolder.tv2 = (TextView) convertView.findViewById(R.id.tv2);
+                viewHolder.tv3 = (TextView) convertView.findViewById(R.id.tv3);
+                viewHolder.tv4 = (TextView) convertView.findViewById(R.id.tv4);
+                convertView.setTag(viewHolder);
+
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            viewHolder.tv1.setText(list.get(position).get("Id").toString());
+            viewHolder.tv2.setText(list.get(position).get("Name").toString());
+            viewHolder.tv3.setText(list.get(position).get("CC").toString());
+            viewHolder.tv4.setText(list.get(position).get("DD").toString());
+            return convertView;
+        }
+
+    }
+
+    //辅助类
+    class ViewHolder {
+        TextView tv1;
+        TextView tv2;
+        TextView tv3;
+        TextView tv4;
     }
 }

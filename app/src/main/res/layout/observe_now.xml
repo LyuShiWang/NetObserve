@@ -141,10 +141,10 @@
         android:id="@+id/relativelayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/relativelayout3"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativelayout3"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/textView29"
@@ -232,22 +232,115 @@
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/imageButton"
+        android:layout_below="@+id/relativelayout5"
         android:layout_marginLeft="3dip"
         android:layout_marginRight="3dip"
-        android:background="@drawable/squre_border"
-        android:orientation="vertical"
         android:layout_marginTop="10dp"
-        android:layout_above="@+id/imageButton"
-        android:layout_below="@+id/relativelayout5">
+        android:background="@drawable/squre_border"
+        android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="#00000000" />
 
-        <include
-            android:id="@+id/table_title"
-            layout="@layout/z_other_list_item" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/squre_border"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:singleLine="true"
+                android:text="点号"
+                android:textColor="@android:color/background_light"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:background="#00000000" />
+
+            <TextView
+                android:id="@+id/text_order_number"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.25"
+                android:background="@drawable/squre_border"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:singleLine="true"
+                android:text="顺序号"
+                android:textColor="@android:color/background_light"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:background="#00000000" />
+
+            <TextView
+                android:id="@+id/text_Hz"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@drawable/squre_border"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:singleLine="true"
+                android:text="Hz"
+                android:textColor="@android:color/background_light"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:background="#00000000" />
+
+            <TextView
+                android:id="@+id/text_V"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@drawable/squre_border"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:singleLine="true"
+                android:text="V"
+                android:textColor="@android:color/background_light"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:background="#00000000" />
+
+            <TextView
+                android:id="@+id/text_S"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:background="@drawable/squre_border"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:singleLine="true"
+                android:text="S"
+                android:textColor="@android:color/background_light"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -270,12 +363,12 @@
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#00000000"
-        app:srcCompat="@drawable/houtui"
+        android:layout_alignLeft="@+id/linearLayout6"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/linearLayout6"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/linearLayout6"
-        android:layout_alignStart="@+id/linearLayout6" />
+        android:background="#00000000"
+        app:srcCompat="@drawable/houtui" />
 </RelativeLayout>

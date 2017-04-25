@@ -283,7 +283,7 @@
             android:background="#00000000" />
 
         <ListView
-            android:id="@+id/listview_observe_know"
+            android:id="@+id/listview_observe_known"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:cacheColorHint="@android:color/transparent"
