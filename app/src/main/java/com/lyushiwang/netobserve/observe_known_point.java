@@ -160,7 +160,7 @@ public class observe_known_point extends AppCompatActivity {
                         for (int i = 0; i < checkItems.length; i++) {
                             if (checkItems[i]) {
                                 list_known_points.remove(string_known_points[i]);
-                                list_listview.remove(i);
+                                list_listview.remove(i);//有问题，删除一个之后，每一项的序号会改变！！
                             }
                         }
                         listview_adapter = new MyAdapter(observe_known_point.this, list_listview);
