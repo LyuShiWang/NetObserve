@@ -306,4 +306,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:id="@+id/button_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/linearLayout444"
+        android:layout_alignRight="@+id/linearLayout444"
+        android:layout_alignTop="@+id/imageButton_houtui"
+        android:background="@color/colorPrimary"
+        android:text="完成" />
+
 </RelativeLayout>

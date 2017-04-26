@@ -53,13 +53,13 @@ public class observe_manage extends AppCompatActivity {
         button_known_point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File known_points=new File(my_functions.get_main_file_path(),"know points.txt");
-                if(!known_points.exists()){
+                File file_known_points =new File(my_functions.get_main_file_path(),"known points.txt");
+                if(!file_known_points.exists()){
                     try{
-                        known_points.createNewFile();
+                        file_known_points.createNewFile();
                     }catch (Exception e){
                         e.printStackTrace();
-                        makeToast("无法创建know points文件！");
+                        makeToast("无法创建known points文件！");
                     }
                 }
                 Intent intent_mange2knownPoint=new Intent();
