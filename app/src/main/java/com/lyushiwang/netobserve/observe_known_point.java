@@ -140,7 +140,10 @@ public class observe_known_point extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String[] string_known_points = input_known_points(list_known_points);
-                checkItems = new boolean[]{false, false, false, false};
+                checkItems = new boolean[list_known_points.size()];
+                for (int i=0;i<list_known_points.size();i++){
+                    checkItems[i]=false;
+                }
 
                 AlertDialog.Builder AD_delete_point = new AlertDialog.Builder(observe_known_point.this);
                 AD_delete_point.setTitle("请选择需要删除的已知点");
@@ -155,16 +158,17 @@ public class observe_known_point extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         List<String> list_delete_points = new ArrayList<String>();
                         for (int i = 0; i < checkItems.length; i++) {
-                            if (checkItems[i])
-                                list_delete_points.add(string_known_points[i]);
+                            if (checkItems[i]) {
+                                list_known_points.remove(string_known_points[i]);
+                                list_listview.remove(i);
+                            }
                         }
-
-                        for (String name : list_delete_points) {
-                            list_known_points.remove(name);
-                        }
-
+                        listview_adapter = new MyAdapter(observe_known_point.this, list_listview);
+                        listview.setAdapter(listview_adapter);
+                        listview_adapter.notifyDataSetChanged();
                     }
                 });
+                AD_delete_point.setNegativeButton("取消",null);
                 AD_delete_point.show();
             }
         });
@@ -172,9 +176,9 @@ public class observe_known_point extends AppCompatActivity {
         button_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ProjectName_now=get_ProjectNow_name();
+                String ProjectName_now = get_ProjectNow_name();
 
-                File file_known_points = new File(my_functions.get_main_file_path()+"/"+ProjectName_now, "known points.txt");
+                File file_known_points = new File(my_functions.get_main_file_path() + "/" + ProjectName_now, "known points.txt");
                 file_known_points.delete();
                 try {
                     file_known_points.createNewFile();
@@ -214,8 +218,8 @@ public class observe_known_point extends AppCompatActivity {
         return string_known_points;
     }
 
-    public String get_ProjectNow_name(){
-        String ProjectName_now=new String();
+    public String get_ProjectNow_name() {
+        String ProjectName_now = new String();
         File file_ProjectNow = my_functions.get_ProjectNow();
         try {
             BufferedReader bf = new BufferedReader(new FileReader(file_ProjectNow));
