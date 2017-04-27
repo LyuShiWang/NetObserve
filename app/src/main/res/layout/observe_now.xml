@@ -57,7 +57,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="54dp"
-            android:text="点名："
+            android:text="测站点："
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
 
@@ -258,7 +258,7 @@
                 android:paddingBottom="10dip"
                 android:paddingTop="10dip"
                 android:singleLine="true"
-                android:text="点号"
+                android:text="照准点"
                 android:textColor="@android:color/background_light"
                 android:textSize="14sp" />
 
@@ -268,16 +268,35 @@
                 android:background="#00000000" />
 
             <TextView
-                android:id="@+id/text_order_number"
+                android:id="@+id/text_observe_number"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.25"
+                android:layout_weight="1"
                 android:background="@drawable/squre_border"
                 android:gravity="center"
                 android:paddingBottom="10dip"
                 android:paddingTop="10dip"
                 android:singleLine="true"
-                android:text="顺序号"
+                android:text="测回"
+                android:textColor="@android:color/background_light"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:background="#00000000" />
+
+            <TextView
+                android:id="@+id/text_face_position"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/squre_border"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:singleLine="true"
+                android:text="左/右"
                 android:textColor="@android:color/background_light"
                 android:textSize="14sp" />
 
@@ -346,7 +365,7 @@
             android:background="#00000000" />
 
         <ListView
-            android:id="@+id/listview_observe"
+            android:id="@+id/listview_observe_now"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:cacheColorHint="@android:color/transparent"

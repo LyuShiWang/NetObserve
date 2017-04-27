@@ -46,7 +46,6 @@ public class observe_known_point extends AppCompatActivity {
 
     private List<String> list_known_points = new ArrayList<String>();
 
-    private boolean[] checkItems;
     private int checked;
 
     Map<String, Object> map;
@@ -257,7 +256,7 @@ public class observe_known_point extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder;
             if (convertView == null) {
-                convertView = inflater.inflate(R.layout.item, null);
+                convertView = inflater.inflate(R.layout.item_known, null);
                 viewHolder = new ViewHolder();
                 viewHolder.tv1 = (TextView) convertView.findViewById(R.id.tv1);
                 viewHolder.tv2 = (TextView) convertView.findViewById(R.id.tv2);
