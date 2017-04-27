@@ -76,9 +76,7 @@ public class setting_tolerance_distance extends AppCompatActivity {
                     }
                 }else{
                     AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_tolerance_distance.this);
-                    AD_check.setTitle("警告");
-                    AD_check.setMessage("输入有错误，请重新输入！");
-                    AD_check.show();
+                    AD_check.setTitle("警告").setMessage("输入有错误，请重新输入！").show();
                 }
             }
         });

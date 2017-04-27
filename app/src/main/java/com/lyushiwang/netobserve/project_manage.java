@@ -25,7 +25,7 @@ import java.util.List;
 public class project_manage extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
     private Context mContext;
-    private Button xinjiangongcheng,dakaigongcheng,guanbigongcheng,lingcungongcheng,shanchugongcheng,zuijinshiyonggongcheng;
+    private Button xinjiangongcheng, dakaigongcheng, guanbigongcheng, lingcungongcheng, shanchugongcheng, zuijinshiyonggongcheng;
     private ImageButton imageButton_houtui;
 
     @Override
@@ -90,26 +90,25 @@ public class project_manage extends AppCompatActivity {
                 //弹出窗口
                 if (List.length != 0) {
                     AlertDialog.Builder AD_dakai = new AlertDialog.Builder(project_manage.this);
-                    AD_dakai.setTitle("请选择要打开的工程");
-                    AD_dakai.setItems(List, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            makeToast("工程 " + List[which] + " 已打开！");
-                            final String ProjcetName_now = List[which];
-                            try {
-                                ProjectNow.delete();
-                                ProjectNow.createNewFile();
-                                FileOutputStream outputStream = new FileOutputStream(ProjectNow);
-                                outputStream.flush();
-                                outputStream.write(ProjcetName_now.getBytes());
-                                outputStream.close();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                makeToast("Error：无法为ProjectNow文件创建写入流！");
-                            }
-                        }
-                    });
-                    AD_dakai.show();
+                    AD_dakai.setTitle("请选择要打开的工程")
+                            .setItems(List, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    makeToast("工程 " + List[which] + " 已打开！");
+                                    final String ProjcetName_now = List[which];
+                                    try {
+                                        ProjectNow.delete();
+                                        ProjectNow.createNewFile();
+                                        FileOutputStream outputStream = new FileOutputStream(ProjectNow);
+                                        outputStream.flush();
+                                        outputStream.write(ProjcetName_now.getBytes());
+                                        outputStream.close();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        makeToast("Error：无法为ProjectNow文件创建写入流！");
+                                    }
+                                }
+                            }).show();
                 } else {
                     makeToast("暂无工程，请创建！");
                 }
@@ -127,8 +126,7 @@ public class project_manage extends AppCompatActivity {
                         try {
                             ProjectNow.createNewFile();
                             AlertDialog.Builder AD_close = new AlertDialog.Builder(project_manage.this);
-                            AD_close.setMessage("工程" + ProjectName_now + "已关闭！");
-                            AD_close.show();
+                            AD_close.setMessage("工程" + ProjectName_now + "已关闭！").show();
                         } catch (Exception e) {
                             e.printStackTrace();
                             makeToast("无法在删除ProjectNow文件后重新创建！");
@@ -157,28 +155,26 @@ public class project_manage extends AppCompatActivity {
 
                 if (List.length != 0) {
                     AlertDialog.Builder AD_delete = new AlertDialog.Builder(project_manage.this);
-                    AD_delete.setTitle("请选择要删除的工程");
-                    AD_delete.setSingleChoiceItems(List, 0, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            final String ProjectName = List[which];
-                            //要删除的工程必须先关闭
-                            String Name_now = my_functions.read_ProjectNow_Name(my_functions.get_ProjectNow());
-                            if (Name_now == ProjectName) {
-                                Delete_Project(my_functions.get_ProjectList(), ProjectName, which);
-                                makeToast("工程" + ProjectName + "已删除！");
-                            } else {
-                                makeToast("该工程还未关闭！无法删除！");
-                            }
-                        }
-                    });
-                    AD_delete.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    AD_delete.setTitle("请选择要删除的工程")
+                            .setSingleChoiceItems(List, 0, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    final String ProjectName = List[which];
+                                    //要删除的工程必须先关闭
+                                    String Name_now = my_functions.read_ProjectNow_Name(my_functions.get_ProjectNow());
+                                    if (Name_now == ProjectName) {
+                                        Delete_Project(my_functions.get_ProjectList(), ProjectName, which);
+                                        makeToast("工程" + ProjectName + "已删除！");
+                                    } else {
+                                        makeToast("该工程还未关闭！无法删除！");
+                                    }
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
                         }
-                    });
-                    AD_delete.show();
+                    }).show();
                 } else {
                     makeToast("还没有工程！请先创建！");
                 }

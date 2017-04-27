@@ -94,9 +94,7 @@ public class setting_station extends AppCompatActivity {
                     }
                 }else{
                     AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_station.this);
-                    AD_check.setTitle("警告");
-                    AD_check.setMessage("输入有错误，请重新输入！");
-                    AD_check.show();
+                    AD_check.setTitle("警告").setMessage("输入有错误，请重新输入！").show();
                 }
             }
         });

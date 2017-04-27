@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.lang.String;
 
-public class  system_setting extends AppCompatActivity {
+public class system_setting extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
     private Context mContext;
 
@@ -122,27 +122,26 @@ public class  system_setting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder AD_tolerance_choice = new AlertDialog.Builder(system_setting.this);
-                AD_tolerance_choice.setTitle("请选择进行何种设置");
                 final String[] choice = {"水平角", "竖直角", "距离"};
-                AD_tolerance_choice.setItems(choice, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent_setting2tolerance = new Intent();
-                        switch (which) {
-                            case 0:
-                                intent_setting2tolerance.setClass(system_setting.this, setting_tolerance_horizontal.class);
-                                break;
-                            case 1:
-                                intent_setting2tolerance.setClass(system_setting.this, setting_tolerance_vertical.class);
-                                break;
-                            case 2:
-                                intent_setting2tolerance.setClass(system_setting.this, setting_tolerance_distance.class);
-                                break;
-                        }
-                        startActivity(intent_setting2tolerance);
-                    }
-                });
-                AD_tolerance_choice.show();
+                AD_tolerance_choice.setTitle("请选择进行何种设置")
+                        .setItems(choice, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent_setting2tolerance = new Intent();
+                                switch (which) {
+                                    case 0:
+                                        intent_setting2tolerance.setClass(system_setting.this, setting_tolerance_horizontal.class);
+                                        break;
+                                    case 1:
+                                        intent_setting2tolerance.setClass(system_setting.this, setting_tolerance_vertical.class);
+                                        break;
+                                    case 2:
+                                        intent_setting2tolerance.setClass(system_setting.this, setting_tolerance_distance.class);
+                                        break;
+                                }
+                                startActivity(intent_setting2tolerance);
+                            }
+                        }).show();
             }
         });
 
