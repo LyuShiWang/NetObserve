@@ -47,6 +47,7 @@ public class observe_known_point extends AppCompatActivity {
     private List<String> list_known_points = new ArrayList<String>();
 
     private boolean[] checkItems;
+    private int checked;
 
     Map<String, Object> map;
     private List<Map<String, Object>> list_listview = new ArrayList<Map<String, Object>>();
@@ -98,8 +99,6 @@ public class observe_known_point extends AppCompatActivity {
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 List<String> list_text = get_and_check_text();
                 if (list_text != null) {
                     map = new HashMap<String, Object>();
@@ -117,12 +116,10 @@ public class observe_known_point extends AppCompatActivity {
                     String Y_coor = list_text.get(2).toString();
                     String Z_coor = list_text.get(3).toString();
                     list_known_points.add(name + "," + X_coor + "," + Y_coor + "," + Z_coor);
-                    makeToast("已添加！");
+                    makeToast(name + "已添加！");
                 } else {
                     AlertDialog.Builder AD_check = new AlertDialog.Builder(observe_known_point.this);
-                    AD_check.setTitle("警告");
-                    AD_check.setMessage("输入有错误，请重新输入！");
-                    AD_check.show();
+                    AD_check.setTitle("警告").setMessage("输入有错误，请重新输入！").show();
                 }
             }
         });
@@ -140,36 +137,33 @@ public class observe_known_point extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String[] string_known_points = input_known_points(list_known_points);
-                checkItems = new boolean[list_known_points.size()];
-                for (int i=0;i<list_known_points.size();i++){
-                    checkItems[i]=false;
+                if (list_listview.size() != 0 || list_known_points.size() != 0) {
+                    AlertDialog.Builder AD_delete_point = new AlertDialog.Builder(observe_known_point.this);
+                    AD_delete_point.setTitle("请选择需要删除的已知点")
+                            .setSingleChoiceItems(string_known_points, 0, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    checked = which;
+                                }
+                            })
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (list_listview.size() == 1 || list_known_points.size() == 1) {
+                                        list_listview = new ArrayList<Map<String, Object>>();
+                                        list_known_points = new ArrayList<String>();
+                                        listview.setAdapter(null);//清空listview里面的内容
+                                    } else {
+                                        list_known_points.remove(checked);
+                                        list_listview.remove(checked);
+                                        listview_adapter.notifyDataSetChanged();
+                                    }
+                                    makeToast("删除成功！");
+                                }
+                            }).setNegativeButton("取消", null).show();
+                } else {
+                    makeToast("还没有已知点！请先输入！");
                 }
-
-                AlertDialog.Builder AD_delete_point = new AlertDialog.Builder(observe_known_point.this);
-                AD_delete_point.setTitle("请选择需要删除的已知点");
-                AD_delete_point.setMultiChoiceItems(string_known_points, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        checkItems[which] = isChecked;
-                    }
-                });
-                AD_delete_point.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        List<String> list_delete_points = new ArrayList<String>();
-                        for (int i = 0; i < checkItems.length; i++) {
-                            if (checkItems[i]) {
-                                list_known_points.remove(string_known_points[i]);
-                                list_listview.remove(i);//有问题，删除一个之后，每一项的序号会改变！！
-                            }
-                        }
-                        listview_adapter = new MyAdapter(observe_known_point.this, list_listview);
-                        listview.setAdapter(listview_adapter);
-                        listview_adapter.notifyDataSetChanged();
-                    }
-                });
-                AD_delete_point.setNegativeButton("取消",null);
-                AD_delete_point.show();
             }
         });
 
@@ -177,7 +171,6 @@ public class observe_known_point extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String ProjectName_now = get_ProjectNow_name();
-
                 File file_known_points = new File(my_functions.get_main_file_path() + "/" + ProjectName_now, "known points.txt");
                 file_known_points.delete();
                 try {
