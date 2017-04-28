@@ -36,7 +36,7 @@ public class observe_now extends AppCompatActivity {
     private List<ListView_observe_now> list_observe_now = new ArrayList<ListView_observe_now>();
     private ListView listview;
 
-    Map<String, Object> map;
+    HashMap<String, Object> map;
     private List<Map<String, Object>> list_listview = new ArrayList<Map<String, Object>>();
     private observe_now.MyAdapter listview_adapter;
 
@@ -48,17 +48,22 @@ public class observe_now extends AppCompatActivity {
         setContentView(R.layout.observe_now);
 
         define_palettes();
-//
+
 //        map = new HashMap<String, Object>();
-//        map.put("Name", "1000");
+//        map.put("Name", "101");
 //        map.put("observe_number", "1");
 //        map.put("face_position", "盘左");
-//        map.put("Hz", "1000");
-//        map.put("V", "1000");
-//        map.put("S", "1000");
+//        map.put("Hz", 100.000);//第1行
+//        map.put("V", 100.000);//第2行
+//        map.put("S", 100.000);//第3行
+//        Integer[] empty_status = {0, 0, 0, 1, 1, 1};
+//        my_functions.map_empty(map, empty_status);
+//        map.put("V", 500.000);//第2行
+//
 //        list_listview.add(map);
 //        listview_adapter = new MyAdapter(observe_now.this, list_listview);
 //        listview.setAdapter(listview_adapter);
+//        listview_adapter.notifyDataSetChanged();
 
         do_click();
     }
@@ -78,6 +83,11 @@ public class observe_now extends AppCompatActivity {
                 try {
                     BufferedReader bf = new BufferedReader(new FileReader(file_data));
                     String point_name = bf.readLine();//第0行
+
+//                    map = new HashMap<String, Object>();
+//                    my_functions.map_all_empty(map);
+//                    map.put("Hz", bf.readLine());
+//                    list_listview.add(map);
 
                     map = new HashMap<String, Object>();
                     map.put("Name", point_name);
@@ -116,10 +126,12 @@ public class observe_now extends AppCompatActivity {
                     list_listview.add(map);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    makeToast("read_data文件不存在！");
                 }
                 listview_adapter = new MyAdapter(observe_now.this, list_listview);
                 listview.setAdapter(listview_adapter);
                 listview_adapter.notifyDataSetChanged();
+
             }
         });
 

@@ -28,10 +28,13 @@
         <activity android:name="com.lyushiwang.netobserve.setting_tolerance_vertical"/>
         <activity android:name="com.lyushiwang.netobserve.setting_tolerance_distance"/>
         <activity android:name="com.lyushiwang.netobserve.setting_weather"/>
-        <activity android:name="com.lyushiwang.netobserve.setting_common"/>
+        <activity android:name="com.lyushiwang.netobserve.setting_common"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name="com.lyushiwang.netobserve.observe_manage"/>
-        <activity android:name="com.lyushiwang.netobserve.observe_now"/>
-        <activity android:name="com.lyushiwang.netobserve.observe_known_point"/>
+        <activity android:name="com.lyushiwang.netobserve.observe_known_point"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name="com.lyushiwang.netobserve.observe_now"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
 
 </manifest>
