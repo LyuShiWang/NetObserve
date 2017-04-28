@@ -8,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +26,12 @@ import java.util.Map;
  */
 
 public class observe_now extends AppCompatActivity {
+    private My_Functions my_functions = new My_Functions();
+
     private Button button_observe;
+    private Button button_next_point;
+    private Button button_save;
+    private ImageButton imageButton_houtui;
 
     private List<ListView_observe_now> list_observe_now = new ArrayList<ListView_observe_now>();
     private ListView listview;
@@ -31,32 +40,34 @@ public class observe_now extends AppCompatActivity {
     private List<Map<String, Object>> list_listview = new ArrayList<Map<String, Object>>();
     private observe_now.MyAdapter listview_adapter;
 
+    private File file_data = new File(my_functions.get_main_file_path(), "read_data.txt");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.observe_now);
 
         define_palettes();
-
-        map = new HashMap<String, Object>();
-        map.put("Name", "1000");
-        map.put("observe_number", "1");
-        map.put("face_position", "盘左");
-        map.put("Hz","1000");
-        map.put("V","1000");
-        map.put("S","1000");
-        list_listview.add(map);
-        list_listview.add(map);
-        list_listview.add(map);
-        listview_adapter = new MyAdapter(observe_now.this, list_listview);
-        listview.setAdapter(listview_adapter);
+//
+//        map = new HashMap<String, Object>();
+//        map.put("Name", "1000");
+//        map.put("observe_number", "1");
+//        map.put("face_position", "盘左");
+//        map.put("Hz", "1000");
+//        map.put("V", "1000");
+//        map.put("S", "1000");
+//        list_listview.add(map);
+//        listview_adapter = new MyAdapter(observe_now.this, list_listview);
+//        listview.setAdapter(listview_adapter);
 
         do_click();
     }
 
     protected void define_palettes() {
         button_observe = (Button) findViewById(R.id.button_observe);
-
+        button_next_point = (Button) findViewById(R.id.button_next_point);
+        button_save = (Button) findViewById(R.id.button_save);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
         listview = (ListView) findViewById(R.id.listview_observe_now);
     }
 
@@ -64,7 +75,58 @@ public class observe_now extends AppCompatActivity {
         button_observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    BufferedReader bf = new BufferedReader(new FileReader(file_data));
+                    String point_name = bf.readLine();//第0行
 
+                    map = new HashMap<String, Object>();
+                    map.put("Name", point_name);
+                    map.put("observe_number", "1");
+                    map.put("face_position", "盘左");
+                    map.put("Hz", bf.readLine());//第1行
+                    map.put("V", bf.readLine());//第2行
+                    map.put("S", bf.readLine());//第3行
+                    list_listview.add(map);
+
+                    map = new HashMap<String, Object>();
+                    map.put("Name", point_name);
+                    map.put("observe_number", "1");
+                    map.put("face_position", "盘右");
+                    map.put("Hz", bf.readLine());//第4行
+                    map.put("V", bf.readLine());//第5行
+                    map.put("S", bf.readLine());//第6行
+                    list_listview.add(map);
+
+                    map = new HashMap<String, Object>();
+                    map.put("Name", point_name);
+                    map.put("observe_number", "2");
+                    map.put("face_position", "盘左");
+                    map.put("Hz", bf.readLine());//第7行
+                    map.put("V", bf.readLine());//第8行
+                    map.put("S", bf.readLine());//第9行
+                    list_listview.add(map);
+
+                    map = new HashMap<String, Object>();
+                    map.put("Name", point_name);
+                    map.put("observe_number", "2");
+                    map.put("face_position", "盘左");
+                    map.put("Hz", bf.readLine());//第10行
+                    map.put("V", bf.readLine());//第11行
+                    map.put("S", bf.readLine());//第12行
+                    list_listview.add(map);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                listview_adapter = new MyAdapter(observe_now.this, list_listview);
+                listview.setAdapter(listview_adapter);
+                listview_adapter.notifyDataSetChanged();
+            }
+        });
+
+        imageButton_houtui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

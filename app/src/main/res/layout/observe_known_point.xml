@@ -199,7 +199,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout444"
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/relativelayout4"
@@ -310,8 +310,8 @@
         android:id="@+id/button_finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/linearLayout444"
-        android:layout_alignRight="@+id/linearLayout444"
+        android:layout_alignEnd="@+id/linearLayout6"
+        android:layout_alignRight="@+id/linearLayout6"
         android:layout_alignTop="@+id/imageButton_houtui"
         android:background="@color/colorPrimary"
         android:text="完成" />

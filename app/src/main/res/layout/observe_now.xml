@@ -56,7 +56,7 @@
             android:layout_alignBottom="@+id/editText_point_name"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="54dp"
+            android:layout_marginLeft="35dp"
             android:text="测站点："
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
@@ -132,7 +132,6 @@
             android:text="1"
             android:textColor="@android:color/background_light"
             android:textSize="20sp" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -148,10 +147,12 @@
             android:id="@+id/textView29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/editText_object_hight"
+            android:layout_alignBottom="@+id/editText_object_hight"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp"
             android:text="目标高："
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
@@ -164,9 +165,9 @@
             android:layout_toEndOf="@+id/textView29"
             android:layout_toRightOf="@+id/textView29"
             android:background="@drawable/textview_border"
-            android:inputType="numberDecimal"
             android:ems="10"
             android:gravity="center"
+            android:inputType="numberDecimal"
             android:text="0.000"
             android:textColor="@android:color/background_light"
             android:textSize="20sp" />
@@ -188,6 +189,8 @@
         android:id="@+id/relativelayout5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/relativelayout4"
         android:layout_marginTop="10dp">
 
@@ -227,10 +230,10 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout444"
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageButton"
+        android:layout_above="@+id/imageButton_houtui"
         android:layout_below="@+id/relativelayout5"
         android:layout_marginLeft="3dip"
         android:layout_marginRight="3dip"
@@ -377,12 +380,13 @@
 
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/imageButton_houtui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout444"
+        android:layout_alignLeft="@+id/scrollview6"
+
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/linearLayout444"
+        android:layout_alignStart="@+id/scrollview6"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"

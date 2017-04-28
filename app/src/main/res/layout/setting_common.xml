@@ -560,7 +560,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout444"
+            android:id="@+id/linearLayout6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/linearLayout4"
@@ -582,7 +582,7 @@
             android:id="@+id/imageButton_houtui_common"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout444"
+            android:layout_below="@+id/linearLayout6"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
             android:background="#00000000"
