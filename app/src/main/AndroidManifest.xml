@@ -35,6 +35,8 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name="com.lyushiwang.netobserve.observe_now"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name="com.lyushiwang.netobserve.observe_sort_honrizontal"/>
+        <activity android:name="com.lyushiwang.netobserve.observe_sort_vertical"/>
     </application>
 
 </manifest>
