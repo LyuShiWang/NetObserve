@@ -52,7 +52,7 @@ public class setting_tolerance_horizontal extends AppCompatActivity {
         editText_gecehui = (EditText) findViewById(R.id.editText_front_hight);
         button_queding = (Button) findViewById(R.id.button_queding_setting);
         button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
-        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtu);
     }
 
     protected void do_click() {

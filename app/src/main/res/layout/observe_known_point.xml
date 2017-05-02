@@ -157,7 +157,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/relativelayout3"
+        android:id="@+id/relativelayout4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativelayout3"
@@ -169,7 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/relativelayout3"
+            android:layout_below="@+id/relativelayout4"
             android:layout_marginLeft="30dp"
             android:background="@color/colorPrimary"
             android:text="添加" />
@@ -191,7 +191,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/relativelayout3"
+            android:layout_below="@+id/relativelayout4"
             android:layout_marginRight="30dp"
             android:background="@color/colorPrimary"
             android:text="删除" />
@@ -199,16 +199,16 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/relativelayout3"
+        android:layout_below="@+id/relativelayout4"
         android:layout_marginLeft="3dip"
         android:layout_marginRight="3dip"
         android:layout_marginTop="10dp"
         android:background="@drawable/squre_border"
         android:orientation="vertical"
-        android:layout_above="@+id/imageButton_houtui">
+        android:layout_above="@+id/imageButton_houtu">
 
         <View
             android:layout_width="match_parent"
@@ -294,7 +294,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/imageButton_houtui"
+        android:id="@+id/imageButton_houtu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"
@@ -310,9 +310,9 @@
         android:id="@+id/button_finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/linearLayout5"
-        android:layout_alignRight="@+id/linearLayout5"
-        android:layout_alignTop="@+id/imageButton_houtui"
+        android:layout_alignEnd="@+id/linearLayout6"
+        android:layout_alignRight="@+id/linearLayout6"
+        android:layout_alignTop="@+id/imageButton_houtu"
         android:background="@color/colorPrimary"
         android:text="完成" />
 

@@ -116,7 +116,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
@@ -131,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout5"
+            android:layout_below="@+id/linearLayout6"
             android:layout_weight="1"
             android:background="@android:color/holo_blue_bright"
             android:text="最近使用工程"
@@ -139,12 +139,12 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/imageButton_houtui"
+        android:id="@+id/imageButton_houtu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout5"
+        android:layout_below="@+id/linearLayout6"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:background="#00000000"

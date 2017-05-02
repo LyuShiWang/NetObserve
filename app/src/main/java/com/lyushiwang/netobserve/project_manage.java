@@ -1,6 +1,5 @@
 package com.lyushiwang.netobserve;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -56,7 +55,7 @@ public class project_manage extends AppCompatActivity {
         lingcungongcheng = (Button) findViewById(R.id.gongcheng_button4);
         shanchugongcheng = (Button) findViewById(R.id.gongcheng_button5);
         zuijinshiyonggongcheng = (Button) findViewById(R.id.gongcheng_button6);
-        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtu);
     }
 
     protected void do_click() {

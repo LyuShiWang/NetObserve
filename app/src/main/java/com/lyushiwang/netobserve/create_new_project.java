@@ -41,7 +41,7 @@ public class create_new_project extends AppCompatActivity {
         ET_gongchengcanshu = (EditText) findViewById(R.id.editText_canshu);
         Bt_shiyongyicanzai = (Button) findViewById(R.id.button_shiyongyicunzai);
         Bt_xinjian = (Button) findViewById(R.id.button_xinjian);
-        IB_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
+        IB_houtui = (ImageButton) findViewById(R.id.imageButton_houtu);
     }
 
     protected void do_click() {

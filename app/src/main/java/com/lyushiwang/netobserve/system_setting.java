@@ -52,7 +52,7 @@ public class system_setting extends AppCompatActivity {
         xianchashezhi = (Button) findViewById(R.id.button_xianchashezhi);
         qixiangcanshu = (Button) findViewById(R.id.button_qixiangcanshu);
         changyongcanshu = (Button) findViewById(R.id.button_changyongcanshu);
-        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtu);
     }
 
     protected void create_setting_files() {

@@ -46,7 +46,7 @@ public class observe_manage extends AppCompatActivity {
         button_observe=(Button)findViewById(R.id.button_observe);
         button_sort_horizontal=(Button)findViewById(R.id.button_sort_horizontal);
         button_sort_vertical=(Button)findViewById(R.id.button_sort_vertical);
-        imageButton_houtui=(ImageButton)findViewById(R.id.imageButton_houtui);
+        imageButton_houtui=(ImageButton)findViewById(R.id.imageButton_houtu);
     }
 
     protected void do_click(){

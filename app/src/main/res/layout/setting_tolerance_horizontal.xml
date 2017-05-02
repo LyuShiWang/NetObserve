@@ -221,7 +221,7 @@
     </RelativeLayout>
 
     <ImageButton
-        android:id="@+id/imageButton_houtui"
+        android:id="@+id/imageButton_houtu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/button_qingchu_common"
