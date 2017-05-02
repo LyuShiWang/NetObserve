@@ -137,7 +137,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/relativelayout4"
+        android:id="@+id/relativelayout3"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -146,16 +146,16 @@
             android:id="@+id/textView29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText_object_hight"
-            android:layout_alignBottom="@+id/editText_object_hight"
-            android:layout_toLeftOf="@+id/editText_object_hight"
-            android:layout_toStartOf="@+id/editText_object_hight"
+            android:layout_alignBaseline="@+id/editText_front_hight"
+            android:layout_alignBottom="@+id/editText_front_hight"
+            android:layout_toLeftOf="@+id/editText_front_hight"
+            android:layout_toStartOf="@+id/editText_front_hight"
             android:text="各测回垂直角互差："
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_object_hight"
+            android:id="@+id/editText_front_hight"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
@@ -173,8 +173,8 @@
             android:id="@+id/textView28"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText_object_hight"
-            android:layout_alignBottom="@+id/editText_object_hight"
+            android:layout_alignBaseline="@+id/editText_front_hight"
+            android:layout_alignBottom="@+id/editText_front_hight"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="40dp"

@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark">
 
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/holo_blue_dark">
+
+
+    </ScrollView>
+
     <LinearLayout
         android:id="@+id/linearlayout1"
         android:layout_width="match_parent"
@@ -31,22 +41,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearlayout1"
-        android:layout_marginTop="20dp">
-
-        <EditText
-            android:id="@+id/editText_name_plus"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_toEndOf="@+id/textView19"
-            android:layout_toRightOf="@+id/textView19"
-            android:background="@drawable/textview_border"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:text="1" />
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/textView26"
@@ -56,14 +51,14 @@
             android:layout_alignBottom="@+id/editText_point_name"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="10dp"
             android:text="测站点："
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editText_point_name"
-            android:layout_width="125dp"
+            android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/textView26"
@@ -79,13 +74,40 @@
             android:id="@+id/textView19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="50dp"
-            android:layout_toEndOf="@+id/editText_point_name"
-            android:layout_toRightOf="@+id/editText_point_name"
-            android:text="自加："
+            android:text="测站高："
             android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_alignBaseline="@+id/textView45"
+            android:layout_alignBottom="@+id/textView45"
+            android:layout_toLeftOf="@+id/editText_station_hight"
+            android:layout_toStartOf="@+id/editText_station_hight" />
+
+        <EditText
+            android:id="@+id/editText_station_hight"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:background="@drawable/textview_border"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:text="1"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/textView45"
+            android:layout_toStartOf="@+id/textView45" />
+
+        <TextView
+            android:id="@+id/textView45"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="m"
+            android:layout_marginRight="10dp"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp"
+            android:layout_alignBaseline="@+id/editText_point_name"
+            android:layout_alignBottom="@+id/editText_point_name"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -97,101 +119,120 @@
         android:layout_below="@+id/relativelayout2"
         android:layout_marginTop="10dp">
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/editText_order"
-            android:layout_toRightOf="@+id/editText_order"
-            android:text="自动搜索"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/textView30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="35dp"
-            android:text="顺序号："
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/editText_order"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+        <RelativeLayout
+            android:id="@+id/relativeLayout3_1"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/textView30"
-            android:layout_toRightOf="@+id/textView30"
-            android:background="@drawable/textview_border"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="number"
-            android:text="1"
-            android:textColor="@android:color/background_light"
-            android:textSize="20sp" />
-    </RelativeLayout>
+            android:layout_toEndOf="@+id/textView29"
+            android:layout_toRightOf="@+id/textView29"
+            android:background="@drawable/textview_border">
 
-    <RelativeLayout
-        android:id="@+id/relativelayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/relativelayout3"
-        android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/textView46"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="后"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView47"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textView28"
+                android:layout_alignBottom="@+id/textView28"
+                android:layout_toLeftOf="@+id/editText_front_hight"
+                android:layout_toStartOf="@+id/editText_front_hight"
+                android:text="前"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editText_back_hight"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/textView46"
+                android:layout_toRightOf="@+id/textView46"
+                android:background="@drawable/textview_border"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:text="0.000"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/editText_back_hight"
+                android:layout_alignBottom="@+id/editText_back_hight"
+                android:layout_toEndOf="@+id/editText_back_hight"
+                android:layout_toRightOf="@+id/editText_back_hight"
+                android:text="m"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editText_front_hight"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_alignBottom="@+id/editText_back_hight"
+                android:layout_toLeftOf="@+id/textView28"
+                android:layout_toStartOf="@+id/textView28"
+                android:background="@drawable/textview_border"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:text="0.000"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textView46"
+                android:layout_alignBottom="@+id/textView46"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:text="m"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/textView29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText_object_hight"
-            android:layout_alignBottom="@+id/editText_object_hight"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="35dp"
-            android:layout_marginStart="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:text="目标高："
             android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-        <EditText
-            android:id="@+id/editText_object_hight"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/textView29"
-            android:layout_toRightOf="@+id/textView29"
-            android:background="@drawable/textview_border"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="numberDecimal"
-            android:text="0.000"
-            android:textColor="@android:color/background_light"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView28"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText_object_hight"
-            android:layout_alignBottom="@+id/editText_object_hight"
-            android:layout_toEndOf="@+id/editText_object_hight"
-            android:layout_toRightOf="@+id/editText_object_hight"
-            android:text="m"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/relativelayout5"
+        android:id="@+id/relativelayout4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/relativelayout4"
+        android:layout_below="@+id/relativelayout3"
         android:layout_marginTop="10dp">
 
         <Button
@@ -200,7 +241,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/relativelayout4"
+            android:layout_below="@+id/relativelayout3"
             android:layout_marginLeft="20dp"
             android:background="@color/colorPrimary"
             android:text="测量" />
@@ -222,7 +263,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/relativelayout5"
+            android:layout_below="@+id/relativelayout4"
             android:layout_marginRight="20dp"
             android:background="@color/colorPrimary"
             android:text="保存" />
@@ -230,11 +271,11 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout6"
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/imageButton_houtui"
-        android:layout_below="@+id/relativelayout5"
+        android:layout_below="@+id/relativelayout4"
         android:layout_marginLeft="3dip"
         android:layout_marginRight="3dip"
         android:layout_marginTop="10dp"
@@ -383,10 +424,9 @@
         android:id="@+id/imageButton_houtui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/scrollview6"
-
+        android:layout_alignLeft="@+id/linearLayout5"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/scrollview6"
+        android:layout_alignStart="@+id/linearLayout5"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"

@@ -80,6 +80,7 @@ public class observe_now extends AppCompatActivity {
         button_observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
                     BufferedReader bf = new BufferedReader(new FileReader(file_data));
                     String point_name = bf.readLine();//第0行

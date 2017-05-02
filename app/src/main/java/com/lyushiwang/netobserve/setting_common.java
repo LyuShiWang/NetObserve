@@ -52,7 +52,7 @@ public class setting_common extends AppCompatActivity {
         editText_gecehui_horizontal = (EditText) findViewById(R.id.editText_gecehui_horizontal);
         editText_liangcicha_vertical = (EditText) findViewById(R.id.editText_point_name);
         editText_zhibiaocha = (EditText) findViewById(R.id.editText_order);
-        editText_gecehui = (EditText) findViewById(R.id.editText_object_hight);
+        editText_gecehui = (EditText) findViewById(R.id.editText_front_hight);
         editText_dushucha = (EditText) findViewById(R.id.editText_dushucha);
         editText_cehuicha = (EditText) findViewById(R.id.editText_cehuicha);
         button_queding_common = (Button) findViewById(R.id.button_queding_setting);

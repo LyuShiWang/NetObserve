@@ -378,16 +378,16 @@
                     android:id="@+id/textView29"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/editText_object_hight"
-                    android:layout_alignBottom="@+id/editText_object_hight"
-                    android:layout_toLeftOf="@+id/editText_object_hight"
-                    android:layout_toStartOf="@+id/editText_object_hight"
+                    android:layout_alignBaseline="@+id/editText_front_hight"
+                    android:layout_alignBottom="@+id/editText_front_hight"
+                    android:layout_toLeftOf="@+id/editText_front_hight"
+                    android:layout_toStartOf="@+id/editText_front_hight"
                     android:text="各测回垂直角互差："
                     android:textColor="@android:color/background_light"
                     android:textSize="17sp" />
 
                 <EditText
-                    android:id="@+id/editText_object_hight"
+                    android:id="@+id/editText_front_hight"
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:layout_alignParentTop="true"
@@ -405,8 +405,8 @@
                     android:id="@+id/textView28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/editText_object_hight"
-                    android:layout_alignBottom="@+id/editText_object_hight"
+                    android:layout_alignBaseline="@+id/editText_front_hight"
+                    android:layout_alignBottom="@+id/editText_front_hight"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="50dp"
@@ -560,7 +560,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout6"
+            android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/linearLayout4"
@@ -582,7 +582,7 @@
             android:id="@+id/imageButton_houtui_common"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout6"
+            android:layout_below="@+id/linearLayout5"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
             android:background="#00000000"
