@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,13 @@ import java.util.Map;
 
 public class observe_now extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
+
+    private EditText editText_point_name;
+    private EditText editText_station_hight;
+    private EditText editText_back_name;
+    private EditText editText_front_name;
+    private EditText editText_back_hight;
+    private EditText editText_front_hight;
 
     private Button button_observe;
     private Button button_next_point;
@@ -69,6 +77,13 @@ public class observe_now extends AppCompatActivity {
     }
 
     protected void define_palettes() {
+        editText_point_name = (EditText) findViewById(R.id.editText_point_name);
+        editText_station_hight = (EditText) findViewById(R.id.editText_station_hight);
+        editText_back_name = (EditText) findViewById(R.id.editText_back_name);
+        editText_front_name = (EditText) findViewById(R.id.editText_front_name);
+        editText_back_hight = (EditText) findViewById(R.id.editText_back_hight);
+        editText_front_hight = (EditText) findViewById(R.id.editText_front_hight);
+
         button_observe = (Button) findViewById(R.id.button_observe);
         button_next_point = (Button) findViewById(R.id.button_next_point);
         button_save = (Button) findViewById(R.id.button_save);
@@ -80,18 +95,13 @@ public class observe_now extends AppCompatActivity {
         button_observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String back_name = editText_back_name.getText().toString();
+                String front_name = editText_front_name.getText().toString();
                 try {
                     BufferedReader bf = new BufferedReader(new FileReader(file_data));
-                    String point_name = bf.readLine();//第0行
-
-//                    map = new HashMap<String, Object>();
-//                    my_functions.map_all_empty(map);
-//                    map.put("Hz", bf.readLine());
-//                    list_listview.add(map);
 
                     map = new HashMap<String, Object>();
-                    map.put("Name", point_name);
+                    map.put("Name", back_name);
                     map.put("observe_number", "1");
                     map.put("face_position", "盘左");
                     map.put("Hz", bf.readLine());//第1行
@@ -100,30 +110,66 @@ public class observe_now extends AppCompatActivity {
                     list_listview.add(map);
 
                     map = new HashMap<String, Object>();
-                    map.put("Name", point_name);
+                    map.put("Name", front_name);
                     map.put("observe_number", "1");
-                    map.put("face_position", "盘右");
+                    map.put("face_position", "盘左");
                     map.put("Hz", bf.readLine());//第4行
                     map.put("V", bf.readLine());//第5行
                     map.put("S", bf.readLine());//第6行
                     list_listview.add(map);
 
                     map = new HashMap<String, Object>();
-                    map.put("Name", point_name);
-                    map.put("observe_number", "2");
-                    map.put("face_position", "盘左");
+                    map.put("Name", front_name);
+                    map.put("observe_number", "1");
+                    map.put("face_position", "盘右");
                     map.put("Hz", bf.readLine());//第7行
                     map.put("V", bf.readLine());//第8行
                     map.put("S", bf.readLine());//第9行
                     list_listview.add(map);
 
                     map = new HashMap<String, Object>();
-                    map.put("Name", point_name);
-                    map.put("observe_number", "2");
-                    map.put("face_position", "盘左");
+                    map.put("Name", back_name);
+                    map.put("observe_number", "1");
+                    map.put("face_position", "盘右");
                     map.put("Hz", bf.readLine());//第10行
                     map.put("V", bf.readLine());//第11行
                     map.put("S", bf.readLine());//第12行
+                    list_listview.add(map);
+
+                    map = new HashMap<String, Object>();
+                    map.put("Name", back_name);
+                    map.put("observe_number", "2");
+                    map.put("face_position", "盘左");
+                    map.put("Hz", bf.readLine());//第13行
+                    map.put("V", bf.readLine());//第14行
+                    map.put("S", bf.readLine());//第15行
+                    list_listview.add(map);
+
+                    map = new HashMap<String, Object>();
+                    map.put("Name", front_name);
+                    map.put("observe_number", "2");
+                    map.put("face_position", "盘左");
+                    map.put("Hz", bf.readLine());//第16行
+                    map.put("V", bf.readLine());//第17行
+                    map.put("S", bf.readLine());//第18行
+                    list_listview.add(map);
+
+                    map = new HashMap<String, Object>();
+                    map.put("Name", front_name);
+                    map.put("observe_number", "2");
+                    map.put("face_position", "盘右");
+                    map.put("Hz", bf.readLine());//第19行
+                    map.put("V", bf.readLine());//第20行
+                    map.put("S", bf.readLine());//第21行
+                    list_listview.add(map);
+
+                    map = new HashMap<String, Object>();
+                    map.put("Name", back_name);
+                    map.put("observe_number", "2");
+                    map.put("face_position", "盘右");
+                    map.put("Hz", bf.readLine());//第22行
+                    map.put("V", bf.readLine());//第23行
+                    map.put("S", bf.readLine());//第24行
                     list_listview.add(map);
                 } catch (Exception e) {
                     e.printStackTrace();
