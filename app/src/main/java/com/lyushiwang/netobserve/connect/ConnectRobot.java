@@ -55,6 +55,7 @@ import android.widget.Toast;
 public class ConnectRobot extends Activity implements OnItemClickListener {
 
     private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
+    private ClassMeasFunction classMeasFunction;
     private UUID MyUUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");// UUID
     private BluetoothSocket Socket = classMeasFunction.getSocket();// 通信渠道
@@ -68,7 +69,6 @@ public class ConnectRobot extends Activity implements OnItemClickListener {
     private ImageView infoOperatingIV;// 旋转图片
     private Animation operatingAnim;// 旋转
     private ContactApp app;// 存储共享数据
-    private ClassMeasFunction classMeasFunction;
     private Handler handler;// 处理线程
     private Handler MsgHandler;//消息处理
     private HandlerThread thread;// 连接线程
