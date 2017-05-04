@@ -169,14 +169,11 @@ public class ClassMeasFunction extends Service {
                         handler.sendMessage(msgMessage);
                     }
                 }
-                catch (IOException e)
-                {
+                catch (IOException e) {
 
                 }
             }
         }
-
-
     }
 
     //向全站仪发送命令并接受返回值
@@ -184,8 +181,7 @@ public class ClassMeasFunction extends Service {
     private String[] sendCommand(BluetoothSocket socket, String command, int outLength, long errorTime) throws IOException
     {
         //判断蓝牙是否断开
-        if(!socket.isConnected())
-        {
+        if(!socket.isConnected()) {
             socket.connect();
             inputStream= socket.getInputStream();
             outputStream = socket.getOutputStream();

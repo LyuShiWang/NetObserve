@@ -24,6 +24,7 @@
 
         <activity android:name="com.lyushiwang.netobserve.manage.project_manage" />
         <activity android:name="com.lyushiwang.netobserve.manage.create_new_project" />
+        
         <activity android:name="com.lyushiwang.netobserve.setting.system_setting" />
         <activity android:name="com.lyushiwang.netobserve.setting.setting_station" />
         <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_horizontal"/>
@@ -32,7 +33,10 @@
         <activity android:name="com.lyushiwang.netobserve.setting.setting_weather"/>
         <activity android:name="com.lyushiwang.netobserve.setting.setting_common"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
         <activity android:name="com.lyushiwang.netobserve.connect.ConnectRobot"/>
+        <activity android:name="com.lyushiwang.netobserve.connect.connect_instrument"/>
+
         <activity android:name="com.lyushiwang.netobserve.observe.observe_manage"/>
         <activity android:name="com.lyushiwang.netobserve.observe.observe_known_point"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />

@@ -10,6 +10,7 @@ import android.view.View;
 import android.content.Context;
 
 import com.lyushiwang.netobserve.connect.ConnectRobot;
+import com.lyushiwang.netobserve.connect.connect_instrument;
 import com.lyushiwang.netobserve.functions.My_Functions;
 import com.lyushiwang.netobserve.manage.project_manage;
 import com.lyushiwang.netobserve.observe.observe_manage;
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent_main2connect = new Intent();
-                intent_main2connect.setClass(MainActivity.this, ConnectRobot.class);
+                intent_main2connect.setClass(MainActivity.this, connect_instrument.class);
                 startActivity(intent_main2connect);
                 makeToast("连接设置点击成功！");
             }

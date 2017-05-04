@@ -2,4 +2,5 @@
     <string name="app_name">NetObserve</string>
     <string name="robotList">robotList</string>
     <string name="connectRobot">connectRobot</string>
+    <string name="查找">查找</string>
 </resources>

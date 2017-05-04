@@ -3,40 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:orientation="horizontal">
+
         <TextView
+            android:id="@+id/textView30"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/robotList"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:text="@string/robotList" />
 
-        <com.lyushiwang.netobserve.functions.drawCircle
+        <Button
             android:id="@+id/infoOperating"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right"
-            android:onClick="scanDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:scaleType="center">
-        </com.lyushiwang.netobserve.functions.drawCircle>
+            android:onClick="scanDevice"
+            android:scaleType="center"
+            android:text="查找" />
 
+        <!--<com.lyushiwang.netobserve.functions.drawCircle-->
+        <!--android:id="@+id/infoOperating"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:onClick="scanDevice"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:scaleType="center">-->
+        <!--</com.lyushiwang.netobserve.functions.drawCircle>-->
 
         <!--<com.tools.drawCircle-->
-            <!--android:id="@+id/infoOperating"-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:layout_gravity="right"-->
-            <!--android:onClick="scanDevice"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:scaleType="center">-->
+        <!--android:id="@+id/infoOperating"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:onClick="scanDevice"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:scaleType="center">-->
         <!--</com.tools.drawCircle>-->
+
     </RelativeLayout>
     <ScrollView
         android:layout_width="fill_parent"
