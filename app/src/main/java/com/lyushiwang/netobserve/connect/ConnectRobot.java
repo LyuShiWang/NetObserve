@@ -68,7 +68,6 @@ public class ConnectRobot extends Activity implements OnItemClickListener {
     private Dialog socketDialog;// 判断连接是否存在的对话框
     private ImageView infoOperatingIV;// 旋转图片
     private Animation operatingAnim;// 旋转
-    private ContactApp app;// 存储共享数据
     private Handler handler;// 处理线程
     private Handler MsgHandler;//消息处理
     private HandlerThread thread;// 连接线程
@@ -115,7 +114,6 @@ public class ConnectRobot extends Activity implements OnItemClickListener {
         setTitle(getString(R.string.connectRobot));//设置标题
         tvDevices = (ListView) findViewById(R.id.allDeviceList);// 存储设备的列表
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
-        app = (ContactApp) getApplication();// 获取共享数据
         handler = new Handler();
         MsgHandler = new Handler() {
             @Override
@@ -215,7 +213,6 @@ public class ConnectRobot extends Activity implements OnItemClickListener {
 
     // 扫描设备
     public void scanDevice(View v) {
-
         if (BluetoothAdap.isDiscovering() == true) {
             BluetoothAdap.cancelDiscovery();// 停止搜索
         } else {
@@ -242,7 +239,6 @@ public class ConnectRobot extends Activity implements OnItemClickListener {
         String[] split = s.split("\n");
         String address = split[1];// 获得设备地址
         instrumentName = split[0];//设备名字
-
         try {
             if (BluetoothAdap.isDiscovering() == true) {
                 BluetoothAdap.cancelDiscovery();// 停止扫描
@@ -333,21 +329,21 @@ public class ConnectRobot extends Activity implements OnItemClickListener {
                 Socket = device.createRfcommSocketToServiceRecord(MyUUID);
                 Socket.connect();
                 classMeasFunction.init(Socket);
-                app.setSerialPortOpen(true);// 设置共享数据
-                File file = new File(app.getOpenedStationPath()
-                        + "/sendAndReceive.txt");
-                FileWriter writer = new FileWriter(file);
+//                app.setSerialPortOpen(true);// 设置共享数据
+//                File file = new File(app.getOpenedStationPath()
+//                        + "/sendAndReceive.txt");
+//                FileWriter writer = new FileWriter(file);
                 classMeasFunction.beginComutting();
-                app.setInstrumentNO(instrumentName);
+//                app.setInstrumentNO(instrumentName);
                 Properties station_pro = new Properties();
-                File file4 = new File(app.getOpenedStationPath() + "/StationSetting.ini");
-                FileReader fileReader2 = new FileReader(file4);
-                station_pro.load(fileReader2);
-                fileReader2.close();
+//                File file4 = new File(app.getOpenedStationPath() + "/StationSetting.ini");
+//                FileReader fileReader2 = new FileReader(file4);
+//                station_pro.load(fileReader2);
+//                fileReader2.close();
                 station_pro.setProperty("RobotNO", instrumentName);//设仪器号
-                FileWriter writer1 = new FileWriter(file4);
-                station_pro.store(writer1, "");
-                writer1.close();
+//                FileWriter writer1 = new FileWriter(file4);
+//                station_pro.store(writer1, "");
+//                writer1.close();
                 Message msg2 = new Message();
                 msg2.what = 1;
                 MsgHandler.sendMessage(msg2);
