@@ -101,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent_main2connect = new Intent();
-                intent_main2connect.setClass(MainActivity.this, connect_instrument.class);
+                intent_main2connect.setClass(MainActivity.this, ConnectRobot.class);
                 startActivity(intent_main2connect);
-                makeToast("连接设置点击成功！");
+//                makeToast("连接设置点击成功！");
             }
         });
 

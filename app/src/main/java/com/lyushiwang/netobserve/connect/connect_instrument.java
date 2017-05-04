@@ -48,21 +48,21 @@ public class connect_instrument extends AppCompatActivity {
     //    private Bitmap rotateImage;//旋转的图片
     private String instrumentName = "";//设备名字
     private boolean bound = false;//存储是否绑定
-    //绑定服务的连接
-    private ServiceConnection contact_sc = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            ClassMeasFunction.LocalBinder binder = (ClassMeasFunction.LocalBinder) service;
-            classMeasFunction = binder.getService();
-            Socket = classMeasFunction.getSocket();// 获取连接
-            bound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            bound = false;
-        }
-    };
+//    //绑定服务的连接
+//    private ServiceConnection contact_sc = new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            ClassMeasFunction.LocalBinder binder = (ClassMeasFunction.LocalBinder) service;
+//            classMeasFunction = binder.getService();
+//            Socket = classMeasFunction.getSocket();// 获取连接
+//            bound = true;
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            bound = false;
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
