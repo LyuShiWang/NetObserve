@@ -1,4 +1,4 @@
-package com.lyushiwang.netobserve;
+package com.lyushiwang.netobserve.observe;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +15,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.functions.My_Functions;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

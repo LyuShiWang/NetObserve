@@ -1,4 +1,4 @@
-package com.lyushiwang.netobserve;
+package com.lyushiwang.netobserve.manage;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.content.Context;
 import android.os.Environment;
 import android.widget.Toast;
 import android.widget.ImageButton;
+
+import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.functions.My_Functions;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

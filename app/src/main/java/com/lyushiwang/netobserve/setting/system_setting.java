@@ -1,4 +1,4 @@
-package com.lyushiwang.netobserve;
+package com.lyushiwang.netobserve.setting;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
 import android.content.Context;
+
+import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.functions.My_Functions;
 
 import java.io.BufferedWriter;
 import java.io.File;

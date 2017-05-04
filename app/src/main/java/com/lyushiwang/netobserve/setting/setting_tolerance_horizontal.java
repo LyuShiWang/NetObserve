@@ -1,6 +1,7 @@
-package com.lyushiwang.netobserve;
+package com.lyushiwang.netobserve.setting;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.functions.My_Functions;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,11 +25,13 @@ import java.util.List;
  * Created by win10 on 2017/4/10.
  */
 
-public class setting_tolerance_vertical extends AppCompatActivity {
+public class setting_tolerance_horizontal extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
+    private Context mContext;
 
     private EditText editText_liangcicha;
-    private EditText editText_zhibiaocha;
+    private EditText editText_bancehui;
+    private EditText editText_yicehui;
     private EditText editText_gecehui;
     private Button button_queding;
     private Button button_qingchu;
@@ -34,8 +40,9 @@ public class setting_tolerance_vertical extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting_tolerance_vertical);
+        setContentView(R.layout.setting_tolerance_horizontal);
 
+        mContext = getApplicationContext();
         define_palettes();
 
         do_click();
@@ -43,7 +50,8 @@ public class setting_tolerance_vertical extends AppCompatActivity {
 
     protected void define_palettes() {
         editText_liangcicha = (EditText) findViewById(R.id.editText_point_name);
-        editText_zhibiaocha = (EditText) findViewById(R.id.editText_order);
+        editText_bancehui = (EditText) findViewById(R.id.editText_bancehui);
+        editText_yicehui = (EditText) findViewById(R.id.editText_yicehui);
         editText_gecehui = (EditText) findViewById(R.id.editText_front_hight);
         button_queding = (Button) findViewById(R.id.button_queding_setting);
         button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
@@ -54,13 +62,12 @@ public class setting_tolerance_vertical extends AppCompatActivity {
         button_queding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> List_tolerance_vertical = get_and_check_text();
-                if (List_tolerance_vertical != null) {
+                List<String> List_tolerance_horizontal = get_and_check_text();
+                if (List_tolerance_horizontal != null) {
                     File Tolerance_Settings = new File(my_functions.get_main_file_path(), "Tolerance Settings.ini");//观测限差文件
-                    //将旧数据更改为新数据
-                    List<String> List_new = vertical_tolerance_change(Tolerance_Settings, List_tolerance_vertical);
-
-                    //将新数据写入文件中
+                    //将旧数据更改为新数据↓
+                    List<String> List_new = horizrontal_tolerance_change(Tolerance_Settings, List_tolerance_horizontal);
+                    //将新数据写入文件中↓
                     Tolerance_Settings.delete();
                     try {
                         Tolerance_Settings.createNewFile();
@@ -77,7 +84,7 @@ public class setting_tolerance_vertical extends AppCompatActivity {
                         makeToast("Error：无法为Tolerance_Settings文件创建BufferedWriter!");
                     }
                 }else {
-                    AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_tolerance_vertical.this);
+                    AlertDialog.Builder AD_check = new AlertDialog.Builder(setting_tolerance_horizontal.this);
                     AD_check.setTitle("警告").setMessage("输入有错误，请重新输入！").show();
                 }
             }
@@ -87,7 +94,8 @@ public class setting_tolerance_vertical extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText_liangcicha.setText("");
-                editText_zhibiaocha.setText("");
+                editText_bancehui.setText("");
+                editText_yicehui.setText("");
                 editText_gecehui.setText("");
             }
         });
@@ -103,7 +111,8 @@ public class setting_tolerance_vertical extends AppCompatActivity {
     public List<String> get_and_check_text() {
         List<String> List_text = new ArrayList<String>();
         List_text.add(editText_liangcicha.getText().toString());
-        List_text.add(editText_zhibiaocha.getText().toString());
+        List_text.add(editText_bancehui.getText().toString());
+        List_text.add(editText_yicehui.getText().toString());
         List_text.add(editText_gecehui.getText().toString());
 
         int error = 0;
@@ -119,8 +128,8 @@ public class setting_tolerance_vertical extends AppCompatActivity {
         }
     }
 
-    public List<String> vertical_tolerance_change(File file, List<String> List_vertical) {
-        //存储已存在的数据
+    public List<String> horizrontal_tolerance_change(File file, List<String> List_vertical) {
+        //存储已存在的数据↓
         List<String> List_old = new ArrayList<String>();
         String line = "";
         try {
@@ -132,10 +141,9 @@ public class setting_tolerance_vertical extends AppCompatActivity {
             e.printStackTrace();
             makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
         }
-
-        //用新数据替换旧数据
+        //用新数据替换旧数据↓
         List<String> List_new = List_old;
-        int line_code = 4;//确定写入的位置
+        int line_code = 0;//确定写入的位置
         for (String item : List_vertical) {
             List_new.set(line_code, item);
             line_code += 1;

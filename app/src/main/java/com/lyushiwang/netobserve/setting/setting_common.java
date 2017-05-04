@@ -1,4 +1,4 @@
-package com.lyushiwang.netobserve;
+package com.lyushiwang.netobserve.setting;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.functions.My_Functions;
 
 import java.io.BufferedWriter;
 import java.io.File;

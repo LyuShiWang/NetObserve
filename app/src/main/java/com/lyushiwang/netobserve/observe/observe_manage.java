@@ -1,4 +1,4 @@
-package com.lyushiwang.netobserve;
+package com.lyushiwang.netobserve.observe;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
+
+import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.functions.My_Functions;
 
 import java.io.File;
 import java.lang.String;

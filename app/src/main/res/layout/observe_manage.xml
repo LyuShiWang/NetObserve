@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context="com.lyushiwang.netobserve.system_setting"
+    tools:context="com.lyushiwang.netobserve.setting.system_setting"
     tools:layout_editor_absoluteX="8dp"
     tools:layout_editor_absoluteY="8dp">
 

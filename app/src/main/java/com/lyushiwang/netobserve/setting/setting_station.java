@@ -1,4 +1,4 @@
-package com.lyushiwang.netobserve;
+package com.lyushiwang.netobserve.setting;
 
 import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.view.View;
 import android.content.Context;
 import android.widget.Toast;
+
+import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.functions.My_Functions;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

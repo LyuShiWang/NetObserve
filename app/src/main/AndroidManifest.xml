@@ -22,23 +22,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.lyushiwang.netobserve.project_manage" />
-        <activity android:name="com.lyushiwang.netobserve.create_new_project" />
-        <activity android:name="com.lyushiwang.netobserve.system_setting" />
-        <activity android:name="com.lyushiwang.netobserve.setting_station" />
-        <activity android:name="com.lyushiwang.netobserve.setting_tolerance_horizontal"/>
-        <activity android:name="com.lyushiwang.netobserve.setting_tolerance_vertical"/>
-        <activity android:name="com.lyushiwang.netobserve.setting_tolerance_distance"/>
-        <activity android:name="com.lyushiwang.netobserve.setting_weather"/>
-        <activity android:name="com.lyushiwang.netobserve.setting_common"
+        <activity android:name="com.lyushiwang.netobserve.manage.project_manage" />
+        <activity android:name="com.lyushiwang.netobserve.manage.create_new_project" />
+        <activity android:name="com.lyushiwang.netobserve.setting.system_setting" />
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_station" />
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_horizontal"/>
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_vertical"/>
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_distance"/>
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_weather"/>
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_common"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name="com.lyushiwang.netobserve.observe_manage"/>
-        <activity android:name="com.lyushiwang.netobserve.observe_known_point"
+        <activity android:name="com.lyushiwang.netobserve.observe.observe_manage"/>
+        <activity android:name="com.lyushiwang.netobserve.observe.observe_known_point"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name="com.lyushiwang.netobserve.observe_now"
+        <activity android:name="com.lyushiwang.netobserve.observe.observe_now"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name="com.lyushiwang.netobserve.observe_sort_honrizontal"/>
-        <activity android:name="com.lyushiwang.netobserve.observe_sort_vertical"/>
+        <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_honrizontal"/>
+        <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_vertical"/>
     </application>
 
 </manifest>

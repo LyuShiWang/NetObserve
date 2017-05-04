@@ -1,4 +1,4 @@
-package com.lyushiwang.netobserve;
+package com.lyushiwang.netobserve.observe;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.functions.ListView_observe_now;
+import com.lyushiwang.netobserve.functions.My_Functions;
+import com.lyushiwang.netobserve.functions.Observe_3data;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -90,13 +95,14 @@ public class observe_now extends AppCompatActivity {
 //                    map.put("Hz", bf.readLine());
 //                    list_listview.add(map);
 
+                    Observe_3data ob1_back_faceL=new Observe_3data(bf.readLine(),bf.readLine(),bf.readLine());
                     map = new HashMap<String, Object>();
                     map.put("Name", point_name);
                     map.put("observe_number", "1");
                     map.put("face_position", "盘左");
-                    map.put("Hz", bf.readLine());//第1行
-                    map.put("V", bf.readLine());//第2行
-                    map.put("S", bf.readLine());//第3行
+                    map.put("Hz", ob1_back_faceL.getHz_String());//第1行
+                    map.put("V", ob1_back_faceL.getV_String());//第2行
+                    map.put("S", ob1_back_faceL.getS_String());//第3行
                     list_listview.add(map);
 
                     map = new HashMap<String, Object>();
@@ -209,5 +215,11 @@ public class observe_now extends AppCompatActivity {
         TextView tv4;
         TextView tv5;
         TextView tv6;
+    }
+
+    class observe_3data{
+        Double Hz;
+        Double V;
+        Double S;
     }
 }

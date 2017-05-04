@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context="com.lyushiwang.netobserve.project_manage">
+    tools:context="com.lyushiwang.netobserve.manage.project_manage">
 
     <LinearLayout
         android:id="@+id/linearLayout0"
