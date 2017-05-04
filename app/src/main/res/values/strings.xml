@@ -1,5 +1,5 @@
 ﻿<resources>
-    <string name="app_name">NetObserve
-
-    </string>
+    <string name="app_name">NetObserve</string>
+    <string name="robotList">robotList</string>
+    <string name="connectRobot">connectRobot</string>
 </resources>

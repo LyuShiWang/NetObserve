@@ -32,6 +32,7 @@
         <activity android:name="com.lyushiwang.netobserve.setting.setting_weather"/>
         <activity android:name="com.lyushiwang.netobserve.setting.setting_common"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name="com.lyushiwang.netobserve.connect.ConnectRobot"/>
         <activity android:name="com.lyushiwang.netobserve.observe.observe_manage"/>
         <activity android:name="com.lyushiwang.netobserve.observe.observe_known_point"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />

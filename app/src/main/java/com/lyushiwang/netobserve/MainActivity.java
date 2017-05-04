@@ -9,6 +9,7 @@ import android.widget.Toast;
 import android.view.View;
 import android.content.Context;
 
+import com.lyushiwang.netobserve.connect.ConnectRobot;
 import com.lyushiwang.netobserve.functions.My_Functions;
 import com.lyushiwang.netobserve.manage.project_manage;
 import com.lyushiwang.netobserve.observe.observe_manage;
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                         intent_main2settings.setClass(MainActivity.this, system_setting.class);
                         intent_main2settings.putExtra("ProjectName_now", ProjectName_now);
                         startActivity(intent_main2settings);
+                    }else{
+                        makeToast("还未打开工程！");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -96,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
         lianjieshezhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent_main2connect = new Intent();
+                intent_main2connect.setClass(MainActivity.this, ConnectRobot.class);
+                startActivity(intent_main2connect);
                 makeToast("连接设置点击成功！");
             }
         });
@@ -112,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
                         intent_main2observe.setClass(MainActivity.this, observe_manage.class);
                         intent_main2observe.putExtra("ProjectName_now", ProjectName_now);
                         startActivity(intent_main2observe);
+                    }else{
+                        makeToast("还未打开工程！");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

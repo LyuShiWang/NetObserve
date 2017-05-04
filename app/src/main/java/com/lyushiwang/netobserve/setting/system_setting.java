@@ -42,7 +42,6 @@ public class system_setting extends AppCompatActivity {
         Intent intent1_2_1 = getIntent();
         String ProjectName_now = intent1_2_1.getStringExtra("ProjectName_now");//读取当前工程名
         dangqiangongcheng.setText("当前工程：" + ProjectName_now);
-
         create_setting_files();//如果系统文件（.ini）不存在，则创建它们
         //.ini位于程序总目录内，不属于任何工程
 
