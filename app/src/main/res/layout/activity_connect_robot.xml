@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -18,16 +19,14 @@
             android:gravity="center_vertical"
             android:text="@string/robotList" />
 
-        <Button
-            android:id="@+id/infoOperating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:onClick="scanDevice"
-            android:scaleType="center"
-            android:text="查找" />
+        <!--<ImageView-->
+        <!--android:id="@+id/infoOperating"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--app:srcCompat="@drawable/refresh" />-->
 
         <!--<com.lyushiwang.netobserve.functions.drawCircle-->
         <!--android:id="@+id/infoOperating"-->
@@ -40,22 +39,23 @@
         <!--android:scaleType="center">-->
         <!--</com.lyushiwang.netobserve.functions.drawCircle>-->
 
-        <!--<com.tools.drawCircle-->
-        <!--android:id="@+id/infoOperating"-->
-        <!--android:layout_width="30dp"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_gravity="right"-->
-        <!--android:onClick="scanDevice"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:scaleType="center">-->
-        <!--</com.tools.drawCircle>-->
+        <com.tools.drawCircle
+            android:id="@+id/infoOperating"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"
+            android:onClick="scanDevice"
+            android:scaleType="center"></com.tools.drawCircle>
 
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="250dp"
-        android:fillViewport="true" >
+        android:fillViewport="true">
 
         <ListView
             android:id="@+id/allDeviceList"
