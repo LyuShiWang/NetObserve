@@ -1,5 +1,6 @@
 package com.lyushiwang.netobserve;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.Bundle;
@@ -10,8 +11,7 @@ import android.view.View;
 import android.content.Context;
 
 import com.lyushiwang.netobserve.connect.ConnectRobot;
-import com.lyushiwang.netobserve.connect.connect_instrument;
-import com.lyushiwang.netobserve.functions.My_Functions;
+import com.tools.My_Functions;
 import com.lyushiwang.netobserve.manage.project_manage;
 import com.lyushiwang.netobserve.observe.observe_manage;
 import com.lyushiwang.netobserve.setting.system_setting;
@@ -20,10 +20,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
 import java.lang.String;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
     private Context mContext;
+    private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
 
     private ImageButton gongchengguanli;
     private ImageButton xitongshezhi;
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         guance = (ImageButton) findViewById(R.id.imageButton4);
         chakanshuju = (ImageButton) findViewById(R.id.imageButton5);
 
-        tuichu=(ImageButton)findViewById(R.id.imageButton8);
+        tuichu = (ImageButton) findViewById(R.id.imageButton8);
     }
 
     protected void do_click() {
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         intent_main2settings.setClass(MainActivity.this, system_setting.class);
                         intent_main2settings.putExtra("ProjectName_now", ProjectName_now);
                         startActivity(intent_main2settings);
-                    }else{
+                    } else {
                         makeToast("还未打开工程！");
                     }
                 } catch (Exception e) {
@@ -100,10 +103,16 @@ public class MainActivity extends AppCompatActivity {
         lianjieshezhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent_main2connect = new Intent();
-                intent_main2connect.setClass(MainActivity.this, ConnectRobot.class);
-                startActivity(intent_main2connect);
-//                makeToast("连接设置点击成功！");
+                BluetoothAdap=BluetoothAdapter.getDefaultAdapter();
+                if(BluetoothAdap.isEnabled()){
+                    Intent intent_main2connect = new Intent();
+                    intent_main2connect.setClass(MainActivity.this, ConnectRobot.class);
+                    startActivity(intent_main2connect);
+                }else {
+                    makeToast("还未打开蓝牙！请打开后再进入配对界面");
+                    Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(turnOn, 0);
+                }
             }
         });
 
@@ -119,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         intent_main2observe.setClass(MainActivity.this, observe_manage.class);
                         intent_main2observe.putExtra("ProjectName_now", ProjectName_now);
                         startActivity(intent_main2observe);
-                    }else{
+                    } else {
                         makeToast("还未打开工程！");
                     }
                 } catch (Exception e) {

@@ -35,7 +35,6 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity android:name="com.lyushiwang.netobserve.connect.ConnectRobot"/>
-        <activity android:name="com.lyushiwang.netobserve.connect.connect_instrument"/>
 
         <activity android:name="com.lyushiwang.netobserve.observe.observe_manage"/>
         <activity android:name="com.lyushiwang.netobserve.observe.observe_known_point"

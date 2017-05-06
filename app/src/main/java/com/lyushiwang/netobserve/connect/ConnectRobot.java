@@ -39,7 +39,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -89,6 +88,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_robot);
+
         init();
     }
 
@@ -108,7 +108,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         setFinishOnTouchOutside(false);
         setTitle(getString(R.string.connectRobot));//设置标题
         tvDevices = (ListView) findViewById(R.id.allDeviceList);// 存储设备的列表
-        BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
+        BluetoothAdap=BluetoothAdapter.getDefaultAdapter();
 
         handler = new Handler();
         MsgHandler = new Handler() {
@@ -135,7 +135,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
             makeToast("未发现设备！");
         }
 
-        rotateImage = BitmapFactory.decodeResource(getResources(), R.drawable.refresh);
+        rotateImage = BitmapFactory.decodeResource(getResources(), R.drawable.refresh_black);
 //         旋转图片
         infoOperatingIV = (ImageView) findViewById(R.id.infoOperating);
         infoOperatingIV.setImageBitmap(rotateImage);

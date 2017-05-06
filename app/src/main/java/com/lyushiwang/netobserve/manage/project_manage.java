@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
-import com.lyushiwang.netobserve.functions.My_Functions;
+import com.tools.My_Functions;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

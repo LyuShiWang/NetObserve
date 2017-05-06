@@ -1,4 +1,4 @@
-package com.lyushiwang.netobserve.functions;
+package com.tools;
 
 import android.os.Environment;
 
@@ -23,13 +23,13 @@ public class My_Functions {
     }
 
     public File get_ProjectList() {
-        File file = new File(get_main_file_path(), "ProjectList.list");
-        return file;
+        File fileList = new File(get_main_file_path(), "ProjectList.list");
+        return fileList;
     }
 
     public File get_ProjectNow() {
-        File file = new File(get_main_file_path(), "ProjectNow.name");
-        return file;
+        File fileNow = new File(get_main_file_path(), "ProjectNow.name");
+        return fileNow;
     }
 
     public String read_ProjectNow_Name(File ProjectNow) {

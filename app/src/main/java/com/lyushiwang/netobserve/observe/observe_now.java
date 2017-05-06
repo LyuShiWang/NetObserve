@@ -15,9 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
-import com.lyushiwang.netobserve.functions.ListView_observe_now;
-import com.lyushiwang.netobserve.functions.My_Functions;
-import com.lyushiwang.netobserve.functions.Observe_3data;
+import com.tools.ListView_observe_now;
+import com.tools.My_Functions;
+import com.tools.Observe_3data;
 
 import java.io.BufferedReader;
 import java.io.File;
