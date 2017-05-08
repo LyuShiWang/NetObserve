@@ -1,6 +1,8 @@
 package com.lyushiwang.netobserve.observe;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -17,7 +19,7 @@ import android.widget.Toast;
 import com.lyushiwang.netobserve.R;
 import com.tools.ListView_observe_now;
 import com.tools.My_Functions;
-import com.tools.Observe_3data;
+import com.tools.Observe_data;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,6 +56,10 @@ public class observe_now extends AppCompatActivity {
     private observe_now.MyAdapter listview_adapter;
 
     private File file_data = new File(my_functions.get_main_file_path(), "read_data.txt");
+    private List<String> list_point_name=new ArrayList<String>();
+    private List<Observe_data> list_observe_data = new ArrayList<Observe_data>();
+
+    private boolean check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +67,6 @@ public class observe_now extends AppCompatActivity {
         setContentView(R.layout.observe_now);
 
         define_palettes();
-
-//        map = new HashMap<String, Object>();
-//        map.put("Name", "101");
-//        map.put("observe_number", "1");
-//        map.put("face_position", "盘左");
-//        map.put("Hz", 100.000);//第1行
-//        map.put("V", 100.000);//第2行
-//        map.put("S", 100.000);//第3行
-//        Integer[] empty_status = {0, 0, 0, 1, 1, 1};
-//        my_functions.map_empty(map, empty_status);
-//        map.put("V", 500.000);//第2行
-//
-//        list_listview.add(map);
-//        listview_adapter = new MyAdapter(observe_now.this, list_listview);
-//        listview.setAdapter(listview_adapter);
-//        listview_adapter.notifyDataSetChanged();
 
         do_click();
     }
@@ -93,6 +83,7 @@ public class observe_now extends AppCompatActivity {
         button_next_point = (Button) findViewById(R.id.button_next_point);
         button_save = (Button) findViewById(R.id.button_save);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
+
         listview = (ListView) findViewById(R.id.listview_observe_now);
     }
 
@@ -100,12 +91,27 @@ public class observe_now extends AppCompatActivity {
         button_observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String station_name=editText_point_name.getText().toString();
                 String back_name = editText_back_name.getText().toString();
                 String front_name = editText_front_name.getText().toString();
+
+                if (list_point_name.contains(station_name)){
+                    //开始重测该点
+                    AlertDialog.Builder AD_reobserve=new AlertDialog.Builder(observe_now.this);
+                    AD_reobserve.setMessage("该点已存在！是否重测该点！")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).setNegativeButton("取消",null).show();
+                }
                 try {
                     BufferedReader bf = new BufferedReader(new FileReader(file_data));
 
-                    Observe_3data ob1_back_faceL=new Observe_3data(bf.readLine(),bf.readLine(),bf.readLine());
+                    Observe_data ob1_back_faceL = new Observe_data(back_name,
+                            bf.readLine(), bf.readLine(), bf.readLine());
+                    list_observe_data.add(ob1_back_faceL);
                     map = new HashMap<String, Object>();
                     map.put("Name", back_name);
                     map.put("observe_number", "1");
@@ -115,67 +121,88 @@ public class observe_now extends AppCompatActivity {
                     map.put("S", ob1_back_faceL.getS_String());//第3行
                     list_listview.add(map);
 
+                    Observe_data ob1_front_faceL = new Observe_data(front_name,
+                            bf.readLine(), bf.readLine(), bf.readLine());
+                    list_observe_data.add(ob1_front_faceL);
                     map = new HashMap<String, Object>();
                     map.put("Name", front_name);
                     map.put("observe_number", "1");
                     map.put("face_position", "盘左");
-                    map.put("Hz", bf.readLine());//第4行
-                    map.put("V", bf.readLine());//第5行
-                    map.put("S", bf.readLine());//第6行
+                    map.put("Hz", ob1_front_faceL.getHz_String());//第4行
+                    map.put("V", ob1_front_faceL.getV_String());//第5行
+                    map.put("S", ob1_front_faceL.getS_String());//第6行
                     list_listview.add(map);
 
+                    Observe_data ob1_front_faceR = new Observe_data(front_name,
+                            bf.readLine(), bf.readLine(), bf.readLine());
+                    list_observe_data.add(ob1_front_faceR);
                     map = new HashMap<String, Object>();
                     map.put("Name", front_name);
                     map.put("observe_number", "1");
                     map.put("face_position", "盘右");
-                    map.put("Hz", bf.readLine());//第7行
-                    map.put("V", bf.readLine());//第8行
-                    map.put("S", bf.readLine());//第9行
+                    map.put("Hz", ob1_front_faceR.getHz_String());//第7行
+                    map.put("V", ob1_front_faceR.getV_String());//第8行
+                    map.put("S", ob1_front_faceR.getS_String());//第9行
                     list_listview.add(map);
 
+                    Observe_data ob1_back_faceR = new Observe_data(back_name,
+                            bf.readLine(), bf.readLine(), bf.readLine());
+                    list_observe_data.add(ob1_back_faceR);
                     map = new HashMap<String, Object>();
                     map.put("Name", back_name);
                     map.put("observe_number", "1");
                     map.put("face_position", "盘右");
-                    map.put("Hz", bf.readLine());//第10行
-                    map.put("V", bf.readLine());//第11行
-                    map.put("S", bf.readLine());//第12行
+                    map.put("Hz", ob1_back_faceR.getHz_String());//第10行
+                    map.put("V", ob1_back_faceR.getV_String());//第11行
+                    map.put("S", ob1_back_faceR.getS_String());//第12行
                     list_listview.add(map);
 
+                    Observe_data ob2_back_faceL = new Observe_data(back_name,
+                            bf.readLine(), bf.readLine(), bf.readLine());
+                    list_observe_data.add(ob2_back_faceL);
                     map = new HashMap<String, Object>();
                     map.put("Name", back_name);
                     map.put("observe_number", "2");
                     map.put("face_position", "盘左");
-                    map.put("Hz", bf.readLine());//第13行
-                    map.put("V", bf.readLine());//第14行
-                    map.put("S", bf.readLine());//第15行
+                    map.put("Hz", ob2_back_faceL.getHz_String());//第13行
+                    map.put("V", ob2_back_faceL.getV_String());//第14行
+                    map.put("S", ob2_back_faceL.getS_String());//第15行
                     list_listview.add(map);
 
+                    Observe_data ob2_front_faceL = new Observe_data(front_name,
+                            bf.readLine(), bf.readLine(), bf.readLine());
+                    list_observe_data.add(ob2_front_faceL);
                     map = new HashMap<String, Object>();
                     map.put("Name", front_name);
                     map.put("observe_number", "2");
                     map.put("face_position", "盘左");
-                    map.put("Hz", bf.readLine());//第16行
-                    map.put("V", bf.readLine());//第17行
-                    map.put("S", bf.readLine());//第18行
+                    map.put("Hz", ob2_front_faceL.getHz_String());//第16行
+                    map.put("V", ob2_front_faceL.getV_String());//第17行
+                    map.put("S", ob2_front_faceL.getS_String());//第18行
                     list_listview.add(map);
 
+                    Observe_data ob2_front_faceR = new Observe_data(front_name,
+                            bf.readLine(), bf.readLine(), bf.readLine());
+                    list_observe_data.add(ob2_front_faceR);
                     map = new HashMap<String, Object>();
                     map.put("Name", front_name);
                     map.put("observe_number", "2");
                     map.put("face_position", "盘右");
-                    map.put("Hz", bf.readLine());//第19行
-                    map.put("V", bf.readLine());//第20行
-                    map.put("S", bf.readLine());//第21行
+                    map.put("Hz", ob2_front_faceR.getHz_String());//第19行
+                    map.put("V", ob2_front_faceR.getV_String());//第20行
+                    map.put("S", ob2_front_faceR.getS_String());//第21行
                     list_listview.add(map);
 
+                    Observe_data ob2_back_faceR = new Observe_data(back_name,
+                            bf.readLine(), bf.readLine(), bf.readLine());
+                    list_observe_data.add(ob2_back_faceR);
                     map = new HashMap<String, Object>();
                     map.put("Name", back_name);
                     map.put("observe_number", "2");
                     map.put("face_position", "盘右");
-                    map.put("Hz", bf.readLine());//第22行
-                    map.put("V", bf.readLine());//第23行
-                    map.put("S", bf.readLine());//第24行
+                    map.put("Hz", ob2_back_faceR.getHz_String());//第22行
+                    map.put("V", ob2_back_faceR.getV_String());//第23行
+                    map.put("S", ob2_back_faceR.getS_String());//第24行
                     list_listview.add(map);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -185,6 +212,27 @@ public class observe_now extends AppCompatActivity {
                 listview.setAdapter(listview_adapter);
                 listview_adapter.notifyDataSetChanged();
 
+            }
+        });
+
+        button_next_point.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                check_data();
+                if(check){
+                    AlertDialog.Builder AD_error=new AlertDialog.Builder(observe_now.this);
+                    AD_error.setTitle("警告，数据超限！")
+                            .setPositiveButton("确定",null);
+                    //超限的数据类型不同，会有不同的提示内容
+                    AD_error.show();
+                }else{
+                    editText_point_name.setText("");
+                    editText_station_hight.setText("");
+                    editText_back_name.setText("");
+                    editText_front_name.setText("");
+                    editText_back_hight.setText("");
+                    editText_front_hight.setText("");
+                }
             }
         });
 
@@ -263,9 +311,7 @@ public class observe_now extends AppCompatActivity {
         TextView tv6;
     }
 
-    class observe_3data{
-        Double Hz;
-        Double V;
-        Double S;
+    public void check_data(){
+        //检查观测数据是否合格
     }
 }

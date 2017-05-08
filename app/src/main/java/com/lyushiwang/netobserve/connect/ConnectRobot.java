@@ -12,6 +12,8 @@ import com.tools.ClassMeasFunction;
 
 import android.content.ComponentName;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -32,9 +34,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
@@ -52,16 +58,15 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
     private List<String> list_bluetoothDevices = new ArrayList<String>();// 存储设备
     private ArrayAdapter<String> arrayAdapter;// 列表适配器
     private BluetoothDevice device;// 蓝牙设备
-    private Button button_scan;
     private ProgressDialog progressdialog;// 进度对话框
     private Dialog alertDialog;// 连接成功对话框
     private Dialog socketDialog;// 判断连接是否存在的对话框
-//    private ImageView infoOperatingIV;// 旋转图片
-//    private Animation operatingAnim;// 旋转
+    private ImageView infoOperatingIV;// 旋转图片
+    private Animation operatingAnim;// 旋转
     private Handler handler;// 处理线程
     private Handler MsgHandler;//消息处理
     private HandlerThread thread;// 连接线程
-//    private Bitmap rotateImage;//旋转的图片
+    private Bitmap rotateImage;//旋转的图片
     private String instrumentName = "";//设备名字
     private boolean bound = false;//存储是否绑定
     //绑定服务的连接
@@ -87,15 +92,15 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         init();
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        rotateImage.recycle();//释放图片资源
-//        if (bound) {
-//            bound = false;
-//            unbindService(contact_sc);
-//        }
-//        super.onDestroy();
-//    }
+    @Override
+    protected void onDestroy() {
+        rotateImage.recycle();//释放图片资源
+        if (bound) {
+            bound = false;
+            unbindService(contact_sc);
+        }
+        super.onDestroy();
+    }
 
     //初始化
     @SuppressLint("NewApi")
@@ -130,15 +135,14 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
             makeToast("未发现设备！");
         }
 
-//        rotateImage = BitmapFactory.decodeResource(getResources(), R.drawable.xinxi);
+        rotateImage = BitmapFactory.decodeResource(getResources(), R.drawable.refresh_black);
 //         旋转图片
-//        infoOperatingIV = (ImageView) findViewById(R.id.infoOperating);
-//        infoOperatingIV.setImageBitmap(rotateImage);
-//        operatingAnim = AnimationUtils.loadAnimation(this, R.anim.tip);
-//        LinearInterpolator lin = new LinearInterpolator();
-//        operatingAnim.setDuration(1000);
-//        operatingAnim.setInterpolator(lin);
-        button_scan =(Button)findViewById(R.id.infoOperating);
+        infoOperatingIV = (ImageView) findViewById(R.id.infoOperating);
+        infoOperatingIV.setImageBitmap(rotateImage);
+        operatingAnim = AnimationUtils.loadAnimation(this, R.anim.tip);
+        LinearInterpolator lin = new LinearInterpolator();
+        operatingAnim.setDuration(1000);
+        operatingAnim.setInterpolator(lin);
 
 //        arrayAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.simple_list_item_1,R.id.text1,list_bluetoothDevices);
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, list_bluetoothDevices);
@@ -208,9 +212,9 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
             BluetoothAdap.cancelDiscovery();// 停止搜索
         } else {
             BluetoothAdap.startDiscovery();// 开始搜索
-//            if (operatingAnim != null) {
-//                infoOperatingIV.startAnimation(operatingAnim);
-//            }
+            if (operatingAnim != null) {
+                infoOperatingIV.startAnimation(operatingAnim);
+            }
 //            makeToast("开始搜索");
         }
     }
@@ -296,8 +300,8 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
                     arrayAdapter.notifyDataSetChanged();
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-//                operatingAnim.cancel();
-//                infoOperatingIV.clearAnimation();// 停止旋转
+                operatingAnim.cancel();
+                infoOperatingIV.clearAnimation();// 停止旋转
                 makeToast("停止搜索");
             }
         }
