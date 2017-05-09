@@ -203,7 +203,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="110dp"
                     android:clickable="false"
-                    android:text="注册"
+                    android:text="@string/上传"
                     android:textSize="20dp"></TextView>
 
                 <ImageButton
@@ -213,7 +213,7 @@
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
                     android:background="#00000000"
-                    app:srcCompat="@drawable/zhuce" />
+                    app:srcCompat="@drawable/upload_111" />
 
             </FrameLayout>
         </LinearLayout>
@@ -238,7 +238,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="110dp"
                     android:clickable="false"
-                    android:text="信息"
+                    android:text="@string/结果反馈"
                     android:textSize="20dp"></TextView>
 
                 <ImageButton

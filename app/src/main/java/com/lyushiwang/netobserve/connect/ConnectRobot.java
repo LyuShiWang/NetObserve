@@ -126,6 +126,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
                     Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_SHORT).show();
             }
         };
+
         Set<BluetoothDevice> pairedAdapters = BluetoothAdap.getBondedDevices();// 设备集合
 
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);// 发现广播
@@ -175,9 +176,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
                                     .setPositiveButton("确定",
                                             new OnClickListener() {
                                                 @Override
-                                                public void onClick(
-                                                        DialogInterface dialog,
-                                                        int which) {
+                                                public void onClick(DialogInterface dialog, int which) {
                                                     alertDialog.dismiss();
 //                                                    finish();
                                                 }
@@ -187,12 +186,9 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
                             alertDialog = new AlertDialog.Builder(ConnectRobot.this)
                                     .setTitle("提示")
                                     .setMessage("连接失败")
-                                    .setPositiveButton("确定",
-                                            new OnClickListener() {
+                                    .setPositiveButton("确定", new OnClickListener() {
                                                 @Override
-                                                public void onClick(
-                                                        DialogInterface dialog,
-                                                        int which) {
+                                                public void onClick(DialogInterface dialog, int which) {
                                                     handler.removeCallbacks(mRunnable);// 销毁线程
                                                     finish();
                                                 }
@@ -225,21 +221,11 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
 
     //交互
     public void interact(View v) {
-//        String TMC_GetFace = myFunctions.strings2string(classMeasFunction.VB_TMC_GetFace());
         String GetAngle = myFunctions.strings2string(classMeasFunction.TMC_GetAngle());
-//        String changeface4 = myFunctions.strings2string(classMeasFunction.VB_AUT_ChangeFace4());
         String MeasDistAng = myFunctions.strings2string(classMeasFunction.VB_BAP_MeasDistAng());
         //MeasDistAng的结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
-//        String ATRstate = myFunctions.strings2string(classMeasFunction.getATRstate());
-//        String InstrumentName = myFunctions.strings2string(classMeasFunction.getInstrumentName());
 
         String text = "measdisang: " + MeasDistAng + "\n";
-//        String text = "TMC_GetFace:" + TMC_GetFace + "\n" +
-//                "GetAngle:" + GetAngle + "\n" +
-//                "changeface4:" + changeface4 + "\n" +
-//                "measdisang:" + measdisang + "\n" +
-//                "ATRstate:" + ATRstate + "\n" +
-//                "InstrumentName:" + InstrumentName + "\n";
         AlertDialog.Builder AD_interact = new AlertDialog.Builder(ConnectRobot.this);
         AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
     }

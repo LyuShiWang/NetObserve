@@ -3,5 +3,7 @@
     <string name="DeviceList">设备列表</string>
     <string name="connectRobot">connectRobot</string>
     <string name="查找">查找</string>
+    <string name="上传">上传</string>
+    <string name="结果反馈">结果反馈</string>
     <string name="交互">交互</string>
 </resources>
