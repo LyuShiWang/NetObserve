@@ -114,4 +114,12 @@ public class My_Functions {
                 break;
         }
     }
+
+    public String strings2string(String[] temp) {
+        List list_temp = new ArrayList<String>();
+        for (String item : temp) {
+            list_temp.add(item);
+        }
+        return list_temp.toString();
+    }
 }
