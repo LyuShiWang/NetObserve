@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import com.lyushiwang.netobserve.R;
 import com.tools.ClassMeasFunction;
+import com.tools.My_Functions;
 
 import android.content.ComponentName;
 import android.content.ServiceConnection;
@@ -50,11 +51,14 @@ import android.widget.Toast;
  */
 
 public class ConnectRobot extends AppCompatActivity implements OnItemClickListener {
+    private My_Functions myFunctions = new My_Functions();
+
     private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
-    private ClassMeasFunction classMeasFunction=new ClassMeasFunction();
+    private ClassMeasFunction classMeasFunction = new ClassMeasFunction();
     private BluetoothSocket Socket = classMeasFunction.getSocket();// 通信渠道
     private UUID MyUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");// UUID
     private ListView tvDevices;
+    private Button button_interact;
     private List<String> list_bluetoothDevices = new ArrayList<String>();// 存储设备
     private ArrayAdapter<String> arrayAdapter;// 列表适配器
     private BluetoothDevice device;// 蓝牙设备
@@ -89,6 +93,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_robot);
+
         init();
     }
 
@@ -108,6 +113,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         setFinishOnTouchOutside(false);
         setTitle(getString(R.string.connectRobot));//设置标题
         tvDevices = (ListView) findViewById(R.id.allDeviceList);// 存储设备的列表
+        button_interact = (Button) findViewById(R.id.button_interact);
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
 
         handler = new Handler();
@@ -131,7 +137,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
             for (BluetoothDevice device : pairedAdapters) {
                 list_bluetoothDevices.add(device.getName() + "\n" + device.getAddress());// 添加绑定设备
             }
-        }else{
+        } else {
             makeToast("未发现设备！");
         }
 
@@ -144,7 +150,6 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         operatingAnim.setDuration(1000);
         operatingAnim.setInterpolator(lin);
 
-//        arrayAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.simple_list_item_1,R.id.text1,list_bluetoothDevices);
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, list_bluetoothDevices);
         tvDevices.setAdapter(arrayAdapter);
         tvDevices.setOnItemClickListener(this);
@@ -174,7 +179,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
                                                         DialogInterface dialog,
                                                         int which) {
                                                     alertDialog.dismiss();
-                                                    finish();
+//                                                    finish();
                                                 }
                                             }).create();
                             alertDialog.show();
@@ -215,8 +220,28 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
             if (operatingAnim != null) {
                 infoOperatingIV.startAnimation(operatingAnim);
             }
-//            makeToast("开始搜索");
         }
+    }
+
+    //交互
+    public void interact(View v) {
+//        String TMC_GetFace = myFunctions.strings2string(classMeasFunction.VB_TMC_GetFace());
+        String GetAngle = myFunctions.strings2string(classMeasFunction.TMC_GetAngle());
+//        String changeface4 = myFunctions.strings2string(classMeasFunction.VB_AUT_ChangeFace4());
+        String MeasDistAng = myFunctions.strings2string(classMeasFunction.VB_BAP_MeasDistAng());
+        //MeasDistAng的结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
+//        String ATRstate = myFunctions.strings2string(classMeasFunction.getATRstate());
+//        String InstrumentName = myFunctions.strings2string(classMeasFunction.getInstrumentName());
+
+        String text = "measdisang: " + MeasDistAng + "\n";
+//        String text = "TMC_GetFace:" + TMC_GetFace + "\n" +
+//                "GetAngle:" + GetAngle + "\n" +
+//                "changeface4:" + changeface4 + "\n" +
+//                "measdisang:" + measdisang + "\n" +
+//                "ATRstate:" + ATRstate + "\n" +
+//                "InstrumentName:" + InstrumentName + "\n";
+        AlertDialog.Builder AD_interact = new AlertDialog.Builder(ConnectRobot.this);
+        AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
     }
 
     //连接设备
@@ -284,7 +309,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         }
     }
 
-    private final BroadcastReceiver receiver = new BroadcastReceiver(){// 定义蓝牙广播接收器
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {// 定义蓝牙广播接收器
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();

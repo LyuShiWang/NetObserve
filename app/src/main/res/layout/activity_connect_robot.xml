@@ -64,4 +64,11 @@
             android:layout_height="wrap_content"
             android:background="#00000000" />
     </ScrollView>
+
+    <Button
+        android:id="@+id/button_interact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="interact"
+        android:text="@string/交互" />
 </LinearLayout>

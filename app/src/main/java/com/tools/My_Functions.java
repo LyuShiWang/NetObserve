@@ -5,7 +5,9 @@ import android.os.Environment;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by win10 on 2017/4/18.
@@ -111,5 +113,13 @@ public class My_Functions {
                 map.put("S", data);
                 break;
         }
+    }
+
+    public String strings2string(String[] strings){
+        List list_temp =new ArrayList<String>();
+        for (String item:strings) {
+            list_temp.add(item);
+        }
+        return list_temp.toString();
     }
 }

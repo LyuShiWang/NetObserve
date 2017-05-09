@@ -1,9 +1,18 @@
 package com.lyushiwang.netobserve.observe;
 
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.IBinder;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
+import com.tools.ClassMeasFunction;
 import com.tools.ListView_observe_now;
 import com.tools.My_Functions;
 import com.tools.Observe_data;
@@ -24,10 +34,12 @@ import com.tools.Observe_data;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by 吕世望 on 2017/4/22.
@@ -35,6 +47,28 @@ import java.util.Map;
 
 public class observe_now extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
+
+    private ClassMeasFunction classMeasFunction = new ClassMeasFunction();
+    private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
+    private BluetoothSocket Socket = classMeasFunction.getSocket();// 通信渠道
+    private boolean bound = false;//存储是否绑定
+    private HandlerThread thread;// 连接线程
+    private BluetoothDevice device;// 蓝牙设备
+    private Handler handler;// 处理线程
+    private ServiceConnection contact_sc = new ServiceConnection() {//绑定服务的连接
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            ClassMeasFunction.LocalBinder binder = (ClassMeasFunction.LocalBinder) service;
+            classMeasFunction = binder.getService();
+            Socket = classMeasFunction.getSocket();// 获取连接
+            bound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            bound = false;
+        }
+    };
 
     private EditText editText_point_name;
     private EditText editText_station_hight;
@@ -56,7 +90,7 @@ public class observe_now extends AppCompatActivity {
     private observe_now.MyAdapter listview_adapter;
 
     private File file_data = new File(my_functions.get_main_file_path(), "read_data.txt");
-    private List<String> list_point_name=new ArrayList<String>();
+    private List<String> list_point_name = new ArrayList<String>();
     private List<Observe_data> list_observe_data = new ArrayList<Observe_data>();
 
     private boolean check;
@@ -91,20 +125,20 @@ public class observe_now extends AppCompatActivity {
         button_observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String station_name=editText_point_name.getText().toString();
+                String station_name = editText_point_name.getText().toString();
                 String back_name = editText_back_name.getText().toString();
                 String front_name = editText_front_name.getText().toString();
 
-                if (list_point_name.contains(station_name)){
+                if (list_point_name.contains(station_name)) {
                     //开始重测该点
-                    AlertDialog.Builder AD_reobserve=new AlertDialog.Builder(observe_now.this);
+                    AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
                     AD_reobserve.setMessage("该点已存在！是否重测该点！")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
                                 }
-                            }).setNegativeButton("取消",null).show();
+                            }).setNegativeButton("取消", null).show();
                 }
                 try {
                     BufferedReader bf = new BufferedReader(new FileReader(file_data));
@@ -219,13 +253,13 @@ public class observe_now extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 check_data();
-                if(check){
-                    AlertDialog.Builder AD_error=new AlertDialog.Builder(observe_now.this);
+                if (check) {
+                    AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
                     AD_error.setTitle("警告，数据超限！")
-                            .setPositiveButton("确定",null);
+                            .setPositiveButton("确定", null);
                     //超限的数据类型不同，会有不同的提示内容
                     AD_error.show();
-                }else{
+                } else {
                     editText_point_name.setText("");
                     editText_station_hight.setText("");
                     editText_back_name.setText("");
@@ -311,7 +345,7 @@ public class observe_now extends AppCompatActivity {
         TextView tv6;
     }
 
-    public void check_data(){
+    public void check_data() {
         //检查观测数据是否合格
     }
 }
