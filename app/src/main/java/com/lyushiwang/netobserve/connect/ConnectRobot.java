@@ -223,7 +223,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
     public void interact(View v) {
         String GetAngle = myFunctions.strings2string(classMeasFunction.TMC_GetAngle());
         String MeasDistAng = myFunctions.strings2string(classMeasFunction.VB_BAP_MeasDistAng());
-        //MeasDistAng的结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
+        //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
 
         String text = "measdisang: " + MeasDistAng + "\n";
         AlertDialog.Builder AD_interact = new AlertDialog.Builder(ConnectRobot.this);
@@ -236,7 +236,8 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         progressdialog.show();
         thread = new HandlerThread("MyHandlerThread");
         thread.start();// 创建一个HandlerThread并启动它
-        handler = new Handler(thread.getLooper());// 使用HandlerThread的looper对象创建Handler，如果使用默认的构造方法，很有可能阻塞UI线程
+        handler = new Handler(thread.getLooper());// 使用HandlerThread的looper对象创建Handler，
+                                                    // 如果使用默认的构造方法，很有可能阻塞UI线程
         handler.post(mRunnable);// 将线程post到Handler中
     }
 
