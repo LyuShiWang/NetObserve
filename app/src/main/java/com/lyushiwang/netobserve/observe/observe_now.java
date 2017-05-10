@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.connect.ConnectRobot;
+import com.tools.ClassMeasFunction;
 import com.tools.ListView_observe_now;
 import com.tools.My_Functions;
 import com.tools.Observe_data;
@@ -44,6 +47,36 @@ import java.util.Map;
 
 public class observe_now extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
+
+    private ClassMeasFunction classmeasFun;//GeoCOM
+    private boolean bound=false;//存储是否绑定
+    //绑定服务的连接
+    private ServiceConnection contact_sc=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            ClassMeasFunction.LocalBinder binder=(ClassMeasFunction.LocalBinder)service;
+            classmeasFun=binder.getService();
+            bound=true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            bound=false;
+        }
+
+        protected void onDestroy(){
+            observe_now.super.onDestroy();
+            if(bound){
+                bound=false;
+                unbindService(contact_sc);
+            }
+        }
+    };
+    //绑定监听服务
+    private void bindContactService(){
+        Intent intent=new Intent(observe_now.this,ClassMeasFunction.class);
+        bindService(intent,contact_sc,BIND_AUTO_CREATE);
+    }
 
     private EditText editText_point_name;
     private EditText editText_station_hight;
@@ -103,7 +136,7 @@ public class observe_now extends AppCompatActivity {
                 String station_name=editText_point_name.getText().toString();
                 String back_name = editText_back_name.getText().toString();
                 String front_name = editText_front_name.getText().toString();
-
+                ClassMeasFunction temp=classmeasFun;
                 if (list_point_name.contains(station_name)){
                     //开始重测该点
                     AlertDialog.Builder AD_reobserve=new AlertDialog.Builder(observe_now.this);
@@ -242,6 +275,18 @@ public class observe_now extends AppCompatActivity {
                     editText_back_hight.setText("");
                     editText_front_hight.setText("");
                 }
+            }
+        });
+
+        button_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String MeasDistAng = my_functions.strings2string(classmeasFun.VB_BAP_MeasDistAng());
+                //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
+
+                String text = "measdisang: " + MeasDistAng + "\n";
+                AlertDialog.Builder AD_interact = new AlertDialog.Builder(observe_now.this);
+                AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
             }
         });
 

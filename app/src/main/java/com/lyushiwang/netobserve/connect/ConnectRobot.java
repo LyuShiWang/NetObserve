@@ -1,5 +1,8 @@
 package com.lyushiwang.netobserve.connect;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +76,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
     private Bitmap rotateImage;//旋转的图片
     private String instrumentName = "";//设备名字
     private boolean bound = false;//存储是否绑定
+//    private ContactApp app;// 存储共享数据
     //绑定服务的连接
     private ServiceConnection contact_sc = new ServiceConnection() {
         @Override
@@ -178,7 +182,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     alertDialog.dismiss();
-//                                                    finish();
+                                                    finish();
                                                 }
                                             }).create();
                             alertDialog.show();
