@@ -171,12 +171,7 @@ public class project_manage extends AppCompatActivity {
                                         makeToast("该工程还未关闭！无法删除！");
                                     }
                                 }
-                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    }).show();
+                            }).setNegativeButton("取消", null).show();
                 } else {
                     makeToast("还没有工程！请先创建！");
                 }
