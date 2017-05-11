@@ -1,6 +1,8 @@
 package com.lyushiwang.netobserve.observe;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -8,7 +10,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -18,10 +22,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by 吕世望 on 2017/4/22.
@@ -49,6 +58,7 @@ public class observe_now extends AppCompatActivity {
     private My_Functions my_functions = new My_Functions();
 
     private ClassMeasFunction classmeasFun;//GeoCom
+    private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
     private boolean bound = false;//存储是否绑定
     //绑定服务的连接
     private ServiceConnection contact_sc = new ServiceConnection() {
@@ -112,7 +122,7 @@ public class observe_now extends AppCompatActivity {
 
         define_palettes();
 
-        bindContactService();
+        init();
         do_click();
     }
 
@@ -133,6 +143,22 @@ public class observe_now extends AppCompatActivity {
     }
 
     protected void do_click() {
+        button_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //这里用来测试与全站仪的交互，只看这里就可以了，麻烦学长了
+                ClassMeasFunction cmf=classmeasFun;
+                BluetoothSocket socket=classmeasFun.getSocket();
+                String[] strings=classmeasFun.VB_BAP_MeasDistAng();
+                String MeasDistAng = my_functions.strings2string(strings);
+                //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
+
+                String text = "measdisang: " + MeasDistAng + "\n";
+                AlertDialog.Builder AD_interact = new AlertDialog.Builder(observe_now.this);
+                AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
+            }
+        });
+
         button_observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,18 +306,6 @@ public class observe_now extends AppCompatActivity {
             }
         });
 
-        button_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String MeasDistAng = my_functions.strings2string(classmeasFun.VB_BAP_MeasDistAng());
-                //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
-
-                String text = "measdisang: " + MeasDistAng + "\n";
-                AlertDialog.Builder AD_interact = new AlertDialog.Builder(observe_now.this);
-                AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
-            }
-        });
-
         imageButton_houtui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -365,6 +379,13 @@ public class observe_now extends AppCompatActivity {
         TextView tv4;
         TextView tv5;
         TextView tv6;
+    }
+
+    //初始化
+    @SuppressLint("NewApi")
+    private void init() {
+        BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
+        bindContactService();
     }
 
     public void check_data() {

@@ -225,17 +225,17 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
 
     //交互
     public void interact(View v) {
-        BluetoothAdapter temp2=BluetoothAdap;
-        ClassMeasFunction temp3=classMeasFunction;
-        BluetoothSocket temp1=classMeasFunction.getSocket();
+//        BluetoothAdapter temp2=BluetoothAdap;
+//        ClassMeasFunction temp3=classMeasFunction;
+//        BluetoothSocket temp1=classMeasFunction.getSocket();
             makeToast("已连接！");
-//            String GetAngle = myFunctions.strings2string(classMeasFunction.TMC_GetAngle());
-//            String MeasDistAng = myFunctions.strings2string(classMeasFunction.VB_BAP_MeasDistAng());
+            String GetAngle = myFunctions.strings2string(classMeasFunction.TMC_GetAngle());
+            String MeasDistAng = myFunctions.strings2string(classMeasFunction.VB_BAP_MeasDistAng());
 //            //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
 //
-//            String text = "measdisang: " + MeasDistAng + "\n";
-//            AlertDialog.Builder AD_interact = new AlertDialog.Builder(ConnectRobot.this);
-//            AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
+            String text = "measdisang: " + MeasDistAng + "\n";
+            AlertDialog.Builder AD_interact = new AlertDialog.Builder(ConnectRobot.this);
+            AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
 
     }
 
@@ -342,12 +342,12 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
 //                FileWriter writer = new FileWriter(file);
                 classMeasFunction.beginComutting();
 //                app.setInstrumentNO(instrumentName);
-                Properties station_pro = new Properties();
+//                Properties station_pro = new Properties();
 //                File file4 = new File(app.getOpenedStationPath() + "/StationSetting.ini");
 //                FileReader fileReader2 = new FileReader(file4);
 //                station_pro.load(fileReader2);
 //                fileReader2.close();
-                station_pro.setProperty("RobotNO", instrumentName);//设仪器号
+//                station_pro.setProperty("RobotNO", instrumentName);//设仪器号
 //                FileWriter writer1 = new FileWriter(file4);
 //                station_pro.store(writer1, "");
 //                writer1.close();
