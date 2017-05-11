@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="垂直角观测"
+            android:text="竖直角观测"
             android:textColor="@android:color/background_light"
             android:textSize="30sp" />
     </LinearLayout>
@@ -149,7 +149,7 @@
             android:layout_alignBottom="@+id/editText_front_hight"
             android:layout_toLeftOf="@+id/editText_front_hight"
             android:layout_toStartOf="@+id/editText_front_hight"
-            android:text="各测回垂直角互差："
+            android:text="各测回竖直角互差："
             android:textColor="@android:color/background_light"
             android:textSize="18sp" />
 

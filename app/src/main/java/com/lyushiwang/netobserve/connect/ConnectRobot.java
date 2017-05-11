@@ -117,7 +117,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         setFinishOnTouchOutside(false);
         setTitle(getString(R.string.connectRobot));//设置标题
         tvDevices = (ListView) findViewById(R.id.allDeviceList);// 存储设备的列表
-        button_interact = (Button) findViewById(R.id.button_interact);
+//        button_interact = (Button) findViewById(R.id.button_interact);
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
 
         handler = new Handler();
