@@ -76,7 +76,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
     private Bitmap rotateImage;//旋转的图片
     private String instrumentName = "";//设备名字
     private boolean bound = false;//存储是否绑定
-//    private ContactApp app;// 存储共享数据
+    //    private ContactApp app;// 存储共享数据
     //绑定服务的连接
     private ServiceConnection contact_sc = new ServiceConnection() {
         @Override
@@ -117,7 +117,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         setFinishOnTouchOutside(false);
         setTitle(getString(R.string.connectRobot));//设置标题
         tvDevices = (ListView) findViewById(R.id.allDeviceList);// 存储设备的列表
-//        button_interact = (Button) findViewById(R.id.button_interact);
+        button_interact = (Button) findViewById(R.id.button_interact);
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
 
         handler = new Handler();
@@ -191,12 +191,12 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
                                     .setTitle("提示")
                                     .setMessage("连接失败")
                                     .setPositiveButton("确定", new OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    handler.removeCallbacks(mRunnable);// 销毁线程
-                                                    finish();
-                                                }
-                                            }).create();
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            handler.removeCallbacks(mRunnable);// 销毁线程
+                                            finish();
+                                        }
+                                    }).create();
                             alertDialog.show();
                             handler.removeCallbacks(mRunnable);// 销毁线程
                         }
@@ -225,13 +225,18 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
 
     //交互
     public void interact(View v) {
-        String GetAngle = myFunctions.strings2string(classMeasFunction.TMC_GetAngle());
-        String MeasDistAng = myFunctions.strings2string(classMeasFunction.VB_BAP_MeasDistAng());
-        //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
+        BluetoothAdapter temp2=BluetoothAdap;
+        ClassMeasFunction temp3=classMeasFunction;
+        BluetoothSocket temp1=classMeasFunction.getSocket();
+            makeToast("已连接！");
+//            String GetAngle = myFunctions.strings2string(classMeasFunction.TMC_GetAngle());
+//            String MeasDistAng = myFunctions.strings2string(classMeasFunction.VB_BAP_MeasDistAng());
+//            //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
+//
+//            String text = "measdisang: " + MeasDistAng + "\n";
+//            AlertDialog.Builder AD_interact = new AlertDialog.Builder(ConnectRobot.this);
+//            AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
 
-        String text = "measdisang: " + MeasDistAng + "\n";
-        AlertDialog.Builder AD_interact = new AlertDialog.Builder(ConnectRobot.this);
-        AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
     }
 
     //连接设备
@@ -241,7 +246,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         thread = new HandlerThread("MyHandlerThread");
         thread.start();// 创建一个HandlerThread并启动它
         handler = new Handler(thread.getLooper());// 使用HandlerThread的looper对象创建Handler，
-                                                    // 如果使用默认的构造方法，很有可能阻塞UI线程
+        // 如果使用默认的构造方法，很有可能阻塞UI线程
         handler.post(mRunnable);// 将线程post到Handler中
     }
 
