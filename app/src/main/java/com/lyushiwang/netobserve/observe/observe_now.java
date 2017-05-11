@@ -98,6 +98,7 @@ public class observe_now extends AppCompatActivity {
     private EditText editText_front_hight;
 
     private Button button_observe;
+    private Button button_check;
     private Button button_next_point;
     private Button button_save;
     private ImageButton imageButton_houtui;
@@ -135,6 +136,7 @@ public class observe_now extends AppCompatActivity {
         editText_front_hight = (EditText) findViewById(R.id.editText_front_hight);
 
         button_observe = (Button) findViewById(R.id.button_observe);
+        button_check = (Button) findViewById(R.id.button_check);
         button_next_point = (Button) findViewById(R.id.button_next_point);
         button_save = (Button) findViewById(R.id.button_save);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
@@ -146,10 +148,9 @@ public class observe_now extends AppCompatActivity {
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //这里用来测试与全站仪的交互，只看这里就可以了，麻烦学长了
-                ClassMeasFunction cmf=classmeasFun;
-                BluetoothSocket socket=classmeasFun.getSocket();
-                String[] strings=classmeasFun.VB_BAP_MeasDistAng();
+                ClassMeasFunction cmf = classmeasFun;
+                BluetoothSocket socket = classmeasFun.getSocket();
+                String[] strings = classmeasFun.VB_BAP_MeasDistAng();
                 String MeasDistAng = my_functions.strings2string(strings);
                 //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
 
@@ -288,20 +289,29 @@ public class observe_now extends AppCompatActivity {
         button_next_point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                check_data();
                 if (check) {
-                    AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
-                    AD_error.setTitle("警告，数据超限！")
-                            .setPositiveButton("确定", null);
-                    //超限的数据类型不同，会有不同的提示内容
-                    AD_error.show();
-                } else {
                     editText_point_name.setText("");
                     editText_station_hight.setText("");
                     editText_back_name.setText("");
                     editText_front_name.setText("");
                     editText_back_hight.setText("");
                     editText_front_hight.setText("");
+                }
+            }
+        });
+
+        button_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                check_data();
+                if (check) {
+
+                } else {
+                    AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
+                    AD_error.setTitle("警告，数据超限！")
+                            .setPositiveButton("确定", null);
+                    //超限的数据类型不同，会有不同的提示内容
+                    AD_error.show();
                 }
             }
         });
