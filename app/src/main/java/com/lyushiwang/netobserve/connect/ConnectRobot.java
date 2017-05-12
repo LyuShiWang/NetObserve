@@ -155,7 +155,8 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         operatingAnim.setDuration(1000);
         operatingAnim.setInterpolator(lin);
 
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, list_bluetoothDevices);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                android.R.id.text1, list_bluetoothDevices);
         tvDevices.setAdapter(arrayAdapter);
         tvDevices.setOnItemClickListener(this);
 

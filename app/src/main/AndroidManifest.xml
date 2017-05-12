@@ -44,6 +44,8 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_honrizontal"/>
         <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_vertical"/>
+
+        <activity android:name="com.lyushiwang.netobserve.UploadData"/>
     </application>
 
 </manifest>

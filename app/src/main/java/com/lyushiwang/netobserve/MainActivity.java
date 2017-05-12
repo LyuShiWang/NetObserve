@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton lianjieshezhi;
     private ImageButton guance;
     private ImageButton chakanshuju;
-
+    private ImageButton shangchuanshuju;
+    private ImageButton jieguofankui;
     private ImageButton tuichu;
 
     @Override
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         lianjieshezhi = (ImageButton) findViewById(R.id.imageButton3);
         guance = (ImageButton) findViewById(R.id.imageButton4);
         chakanshuju = (ImageButton) findViewById(R.id.imageButton5);
+        shangchuanshuju=(ImageButton)findViewById(R.id.imageButton6);
 
         tuichu = (ImageButton) findViewById(R.id.imageButton8);
     }
@@ -141,7 +143,15 @@ public class MainActivity extends AppCompatActivity {
         chakanshuju.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeToast("查看数据点击成功！");
+            }
+        });
+
+        shangchuanshuju.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_main2upload=new Intent();
+                intent_main2upload.setClass(MainActivity.this,UploadData.class);
+                startActivity(intent_main2upload);
             }
         });
 
