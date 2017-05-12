@@ -61,7 +61,6 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
     private BluetoothSocket Socket = classMeasFunction.getSocket();// 通信渠道
     private UUID MyUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");// UUID
     private ListView tvDevices;
-    private Button button_interact;
     private List<String> list_bluetoothDevices = new ArrayList<String>();// 存储设备
     private ArrayAdapter<String> arrayAdapter;// 列表适配器
     private BluetoothDevice device;// 蓝牙设备
@@ -117,7 +116,6 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
         setFinishOnTouchOutside(false);
         setTitle(getString(R.string.connectRobot));//设置标题
         tvDevices = (ListView) findViewById(R.id.allDeviceList);// 存储设备的列表
-        button_interact = (Button) findViewById(R.id.button_interact);
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
 
         handler = new Handler();
@@ -222,22 +220,6 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
                 infoOperatingIV.startAnimation(operatingAnim);
             }
         }
-    }
-
-    //交互
-    public void interact(View v) {
-//        BluetoothAdapter temp2=BluetoothAdap;
-//        ClassMeasFunction temp3=classMeasFunction;
-//        BluetoothSocket temp1=classMeasFunction.getSocket();
-            makeToast("已连接！");
-            String GetAngle = myFunctions.strings2string(classMeasFunction.TMC_GetAngle());
-            String MeasDistAng = myFunctions.strings2string(classMeasFunction.VB_BAP_MeasDistAng());
-//            //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
-//
-            String text = "measdisang: " + MeasDistAng + "\n";
-            AlertDialog.Builder AD_interact = new AlertDialog.Builder(ConnectRobot.this);
-            AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
-
     }
 
     //连接设备

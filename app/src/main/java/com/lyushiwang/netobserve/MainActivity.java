@@ -1,9 +1,12 @@
 package com.lyushiwang.netobserve;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Environment;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -11,6 +14,8 @@ import android.view.View;
 import android.content.Context;
 
 import com.lyushiwang.netobserve.connect.ConnectRobot;
+import com.lyushiwang.netobserve.observe.observe_now;
+import com.tools.ClassMeasFunction;
 import com.tools.My_Functions;
 import com.lyushiwang.netobserve.manage.project_manage;
 import com.lyushiwang.netobserve.observe.observe_manage;
@@ -37,6 +42,38 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton jieguofankui;
     private ImageButton tuichu;
 
+    private ClassMeasFunction classmeasFun;//GeoCom
+    private boolean bound = false;//存储是否绑定
+    //绑定服务的连接
+    private ServiceConnection contact_sc = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            ClassMeasFunction.LocalBinder binder = (ClassMeasFunction.LocalBinder) service;
+            classmeasFun = binder.getService();
+            bound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            bound = false;
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bound) {
+            bound = false;
+            unbindService(contact_sc);
+        }
+    }
+
+    //绑定监听服务
+    private void bindContactService() {
+        Intent intent = new Intent(MainActivity.this, ClassMeasFunction.class);
+        bindService(intent, contact_sc, BIND_AUTO_CREATE);
+    }
+
     @Override
     //主程序
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         if (!main_file_path.exists()) {
             main_file_path.mkdir();
         }
-
+        bindContactService();
         //执行点击事件
         do_click();
     }
