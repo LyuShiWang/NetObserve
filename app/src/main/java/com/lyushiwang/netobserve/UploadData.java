@@ -29,16 +29,19 @@ import java.util.List;
  */
 
 public class UploadData extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private My_Functions my_functions=new My_Functions();
-    private NetTool netTool=new NetTool(UploadData.this);
+    private My_Functions my_functions = new My_Functions();
+    private NetTool netTool = new NetTool(UploadData.this);
 
     private ListView listView_project;
-    private List<String> list_project=new ArrayList<String>();
+    private List<String> list_project = new ArrayList<String>();
     private ArrayAdapter<String> project_adapter;
     private String ProjectName;
 
-    private String localAddress ;//存储本机ip
+    private String localAddress;//存储本机ip
     private String localDeviceName;//存储本机设备名
+
+    private File file_in2 = new File(my_functions.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,6 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
 
         init();
 
-        connect_PC();
 //        localAddress =netTool.getLocAddress();
 //        String Index=netTool.getLocAddrIndex();
 //        String Name=netTool.getLocDeviceName();
@@ -60,10 +62,10 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
 //        AD_IPAddress.setMessage(text).setPositiveButton("确定",null).create().show();
     }
 
-    protected void init(){
-        listView_project=(ListView)findViewById(R.id.listview_project);
+    protected void init() {
+        listView_project = (ListView) findViewById(R.id.listview_project);
 
-        File ProjectList=my_functions.get_ProjectList();
+        File ProjectList = my_functions.get_ProjectList();
         try {
             BufferedReader br = new BufferedReader(new FileReader(ProjectList));
             String readline = "";
@@ -82,28 +84,29 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
     }
 
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-        AlertDialog.Builder AD_upload=new AlertDialog.Builder(UploadData.this);
+        AlertDialog.Builder AD_upload = new AlertDialog.Builder(UploadData.this);
         AD_upload.setTitle("确认框").setMessage("是否确定上传该工程数据？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ProjectName=project_adapter.getItem(position);
+                        ProjectName = project_adapter.getItem(position);
                         uploadproject(ProjectName);
 //                        makeToast("已上传！");
                     }
-                }).setNegativeButton("取消",null).create().show();
+                }).setNegativeButton("取消", null).create().show();
     }
 
-    public void uploadproject(String ProjectName){
-        File project_in2=new File(my_functions.get_main_file_path()+"/"+ProjectName,ProjectName+"/in2");
-        if(project_in2.exists()){
+    public void uploadproject(String ProjectName) {
+        file_in2 = new File(my_functions.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
+        if (file_in2.exists()) {
             //将该in2文件上传即可
-        }else {
+            connect_PC();
+        } else {
 //            makeToast("没有找到in2文件！");
         }
     }
 
-//    public static String getLocalIpAddress(){
+    //    public static String getLocalIpAddress(){
 //        try{
 //            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
 //                NetworkInterface intf = en.nextElement();
@@ -121,7 +124,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
 //        }
 //        return null;
 //    }
-    public void connect_PC(){
+    public void connect_PC() {
         new Thread() {
             @Override
             public void run() {
@@ -134,16 +137,27 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
         }.start();
     }
 
+
+
     private void acceptServer() throws IOException {
         //1.创建客户端Socket，指定服务器地址和端口
-        Socket socket = new Socket("172.27.35.3", 12345);
+        Socket socket = new Socket("192.168.6.30", 12345);
         //2.获取输出流，向服务器端发送信息
         OutputStream os = socket.getOutputStream();//字节输出流
         PrintWriter pw = new PrintWriter(os);//将输出流包装为打印流
         //获取客户端的IP地址
         InetAddress address = InetAddress.getLocalHost();
         String ip = address.getHostAddress();
-        pw.write("客户端：" + ip + "接入服务器");
+        pw.write("："+"客户端：" + ip + "接入服务器"+"\n");
+        pw.write("："+"等待上传.in2文件");
+        try {
+            String line;
+            BufferedReader bf = new BufferedReader(new FileReader(file_in2));
+            while (((line = bf.readLine()) != null)) {
+                pw.write(line + "\n");
+            }
+        } catch (Exception e) {
+        }
         pw.flush();
         socket.shutdownOutput();//关闭输出流
         socket.close();
