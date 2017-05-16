@@ -306,7 +306,6 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 operatingAnim.cancel();
                 infoOperatingIV.clearAnimation();// 停止旋转
-                makeToast("停止搜索");
             }
         }
 

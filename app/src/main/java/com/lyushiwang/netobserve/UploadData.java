@@ -129,38 +129,35 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
             @Override
             public void run() {
                 try {
-                    acceptServer();
+                    //1.创建客户端Socket，指定服务器地址和端口
+                    String serveIP="169.254.80.80";
+                    Socket socket = new Socket(serveIP, 12345);
+
+                    //2.获取输出流，向服务器端发送信息
+                    OutputStream os = socket.getOutputStream();//字节输出流
+                    PrintWriter pw = new PrintWriter(os);//将输出流包装为打印流
+
+                    //3.获取客户端的IP地址
+                    InetAddress address = InetAddress.getLocalHost();
+                    String ip = address.getHostAddress();
+                    pw.write("："+"客户端：" + ip + "接入服务器"+"\n");
+                    pw.write("："+"等待上传.in2文件");
+                    try {
+                        String line;
+                        BufferedReader bf = new BufferedReader(new FileReader(file_in2));
+                        while (((line = bf.readLine()) != null)) {
+                            pw.write(line + "\n");
+                        }
+                    } catch (Exception e) {
+                    }
+                    pw.flush();
+                    socket.shutdownOutput();//关闭输出流
+                    socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }.start();
-    }
-
-
-
-    private void acceptServer() throws IOException {
-        //1.创建客户端Socket，指定服务器地址和端口
-        Socket socket = new Socket("192.168.6.30", 12345);
-        //2.获取输出流，向服务器端发送信息
-        OutputStream os = socket.getOutputStream();//字节输出流
-        PrintWriter pw = new PrintWriter(os);//将输出流包装为打印流
-        //获取客户端的IP地址
-        InetAddress address = InetAddress.getLocalHost();
-        String ip = address.getHostAddress();
-        pw.write("："+"客户端：" + ip + "接入服务器"+"\n");
-        pw.write("："+"等待上传.in2文件");
-        try {
-            String line;
-            BufferedReader bf = new BufferedReader(new FileReader(file_in2));
-            while (((line = bf.readLine()) != null)) {
-                pw.write(line + "\n");
-            }
-        } catch (Exception e) {
-        }
-        pw.flush();
-        socket.shutdownOutput();//关闭输出流
-        socket.close();
     }
 
     public void makeToast(String text) {

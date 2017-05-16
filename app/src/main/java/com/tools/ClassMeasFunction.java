@@ -190,8 +190,8 @@ public class ClassMeasFunction extends Service {
 
         command="\n"+command;
         survingString.setLength(0);//清除消息集合
-        String[]result=new String[outLength];//存储结果
-        outputStream.write(command.getBytes("utf-8"));
+        String[] result=new String[outLength];//存储结果
+        outputStream.write(command.getBytes("utf-8"));//向输出流中写入命令，即可向全站仪发送命令
         long timeBegin= Calendar.getInstance().getTimeInMillis();//得到程序运行的初始时间
         long timeNow=Calendar.getInstance().getTimeInMillis();//得到程序运行的过程的时间
         while(!survingString.toString().endsWith("\r\n"))
