@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Message;
+import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -166,6 +167,7 @@ public class observe_now extends AppCompatActivity {
                 String station_name = editText_point_name.getText().toString();
                 String back_name = editText_back_name.getText().toString();
                 String front_name = editText_front_name.getText().toString();
+
                 if (list_point_name.contains(station_name)) {
                     //开始重测该点
                     AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
@@ -177,108 +179,21 @@ public class observe_now extends AppCompatActivity {
                                 }
                             }).setNegativeButton("取消", null).show();
                 }
-                try {
-                    BufferedReader bf = new BufferedReader(new FileReader(file_data));
+//                read_read_data_txt();
 
-                    Observe_data ob1_back_faceL = new Observe_data(back_name,
-                            bf.readLine(), bf.readLine(), bf.readLine());
-                    list_observe_data.add(ob1_back_faceL);
-                    map = new HashMap<String, Object>();
-                    map.put("Name", back_name);
-                    map.put("observe_number", "1");
-                    map.put("face_position", "盘左");
-                    map.put("Hz", ob1_back_faceL.getHz_String());//第1行
-                    map.put("V", ob1_back_faceL.getV_String());//第2行
-                    map.put("S", ob1_back_faceL.getS_String());//第3行
-                    list_listview.add(map);
+                String[] strings = classmeasFun.VB_BAP_MeasDistAng();
+                String[] Face=classmeasFun.VB_TMC_GetFace();
+                Observe_data ob1_back_faceL = new Observe_data(back_name,
+                        strings[1], strings[2], strings[3]);
+                map = new HashMap<String, Object>();
+                map.put("Name", back_name);
+                map.put("observe_number", "1");
+                map.put("face_position", "盘左");
+                map.put("Hz", my_functions.rad2ang_show(ob1_back_faceL.getHz()));
+                map.put("V", my_functions.rad2ang_show(ob1_back_faceL.getV()));
+                map.put("S", my_functions.rad2ang_show(ob1_back_faceL.getS()));
+                list_listview.add(map);
 
-                    Observe_data ob1_front_faceL = new Observe_data(front_name,
-                            bf.readLine(), bf.readLine(), bf.readLine());
-                    list_observe_data.add(ob1_front_faceL);
-                    map = new HashMap<String, Object>();
-                    map.put("Name", front_name);
-                    map.put("observe_number", "1");
-                    map.put("face_position", "盘左");
-                    map.put("Hz", ob1_front_faceL.getHz_String());//第4行
-                    map.put("V", ob1_front_faceL.getV_String());//第5行
-                    map.put("S", ob1_front_faceL.getS_String());//第6行
-                    list_listview.add(map);
-
-                    Observe_data ob1_front_faceR = new Observe_data(front_name,
-                            bf.readLine(), bf.readLine(), bf.readLine());
-                    list_observe_data.add(ob1_front_faceR);
-                    map = new HashMap<String, Object>();
-                    map.put("Name", front_name);
-                    map.put("observe_number", "1");
-                    map.put("face_position", "盘右");
-                    map.put("Hz", ob1_front_faceR.getHz_String());//第7行
-                    map.put("V", ob1_front_faceR.getV_String());//第8行
-                    map.put("S", ob1_front_faceR.getS_String());//第9行
-                    list_listview.add(map);
-
-                    Observe_data ob1_back_faceR = new Observe_data(back_name,
-                            bf.readLine(), bf.readLine(), bf.readLine());
-                    list_observe_data.add(ob1_back_faceR);
-                    map = new HashMap<String, Object>();
-                    map.put("Name", back_name);
-                    map.put("observe_number", "1");
-                    map.put("face_position", "盘右");
-                    map.put("Hz", ob1_back_faceR.getHz_String());//第10行
-                    map.put("V", ob1_back_faceR.getV_String());//第11行
-                    map.put("S", ob1_back_faceR.getS_String());//第12行
-                    list_listview.add(map);
-
-                    Observe_data ob2_back_faceL = new Observe_data(back_name,
-                            bf.readLine(), bf.readLine(), bf.readLine());
-                    list_observe_data.add(ob2_back_faceL);
-                    map = new HashMap<String, Object>();
-                    map.put("Name", back_name);
-                    map.put("observe_number", "2");
-                    map.put("face_position", "盘左");
-                    map.put("Hz", ob2_back_faceL.getHz_String());//第13行
-                    map.put("V", ob2_back_faceL.getV_String());//第14行
-                    map.put("S", ob2_back_faceL.getS_String());//第15行
-                    list_listview.add(map);
-
-                    Observe_data ob2_front_faceL = new Observe_data(front_name,
-                            bf.readLine(), bf.readLine(), bf.readLine());
-                    list_observe_data.add(ob2_front_faceL);
-                    map = new HashMap<String, Object>();
-                    map.put("Name", front_name);
-                    map.put("observe_number", "2");
-                    map.put("face_position", "盘左");
-                    map.put("Hz", ob2_front_faceL.getHz_String());//第16行
-                    map.put("V", ob2_front_faceL.getV_String());//第17行
-                    map.put("S", ob2_front_faceL.getS_String());//第18行
-                    list_listview.add(map);
-
-                    Observe_data ob2_front_faceR = new Observe_data(front_name,
-                            bf.readLine(), bf.readLine(), bf.readLine());
-                    list_observe_data.add(ob2_front_faceR);
-                    map = new HashMap<String, Object>();
-                    map.put("Name", front_name);
-                    map.put("observe_number", "2");
-                    map.put("face_position", "盘右");
-                    map.put("Hz", ob2_front_faceR.getHz_String());//第19行
-                    map.put("V", ob2_front_faceR.getV_String());//第20行
-                    map.put("S", ob2_front_faceR.getS_String());//第21行
-                    list_listview.add(map);
-
-                    Observe_data ob2_back_faceR = new Observe_data(back_name,
-                            bf.readLine(), bf.readLine(), bf.readLine());
-                    list_observe_data.add(ob2_back_faceR);
-                    map = new HashMap<String, Object>();
-                    map.put("Name", back_name);
-                    map.put("observe_number", "2");
-                    map.put("face_position", "盘右");
-                    map.put("Hz", ob2_back_faceR.getHz_String());//第22行
-                    map.put("V", ob2_back_faceR.getV_String());//第23行
-                    map.put("S", ob2_back_faceR.getS_String());//第24行
-                    list_listview.add(map);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    makeToast("read_data文件不存在！");
-                }
                 listview_adapter = new MyAdapter(observe_now.this, list_listview);
                 listview.setAdapter(listview_adapter);
                 listview_adapter.notifyDataSetChanged();
@@ -326,6 +241,113 @@ public class observe_now extends AppCompatActivity {
 
     public void makeToast(String text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    public void read_read_data_txt() {
+        String back_name = editText_back_name.getText().toString();
+        String front_name = editText_front_name.getText().toString();
+        try {
+            BufferedReader bf = new BufferedReader(new FileReader(file_data));
+
+            Observe_data ob1_back_faceL = new Observe_data(back_name,
+                    bf.readLine(), bf.readLine(), bf.readLine());
+            list_observe_data.add(ob1_back_faceL);
+            map = new HashMap<String, Object>();
+            map.put("Name", back_name);
+            map.put("observe_number", "1");
+            map.put("face_position", "盘左");
+            map.put("Hz", ob1_back_faceL.getHz_String());//第1行
+            map.put("V", ob1_back_faceL.getV_String());//第2行
+            map.put("S", ob1_back_faceL.getS_String());//第3行
+            list_listview.add(map);
+
+            Observe_data ob1_front_faceL = new Observe_data(front_name,
+                    bf.readLine(), bf.readLine(), bf.readLine());
+            list_observe_data.add(ob1_front_faceL);
+            map = new HashMap<String, Object>();
+            map.put("Name", front_name);
+            map.put("observe_number", "1");
+            map.put("face_position", "盘左");
+            map.put("Hz", ob1_front_faceL.getHz_String());//第4行
+            map.put("V", ob1_front_faceL.getV_String());//第5行
+            map.put("S", ob1_front_faceL.getS_String());//第6行
+            list_listview.add(map);
+
+            Observe_data ob1_front_faceR = new Observe_data(front_name,
+                    bf.readLine(), bf.readLine(), bf.readLine());
+            list_observe_data.add(ob1_front_faceR);
+            map = new HashMap<String, Object>();
+            map.put("Name", front_name);
+            map.put("observe_number", "1");
+            map.put("face_position", "盘右");
+            map.put("Hz", ob1_front_faceR.getHz_String());//第7行
+            map.put("V", ob1_front_faceR.getV_String());//第8行
+            map.put("S", ob1_front_faceR.getS_String());//第9行
+            list_listview.add(map);
+
+            Observe_data ob1_back_faceR = new Observe_data(back_name,
+                    bf.readLine(), bf.readLine(), bf.readLine());
+            list_observe_data.add(ob1_back_faceR);
+            map = new HashMap<String, Object>();
+            map.put("Name", back_name);
+            map.put("observe_number", "1");
+            map.put("face_position", "盘右");
+            map.put("Hz", ob1_back_faceR.getHz_String());//第10行
+            map.put("V", ob1_back_faceR.getV_String());//第11行
+            map.put("S", ob1_back_faceR.getS_String());//第12行
+            list_listview.add(map);
+
+            Observe_data ob2_back_faceL = new Observe_data(back_name,
+                    bf.readLine(), bf.readLine(), bf.readLine());
+            list_observe_data.add(ob2_back_faceL);
+            map = new HashMap<String, Object>();
+            map.put("Name", back_name);
+            map.put("observe_number", "2");
+            map.put("face_position", "盘左");
+            map.put("Hz", ob2_back_faceL.getHz_String());//第13行
+            map.put("V", ob2_back_faceL.getV_String());//第14行
+            map.put("S", ob2_back_faceL.getS_String());//第15行
+            list_listview.add(map);
+
+            Observe_data ob2_front_faceL = new Observe_data(front_name,
+                    bf.readLine(), bf.readLine(), bf.readLine());
+            list_observe_data.add(ob2_front_faceL);
+            map = new HashMap<String, Object>();
+            map.put("Name", front_name);
+            map.put("observe_number", "2");
+            map.put("face_position", "盘左");
+            map.put("Hz", ob2_front_faceL.getHz_String());//第16行
+            map.put("V", ob2_front_faceL.getV_String());//第17行
+            map.put("S", ob2_front_faceL.getS_String());//第18行
+            list_listview.add(map);
+
+            Observe_data ob2_front_faceR = new Observe_data(front_name,
+                    bf.readLine(), bf.readLine(), bf.readLine());
+            list_observe_data.add(ob2_front_faceR);
+            map = new HashMap<String, Object>();
+            map.put("Name", front_name);
+            map.put("observe_number", "2");
+            map.put("face_position", "盘右");
+            map.put("Hz", ob2_front_faceR.getHz_String());//第19行
+            map.put("V", ob2_front_faceR.getV_String());//第20行
+            map.put("S", ob2_front_faceR.getS_String());//第21行
+            list_listview.add(map);
+
+            Observe_data ob2_back_faceR = new Observe_data(back_name,
+                    bf.readLine(), bf.readLine(), bf.readLine());
+            list_observe_data.add(ob2_back_faceR);
+            map = new HashMap<String, Object>();
+            map.put("Name", back_name);
+            map.put("observe_number", "2");
+            map.put("face_position", "盘右");
+            map.put("Hz", ob2_back_faceR.getHz_String());//第22行
+            map.put("V", ob2_back_faceR.getV_String());//第23行
+            map.put("S", ob2_back_faceR.getS_String());//第24行
+            list_listview.add(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            makeToast("read_data文件不存在！");
+        }
     }
 
 

@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         guance = (ImageButton) findViewById(R.id.imageButton4);
         chakanshuju = (ImageButton) findViewById(R.id.imageButton5);
         shangchuanshuju=(ImageButton)findViewById(R.id.imageButton6);
+        jieguofankui=(ImageButton)findViewById(R.id.imageButton7);
 
         tuichu = (ImageButton) findViewById(R.id.imageButton8);
     }
@@ -189,6 +190,25 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent_main2upload=new Intent();
                 intent_main2upload.setClass(MainActivity.this,UploadData.class);
                 startActivity(intent_main2upload);
+            }
+        });
+
+        jieguofankui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    final File ProjectNow = new File(my_functions.get_main_file_path(), "ProjectNow.name");
+                    BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
+                    String ProjectName_now = bf.readLine();
+                    if (ProjectName_now != null) {
+                        Feedback feedback=new Feedback(ProjectName_now);
+                    } else {
+                        makeToast("还未打开工程！");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    makeToast("Error：无法读取ProjectNow文件！");
+                }
             }
         });
 

@@ -122,4 +122,18 @@ public class My_Functions {
         }
         return list_temp.toString();
     }
+
+    public double rad2ang(double radian){
+        double angle=radian*180/Math.PI;
+        return angle;
+    }
+
+    public double rad2ang_show(double radian) {//弧度转为度分秒形式，用于显示
+        double angle = radian * 180 / Math.PI;
+        double du = Math.floor(angle);
+        double fen = Math.floor((angle - du)*60);
+        double miao=Math.floor((angle-du-fen/60)*60*60*10)/10;
+        double result=du+fen/100+miao/100/100;
+        return result;
+    }
 }

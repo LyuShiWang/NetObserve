@@ -17,22 +17,31 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 /**
+ * 获得当前网络信息,已经扫描同网段的ip
  * Created by win10 on 2017/5/12.
  */
 
 public class NetTool {
 
+
     private int SERVERPORT = 8888;
+
     private String locAddress;//存储本机ip，例：本地ip ：192.168.1.
+
     private Runtime run = Runtime.getRuntime();//获取当前运行环境，来执行ping，相当于windows的cmd
+
     private Process proc = null;
+
     private String ping = "ping -c 1 -w 0.5 " ;//其中 -c 1为发送的次数，-w 表示发送后等待响应的时间
+
     private int j;//存放ip最后一位地址 0-255
+
     private Context ctx;//上下文
 
     public NetTool(Context ctx){
         this.ctx = ctx;
     }
+
 
 
     private Handler handler = new Handler(){
@@ -68,6 +77,7 @@ public class NetTool {
             res = input.readUTF();
             System.out.println("server 返回信息：" + res);
             Message.obtain(handler, 222, res).sendToTarget();//发送服务器返回消息
+
         } catch (Exception unknownHost) {
             System.out.println("You are trying to connect to an unknown host!");
         } finally {
@@ -94,6 +104,7 @@ public class NetTool {
             Toast.makeText(ctx, "扫描失败，请检查wifi网络", Toast.LENGTH_LONG).show();
             return ;
         }
+
         for ( int i = 0; i < 256; i++) {//创建256个线程分别去ping
             j = i ;
             new Thread(new Runnable() {
@@ -108,13 +119,14 @@ public class NetTool {
                             // 向服务器发送验证信息
                             String msg = sendMsg(current_ip,"scan"+getLocAddress()+" ( "+android.os.Build.MODEL+" ) ");
 
-                            //如果验证通过
+                            //如果验证通过...
                             if (msg != null){
                                 if (msg.contains("OK")){
                                     System.out.println("服务器IP：" + msg.substring(8,msg.length()));
                                     Message.obtain(handler, 333, msg.substring(2,msg.length())).sendToTarget();//返回扫描完毕消息
                                 }
                             }
+                        } else {
                         }
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -154,6 +166,7 @@ public class NetTool {
         }
         System.out.println("本机IP:" + ipaddress);
         return ipaddress;
+
     }
 
     //获取IP前缀
