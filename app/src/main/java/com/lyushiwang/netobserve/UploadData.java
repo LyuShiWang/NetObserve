@@ -18,11 +18,13 @@ import com.tools.NetTool;
 import com.tools.NetUtil;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -43,7 +45,10 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
     private String ProjectName;
 
     private String localAddress;//存储本机ip
+    private String locAddrIndex;
     private String localDeviceName;//存储本机设备名
+    private int j;
+    private int IP_connect;
 
     private File file_in2 = new File(my_functions.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
 
@@ -94,6 +99,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                         ProjectName = project_adapter.getItem(position);
                         uploadproject(ProjectName);
 //                        makeToast("已上传！");
+                        makeToast("上传成功");
                     }
                 }).setNegativeButton("取消", null).create().show();
     }
@@ -118,10 +124,12 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                     Socket socket = new Socket(serviceIP, 12345);
                     //2.获取输出流，向服务器端发送信息
                     OutputStream os = socket.getOutputStream();//字节输出流
-                    PrintWriter pw = new PrintWriter(os);//将输出流包装为打印流
-                    //获取客户端的IP地址
-                    InetAddress address = InetAddress.getLocalHost();
-                    String ip = address.getHostAddress();
+                    OutputStreamWriter osw=new OutputStreamWriter(os, "UTF-8");
+                    BufferedWriter bw=new BufferedWriter(osw);
+                    PrintWriter pw = new PrintWriter(bw,true);//将输出流包装为打印流
+//                    //获取客户端的IP地址
+//                    InetAddress address = InetAddress.getLocalHost();
+//                    String ip = address.getHostAddress();
 //                        pw.write("：" + "客户端：" + ip + "接入服务器" + "\n");
 //                        pw.write("：" + "等待上传.in2文件");
                     try {
@@ -136,6 +144,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                     pw.flush();
                     socket.shutdownOutput();//关闭输出流
                     socket.close();
+                    System.out.println("上传成功");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
