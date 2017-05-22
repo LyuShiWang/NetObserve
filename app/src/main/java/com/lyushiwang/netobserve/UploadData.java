@@ -42,14 +42,8 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
     private ArrayAdapter<String> project_adapter;
     private String ProjectName;
 
-    private Handler MsgHandler;//消息处理
-
     private String localAddress;//存储本机ip
-    private String locAddrIndex;//存储IP前缀
     private String localDeviceName;//存储本机设备名
-    private int j;
-    private int IP_connect;
-    private ArrayList<String> list_IPs = new ArrayList<String>();
 
     private File file_in2 = new File(my_functions.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
 
@@ -84,6 +78,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         project_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
                 android.R.id.text1, list_project);
         listView_project.setAdapter(project_adapter);
