@@ -58,6 +58,7 @@
         <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_vertical"/>
 
         <activity android:name="com.lyushiwang.netobserve.UploadData"/>
+        <activity android:name="com.lyushiwang.netobserve.Feedback"/>
     </application>
 
 </manifest>

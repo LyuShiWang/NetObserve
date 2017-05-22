@@ -3,6 +3,9 @@ package com.lyushiwang.netobserve;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Process;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -38,8 +42,14 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
     private ArrayAdapter<String> project_adapter;
     private String ProjectName;
 
+    private Handler MsgHandler;//消息处理
+
     private String localAddress;//存储本机ip
+    private String locAddrIndex;//存储IP前缀
     private String localDeviceName;//存储本机设备名
+    private int j;
+    private int IP_connect;
+    private ArrayList<String> list_IPs = new ArrayList<String>();
 
     private File file_in2 = new File(my_functions.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
 
@@ -49,23 +59,20 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_data);
 
-//        init();
+        init();
 
-        localAddress = netTool.getLocAddress();
-        String Index= netTool.getLocAddrIndex();
-        String Name= netTool.getLocDeviceName();
-        netTool.scan();
+        localAddress = netTool.getLocAddress();//获取本机IP地址
+        locAddrIndex = netTool.getLocAddrIndex();
+//        netTool.scan();//搜索同一局域网的IP地址
+//        list_IPs = netTool.getList_IPs();//获取IP地址
 
-        String text="本机IP地址为："+ localAddress +"\n"+
-                "本机IP地址前缀为："+Index+"\n"+
-                "本机设备名为："+Name;
-        AlertDialog.Builder AD_IPAddress=new AlertDialog.Builder(UploadData.this);
-        AD_IPAddress.setMessage(text).setPositiveButton("确定",null).create().show();
+//        String text1 = "本机IP为：" + localAddress;
+//        AlertDialog.Builder AD_IPAddress = new AlertDialog.Builder(UploadData.this);
+//        AD_IPAddress.setMessage(text1).setPositiveButton("确定", null).create().show();
     }
 
     protected void init() {
         listView_project = (ListView) findViewById(R.id.listview_project);
-
         File ProjectList = my_functions.get_ProjectList();
         try {
             BufferedReader br = new BufferedReader(new FileReader(ProjectList));
@@ -77,7 +84,6 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         project_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
                 android.R.id.text1, list_project);
         listView_project.setAdapter(project_adapter);
@@ -102,67 +108,115 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
         if (file_in2.exists()) {
             //将该in2文件上传即可
             connect_PC();
+            launch_exe();
         } else {
-//            makeToast("没有找到in2文件！");
+            makeToast("没有找到in2文件！");
         }
     }
 
-    //    public static String getLocalIpAddress(){
-//        try{
-//            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-//                NetworkInterface intf = en.nextElement();
-//                for (Enumeration<InetAddress> enumIpAddr = intf
-//                        .getInetAddresses(); enumIpAddr.hasMoreElements();) {
-//                    InetAddress inetAddress = enumIpAddr.nextElement();
-//                    if (!inetAddress.isLoopbackAddress()
-//                            && inetAddress instanceof Inet4Address) {
-//                        return inetAddress.getHostAddress().toString();
-//                    }
-//                }
-//            }
-//        }catch (SocketException e) {
-//            Log.i("", "WifiPreference IpAddress---error-" + e.toString());
-//        }
-//        return null;
-//    }
     public void connect_PC() {
-        new Thread() {
-            @Override
+        new Thread(new Runnable() {
             public void run() {
                 try {
-                    acceptServer();
+                    //1.创建客户端Socket，指定服务器地址和端口
+                    String serviceIP = "192.168.6.28";
+                    Socket socket = new Socket(serviceIP, 12345);
+                    //2.获取输出流，向服务器端发送信息
+                    OutputStream os = socket.getOutputStream();//字节输出流
+                    PrintWriter pw = new PrintWriter(os);//将输出流包装为打印流
+                    //获取客户端的IP地址
+                    InetAddress address = InetAddress.getLocalHost();
+                    String ip = address.getHostAddress();
+//                        pw.write("：" + "客户端：" + ip + "接入服务器" + "\n");
+//                        pw.write("：" + "等待上传.in2文件");
+                    try {
+                        String line;
+                        BufferedReader bf = new BufferedReader(new FileReader(file_in2));
+                        pw.write(ProjectName+ "\n");
+                        while (((line = bf.readLine()) != null)) {
+                            pw.write(line + "\n");
+                        }
+                    } catch (Exception e) {
+                    }
+                    pw.flush();
+                    socket.shutdownOutput();//关闭输出流
+                    socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }.start();
+        }).start();
     }
 
-
-
-    private void acceptServer() throws IOException {
-        //1.创建客户端Socket，指定服务器地址和端口
-        Socket socket = new Socket("172.27.35.3", 12345);
-        //2.获取输出流，向服务器端发送信息
-        OutputStream os = socket.getOutputStream();//字节输出流
-        PrintWriter pw = new PrintWriter(os);//将输出流包装为打印流
-        //获取客户端的IP地址
-        InetAddress address = InetAddress.getLocalHost();
-        String ip = address.getHostAddress();
-//        pw.write("："+"客户端：" + ip + "接入服务器"+"\n");
-//        pw.write("："+"等待上传.in2文件");
-        pw.write(ProjectName);
+    public void launch_exe(){
         try {
-            String line;
-            BufferedReader bf = new BufferedReader(new FileReader(file_in2));
-            while (((line = bf.readLine()) != null)) {
-                pw.write(line + "\n");
-            }
-        } catch (Exception e) {
+            Runtime.getRuntime().exec("\\192.168.6.28" +
+                    "\\C:\\Users\\win10\\Desktop\\android远程测量数据交互及处理程序设计\\科傻平差软件" +
+                    "\\Cosawin.exe");
+            System.out.println("启动成功！");
+        }catch (IOException e){
+            e.printStackTrace();
         }
-        pw.flush();
-        socket.shutdownOutput();//关闭输出流
-        socket.close();
+    }
+
+    public void connect_PC2() {
+        new Thread() {
+            @Override
+            public void run() {
+                for (int i = 1; i < 256; i++) {//创建256个线程分别去ping
+                    j = i;
+                    try {
+                        //1.创建客户端Socket，指定服务器地址和端口
+//                        String serviceIP = "192.168.6.28";
+                        String serviceIP = locAddrIndex + j;
+                        Socket socket = new Socket(serviceIP, 12345);
+                        System.out.println("第" + j + "次：" + "连接" + locAddrIndex + j + "成功！");
+                        IP_connect = j;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        System.out.println("第" + j + "次：" + locAddrIndex + j + "未连接成功！");
+                    }
+                }
+            }
+        }.start();
+
+        makeToast(locAddrIndex + IP_connect);
+
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    //1.创建客户端Socket，指定服务器地址和端口
+////                    String serviceIP = "192.168.6.28";
+//                    String serviceIP = locAddrIndex + IP_connect;
+//                    Socket socket = new Socket(serviceIP, 12345);
+//                    //2.获取输出流，向服务器端发送信息
+//                    OutputStream os = socket.getOutputStream();//字节输出流
+//                    PrintWriter pw = new PrintWriter(os);//将输出流包装为打印流
+//                    //获取客户端的IP地址
+//                    InetAddress address = InetAddress.getLocalHost();
+//                    String ip = address.getHostAddress();
+////                        pw.write("：" + "客户端：" + ip + "接入服务器" + "\n");
+////                        pw.write("：" + "等待上传.in2文件");
+//                    pw.write(ProjectName);
+//                    try {
+//                        String line;
+//                        BufferedReader bf = new BufferedReader(new FileReader(file_in2));
+//                        while (((line = bf.readLine()) != null)) {
+//                            pw.write(line + "\n");
+//                        }
+//                    } catch (Exception e) {
+//                    }
+//                    System.out.println("第" + j + "次：" + "连接" + locAddrIndex + j + "成功！");
+//                    pw.flush();
+//                    socket.shutdownOutput();//关闭输出流
+//                    socket.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    System.out.println("第" + j + "次：" + locAddrIndex + j + "未连接成功！");
+//                }
+//            }
+//        }.start();
     }
 
     public void makeToast(String text) {

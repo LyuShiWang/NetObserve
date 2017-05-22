@@ -201,7 +201,10 @@ public class MainActivity extends AppCompatActivity {
                     BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
                     String ProjectName_now = bf.readLine();
                     if (ProjectName_now != null) {
-                        Feedback feedback=new Feedback(ProjectName_now);
+                        Intent intent_main2feedback=new Intent();
+                        intent_main2feedback.putExtra("ProjectName_now", ProjectName_now);
+                        intent_main2feedback.setClass(MainActivity.this,Feedback.class);
+                        startActivity(intent_main2feedback);
                     } else {
                         makeToast("还未打开工程！");
                     }
