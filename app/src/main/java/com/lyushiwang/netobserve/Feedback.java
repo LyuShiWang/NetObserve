@@ -79,7 +79,7 @@ public class Feedback extends AppCompatActivity {
                 try {
                     //1.创建客户端Socket，指定服务器地址和端口
                     String serviceIP = "192.168.6.28";
-                    Socket socket = new Socket(serviceIP, 8080);
+                    Socket socket = new Socket(serviceIP, 54321);
                     InputStream is = socket.getInputStream(); // 获取输入流
                     InputStreamReader isr = new InputStreamReader(is, "UTF-8");
                     BufferedReader br = new BufferedReader(isr);

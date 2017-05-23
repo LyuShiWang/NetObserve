@@ -121,7 +121,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                 try {
                     //1.创建客户端Socket，指定服务器地址和端口
                     String serviceIP = "192.168.6.28";
-                    Socket socket = new Socket(serviceIP, 12532);
+                    Socket socket = new Socket(serviceIP, 12345);
                     //2.获取输出流，向服务器端发送信息
                     OutputStream os = socket.getOutputStream();//字节输出流
                     OutputStreamWriter osw=new OutputStreamWriter(os, "UTF-8");
