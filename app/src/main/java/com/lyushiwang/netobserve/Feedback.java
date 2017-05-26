@@ -87,11 +87,11 @@ public class Feedback extends AppCompatActivity {
         button_get_result = (Button) findViewById(R.id.button_get_result);
         textView_show_result = (TextView) findViewById(R.id.textView_show_result);
 
-        Animation mAnimationRight;
-        mAnimationRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_right);
-        mAnimationRight.setFillAfter(true);
-
-        textView_show_result.setAnimation(mAnimationRight);
+//        Animation mAnimationRight;
+//        mAnimationRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_right);
+//        mAnimationRight.setFillAfter(true);
+//
+//        textView_show_result.setAnimation(mAnimationRight);
     }
 
     public void get_result(View v) {
