@@ -109,7 +109,6 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
         if (file_in2.exists()) {
             //将该in2文件上传即可
             connect_PC();
-            launch_exe();
         } else {
             makeToast("没有找到in2文件！");
         }
@@ -150,17 +149,6 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                 }
             }
         }).start();
-    }
-
-    public void launch_exe(){
-        try {
-            Runtime.getRuntime().exec("\\192.168.6.28" +
-                    "\\C:\\Users\\win10\\Desktop\\android远程测量数据交互及处理程序设计\\科傻平差软件" +
-                    "\\Cosawin.exe");
-            System.out.println("启动成功！");
-        }catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
     public void connect_PC2() {

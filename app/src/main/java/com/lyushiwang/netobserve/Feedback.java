@@ -3,12 +3,16 @@ package com.lyushiwang.netobserve;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tools.My_Functions;
@@ -36,6 +40,7 @@ import java.util.List;
 public class Feedback extends AppCompatActivity {
 
     private Button button_get_result;
+    private TextView textView_show_result;
 
     private My_Functions my_functions = new My_Functions();
     private NetTool netTool = new NetTool(Feedback.this);
@@ -53,6 +58,7 @@ public class Feedback extends AppCompatActivity {
     private int j;
     private int IP_connect;
     private ArrayList<String> list_IPs = new ArrayList<String>();
+    private String content = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +73,25 @@ public class Feedback extends AppCompatActivity {
 
         localAddress = netTool.getLocAddress();//获取本机IP地址
         locAddrIndex = netTool.getLocAddrIndex();
+
+        MsgHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 1)
+                    textView_show_result.setText(content);
+            }
+        };
     }
 
     public void define_palettes() {
         button_get_result = (Button) findViewById(R.id.button_get_result);
+        textView_show_result = (TextView) findViewById(R.id.textView_show_result);
+
+        Animation mAnimationRight;
+        mAnimationRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_right);
+        mAnimationRight.setFillAfter(true);
+
+        textView_show_result.setAnimation(mAnimationRight);
     }
 
     public void get_result(View v) {
@@ -81,16 +102,16 @@ public class Feedback extends AppCompatActivity {
                     String serviceIP = "192.168.6.28";
                     Socket socket = new Socket(serviceIP, 54321);
                     InputStream is = socket.getInputStream(); // 获取输入流
-                    InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+                    InputStreamReader isr = new InputStreamReader(is);
                     BufferedReader br = new BufferedReader(isr);
 
-                    String content = "";
                     String info = null;
                     while ((info = br.readLine()) != null) {// 循环读取客户端的信息
                         System.out.println("客户端发送过来的信息：" + info);
                         content = content + info + "\n";
                     }
                     System.out.println("读取客户端发送过来的信息成功");
+//                    makeToast("接收反馈成功");
 
                     File ProjectLocation = new File(my_functions.get_main_file_path(), ProjectName_now);
                     File file_rt2 = new File(ProjectLocation, ProjectName_now + ".rt2");
@@ -111,6 +132,10 @@ public class Feedback extends AppCompatActivity {
 
                     socket.shutdownInput();// 关闭输入流
                     socket.close();
+
+                    Message msg2 = new Message();
+                    msg2.what = 1;
+                    MsgHandler.sendMessage(msg2);
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.out.println("socket连接失败");
