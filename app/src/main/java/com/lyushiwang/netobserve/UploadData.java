@@ -65,9 +65,9 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
 //        netTool.scan();//搜索同一局域网的IP地址
 //        list_IPs = netTool.getList_IPs();//获取IP地址
 
-//        String text1 = "本机IP为：" + localAddress;
-//        AlertDialog.Builder AD_IPAddress = new AlertDialog.Builder(UploadData.this);
-//        AD_IPAddress.setMessage(text1).setPositiveButton("确定", null).create().show();
+        String text1 = "本机IP为：" + localAddress;
+        AlertDialog.Builder AD_IPAddress = new AlertDialog.Builder(UploadData.this);
+        AD_IPAddress.setMessage(text1).setPositiveButton("确定", null).create().show();
     }
 
     protected void init() {
@@ -119,7 +119,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
             public void run() {
                 try {
                     //1.创建客户端Socket，指定服务器地址和端口
-                    String serviceIP = "192.168.6.28";
+                    String serviceIP = "172.16.101.17";
                     Socket socket = new Socket(serviceIP, 12345);
                     //2.获取输出流，向服务器端发送信息
                     OutputStream os = socket.getOutputStream();//字节输出流
