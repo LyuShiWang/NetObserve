@@ -83,8 +83,8 @@ public class Feedback extends AppCompatActivity {
                     textView_show_result.setText(content);
                 }
                 if (msg.what == 2) {
-//                    AlertDialog.Builder AD_error = new AlertDialog.Builder(Feedback.this);
-//                    AD_error.setMessage("服务端IP地址错误！");
+                    AlertDialog.Builder AD_error = new AlertDialog.Builder(Feedback.this);
+                    AD_error.setMessage("服务端IP地址错误！").create().show();
                     textView_show_result.setText("服务端IP地址错误！");
                     textView_show_result.setTextSize(15);
                 }

@@ -100,6 +100,7 @@ public class observe_now extends AppCompatActivity {
     private EditText editText_back_hight;
     private EditText editText_front_hight;
 
+    private Button button_input_finish;
     private Button button_observe;
     private Button button_check;
     private Button button_next_point;
@@ -116,6 +117,8 @@ public class observe_now extends AppCompatActivity {
     private File file_data = new File(my_functions.get_main_file_path(), "read_data.txt");
     private List<String> list_point_name = new ArrayList<String>();
     private List<Observe_data> list_observe_data = new ArrayList<Observe_data>();
+
+    private int i_tip;
 
     private boolean check;
 
@@ -138,6 +141,7 @@ public class observe_now extends AppCompatActivity {
         editText_back_hight = (EditText) findViewById(R.id.editText_back_hight);
         editText_front_hight = (EditText) findViewById(R.id.editText_front_hight);
 
+        button_input_finish = (Button) findViewById(R.id.button_input_finish);
         button_observe = (Button) findViewById(R.id.button_observe);
         button_check = (Button) findViewById(R.id.button_check);
         button_next_point = (Button) findViewById(R.id.button_next_point);
@@ -148,6 +152,16 @@ public class observe_now extends AppCompatActivity {
     }
 
     protected void do_click() {
+        button_input_finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i_tip = 1;
+                point_face_tip(i_tip);
+                makeToast(String.valueOf(i_tip));
+                i_tip = i_tip + 1;
+            }
+        });
+
         button_observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,28 +182,44 @@ public class observe_now extends AppCompatActivity {
                 }
 //                read_read_data_txt();
 
-                try {
-//                    String[] strings = classmeasFun.VB_BAP_MeasDistAng();
-//                    String[] Face = classmeasFun.VB_TMC_GetFace();            //盘位可以不要
-//                    Observe_data ob1_back_faceL = new Observe_data(back_name,
-//                            strings[1], strings[2], strings[3]);
-//                    map = new HashMap<String, Object>();
-//                    map.put("Name", back_name);
-//                    map.put("observe_number", "1");
-//                    map.put("face_position", "盘左");
-//                    map.put("Hz", my_functions.rad2ang_show(ob1_back_faceL.getHz()));
-//                    map.put("V", my_functions.rad2ang_show(ob1_back_faceL.getV()));
-//                    map.put("S", my_functions.rad2ang_show(ob1_back_faceL.getS()));
-//                    list_listview.add(map);
-//
-//                    listview_adapter = new MyAdapter(observe_now.this, list_listview);
-//                    listview.setAdapter(listview_adapter);
-//                    listview_adapter.notifyDataSetChanged();
-                }catch (IOError error){
-                    error.printStackTrace();
-                    makeToast("未连接到蓝牙！");
-                }
+                if (!BluetoothAdap.isEnabled()) {
+                    AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
+                    AD_check_BT.setMessage("未打开蓝牙！请重试").create().show();
+                } else {
+                    if (i_tip < 5) {
+                        try {
+                            String[] strings = classmeasFun.VB_BAP_MeasDistAng();
+                            String[] Face = classmeasFun.VB_TMC_GetFace();            //盘位可以不要
+                            Observe_data ob1_back_faceL = new Observe_data(back_name,
+                                    strings[1], strings[2], strings[3]);
+                            map = new HashMap<String, Object>();
+                            map.put("Name", back_name);
+                            map.put("observe_number", "1");
+                            map.put("face_position", "盘左");
+                            map.put("Hz", my_functions.rad2ang_show(ob1_back_faceL.getHz()));
+                            map.put("V", my_functions.rad2ang_show(ob1_back_faceL.getV()));
+                            map.put("S", my_functions.rad2ang_show(ob1_back_faceL.getS()));
+                            list_listview.add(map);
 
+                            listview_adapter = new MyAdapter(observe_now.this, list_listview);
+                            listview.setAdapter(listview_adapter);
+                            listview_adapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
+                            AD_check_measfun.setMessage("未连接到蓝牙模块！请重试").create().show();
+                        }
+                    }
+                }
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+
+                point_face_tip(i_tip);
+                makeToast(String.valueOf(i_tip));
+                i_tip = i_tip + 1;
             }
         });
 
@@ -237,6 +267,11 @@ public class observe_now extends AppCompatActivity {
             }
         });
     }
+
+    public void do_observe(View v) {
+
+    }
+
 
     public void makeToast(String text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
@@ -417,9 +452,34 @@ public class observe_now extends AppCompatActivity {
     private void init() {
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
         bindContactService();
+        i_tip = 1;
     }
 
-    private void check_data(){
+    private void point_face_tip(int i_tip) {
+        AlertDialog.Builder AD_tip = new AlertDialog.Builder(observe_now.this);
+        String text_tip = "";
+        switch (i_tip) {
+            case 1:
+                AD_tip.setMessage("请观测后视点，并设置为盘左").create().show();
+                break;
+            case 2:
+                AD_tip.setMessage("请观测前视点，并设置为盘左").create().show();
+                break;
+            case 3:
+                AD_tip.setMessage("请观测前视点，并设置为盘右").create().show();
+                break;
+            case 4:
+                AD_tip.setMessage("请观测后视点，并设置为盘右").create().show();
+                break;
+            default:
+                break;
+        }
+        if (i_tip > 4) {
+            AD_tip.setMessage("本测回已完成，请进行下一测回或下一测站").create().show();
+        }
+    }
+
+    private void check_data() {
 
     }
 }
