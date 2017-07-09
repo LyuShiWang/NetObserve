@@ -1,21 +1,18 @@
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<RelativeLayout-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="800dp"-->
+<!--<?xml version="1.0" encoding="utf-8"?>--><!--<RelativeLayout--><!--android:layout_width="wrap_content"--><!--android:layout_height="800dp"--><!--android:background="@android:color/holo_blue_dark">-->
+
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:id="@+id/scrollView2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
     <!--android:background="@android:color/holo_blue_dark">-->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView2"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark">
-
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_dark">
 
         <LinearLayout
             android:id="@+id/linearlayout1"
@@ -60,7 +57,7 @@
             <EditText
                 android:id="@+id/editText_point_name"
                 android:layout_width="100dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/textView26"
                 android:layout_toRightOf="@+id/textView26"
@@ -86,7 +83,7 @@
             <EditText
                 android:id="@+id/editText_station_hight"
                 android:layout_width="80dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/textView45"
                 android:layout_toStartOf="@+id/textView45"
@@ -113,7 +110,7 @@
         <RelativeLayout
             android:id="@+id/relativelayout3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/linearLayout6"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -137,7 +134,7 @@
             <RelativeLayout
                 android:id="@+id/relativeLayout2_1"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="10dp"
                 android:layout_toEndOf="@+id/textView49"
@@ -172,7 +169,7 @@
                 <EditText
                     android:id="@+id/editText_back_name"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/textView51"
                     android:layout_toRightOf="@+id/textView51"
@@ -187,7 +184,7 @@
                 <EditText
                     android:id="@+id/editText_front_name"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -229,7 +226,7 @@
             <RelativeLayout
                 android:id="@+id/relativeLayout3_1"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="10dp"
                 android:layout_toEndOf="@+id/textView29"
@@ -264,7 +261,7 @@
                 <EditText
                     android:id="@+id/editText_back_hight"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/textView46"
                     android:layout_toRightOf="@+id/textView46"
@@ -291,7 +288,7 @@
                 <EditText
                     android:id="@+id/editText_front_hight"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_alignBottom="@+id/editText_back_hight"
                     android:layout_toLeftOf="@+id/textView28"
                     android:layout_toStartOf="@+id/textView28"
@@ -340,18 +337,30 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginStart="20dp"
                 android:background="@color/colorPrimary"
-                android:text="测量" />
+                android:text="测量"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/button_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/linearLayout6"
+                android:layout_centerHorizontal="true"
+                android:background="@color/colorPrimary"
+                android:text="检查"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/button_next_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:text="下一点"
-                android:layout_marginRight="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true" />
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/colorPrimary"
+                android:text="下一站"
+                android:textSize="18sp" />
 
         </RelativeLayout>
 
@@ -359,13 +368,14 @@
             android:id="@+id/linearLayout6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/imageButton_houtu"
             android:layout_below="@+id/relativelayout5"
             android:layout_marginLeft="3dip"
             android:layout_marginRight="3dip"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/squre_border"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_above="@+id/imageButton_houtui">
 
             <View
                 android:layout_width="match_parent"
@@ -496,7 +506,7 @@
             <ListView
                 android:id="@+id/listview_observe_now"
                 android:layout_width="fill_parent"
-                android:layout_height="160dp"
+                android:layout_height="218dp"
                 android:cacheColorHint="@android:color/transparent"
                 android:divider="#B4B3B3"
                 android:dividerHeight="0dip"
@@ -508,11 +518,13 @@
             android:id="@+id/imageButton_houtui"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout6"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:background="#00000000"
-            app:srcCompat="@drawable/houtui" />
+            app:srcCompat="@drawable/houtui"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignTop="@+id/button_save"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/button_save"
@@ -523,17 +535,10 @@
             android:layout_alignRight="@+id/linearLayout6"
             android:layout_marginEnd="40dp"
             android:layout_marginRight="40dp"
+            android:textSize="18dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/colorPrimary"
             android:text="保存" />
 
-        <Button
-            android:id="@+id/button_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/linearLayout6"
-            android:layout_centerHorizontal="true"
-            android:background="@color/colorPrimary"
-            android:text="检查" />
-
     </RelativeLayout>
-</ScrollView>
+<!--</ScrollView>-->

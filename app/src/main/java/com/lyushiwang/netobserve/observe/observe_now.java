@@ -45,6 +45,8 @@ import com.tools.Observe_data;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOError;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -146,21 +148,6 @@ public class observe_now extends AppCompatActivity {
     }
 
     protected void do_click() {
-        button_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClassMeasFunction cmf = classmeasFun;
-                BluetoothSocket socket = classmeasFun.getSocket();
-                String[] strings = classmeasFun.VB_BAP_MeasDistAng();
-                String MeasDistAng = my_functions.strings2string(strings);
-                //VB_BAP_MeasDistAng()的原始结构：[0,水平角（弧度）,竖直角（弧度）,斜距（单位：米m）,2]
-
-                String text = "measdisang: " + MeasDistAng + "\n";
-                AlertDialog.Builder AD_interact = new AlertDialog.Builder(observe_now.this);
-                AD_interact.setMessage(text).setPositiveButton("确定", null).create().show();
-            }
-        });
-
         button_observe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,7 +158,7 @@ public class observe_now extends AppCompatActivity {
                 if (list_point_name.contains(station_name)) {
                     //开始重测该点
                     AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
-                    AD_reobserve.setMessage("该点已存在！是否重测该点！")
+                    AD_reobserve.setMessage("该点已存在！是否重测该点?")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -181,22 +168,27 @@ public class observe_now extends AppCompatActivity {
                 }
 //                read_read_data_txt();
 
-                String[] strings = classmeasFun.VB_BAP_MeasDistAng();
-                String[] Face=classmeasFun.VB_TMC_GetFace();
-                Observe_data ob1_back_faceL = new Observe_data(back_name,
-                        strings[1], strings[2], strings[3]);
-                map = new HashMap<String, Object>();
-                map.put("Name", back_name);
-                map.put("observe_number", "1");
-                map.put("face_position", "盘左");
-                map.put("Hz", my_functions.rad2ang_show(ob1_back_faceL.getHz()));
-                map.put("V", my_functions.rad2ang_show(ob1_back_faceL.getV()));
-                map.put("S", my_functions.rad2ang_show(ob1_back_faceL.getS()));
-                list_listview.add(map);
-
-                listview_adapter = new MyAdapter(observe_now.this, list_listview);
-                listview.setAdapter(listview_adapter);
-                listview_adapter.notifyDataSetChanged();
+                try {
+//                    String[] strings = classmeasFun.VB_BAP_MeasDistAng();
+//                    String[] Face = classmeasFun.VB_TMC_GetFace();            //盘位可以不要
+//                    Observe_data ob1_back_faceL = new Observe_data(back_name,
+//                            strings[1], strings[2], strings[3]);
+//                    map = new HashMap<String, Object>();
+//                    map.put("Name", back_name);
+//                    map.put("observe_number", "1");
+//                    map.put("face_position", "盘左");
+//                    map.put("Hz", my_functions.rad2ang_show(ob1_back_faceL.getHz()));
+//                    map.put("V", my_functions.rad2ang_show(ob1_back_faceL.getV()));
+//                    map.put("S", my_functions.rad2ang_show(ob1_back_faceL.getS()));
+//                    list_listview.add(map);
+//
+//                    listview_adapter = new MyAdapter(observe_now.this, list_listview);
+//                    listview.setAdapter(listview_adapter);
+//                    listview_adapter.notifyDataSetChanged();
+                }catch (IOError error){
+                    error.printStackTrace();
+                    makeToast("未连接到蓝牙！");
+                }
 
             }
         });
@@ -235,6 +227,13 @@ public class observe_now extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        button_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -420,7 +419,7 @@ public class observe_now extends AppCompatActivity {
         bindContactService();
     }
 
-    public void check_data() {
-        //检查观测数据是否合格
+    private void check_data(){
+
     }
 }
