@@ -3,7 +3,9 @@ package com.lyushiwang.netobserve;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -77,8 +79,15 @@ public class Feedback extends AppCompatActivity {
         MsgHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (msg.what == 1)
+                if (msg.what == 1) {
                     textView_show_result.setText(content);
+                }
+                if (msg.what == 2) {
+//                    AlertDialog.Builder AD_error = new AlertDialog.Builder(Feedback.this);
+//                    AD_error.setMessage("服务端IP地址错误！");
+                    textView_show_result.setText("服务端IP地址错误！");
+                    textView_show_result.setTextSize(15);
+                }
             }
         };
     }
@@ -99,18 +108,20 @@ public class Feedback extends AppCompatActivity {
             public void run() {
                 try {
                     //1.创建客户端Socket，指定服务器地址和端口
-                    String serviceIP = "172.16.101.17";
+                    String serviceIP = "172.16.102.12";
                     Socket socket = new Socket(serviceIP, 54321);
                     InputStream is = socket.getInputStream(); // 获取输入流
                     InputStreamReader isr = new InputStreamReader(is);
                     BufferedReader br = new BufferedReader(isr);
 
-                    String info = null;
+                    String info = "";
                     while ((info = br.readLine()) != null) {// 循环读取客户端的信息
                         System.out.println("客户端发送过来的信息：" + info);
                         content = content + info + "\n";
                     }
-                    System.out.println("读取客户端发送过来的信息成功");
+                    if (!content.equals("")) {
+                        System.out.println("读取客户端发送过来的信息成功");
+                    }
 //                    makeToast("接收反馈成功");
 
                     File ProjectLocation = new File(my_functions.get_main_file_path(), ProjectName_now);
@@ -128,17 +139,22 @@ public class Feedback extends AppCompatActivity {
                         bw.write(content);
                         bw.close();
                     } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
 
                     socket.shutdownInput();// 关闭输入流
                     socket.close();
 
-                    Message msg2 = new Message();
-                    msg2.what = 1;
-                    MsgHandler.sendMessage(msg2);
+                    Message msg1 = new Message();
+                    msg1.what = 1;
+                    MsgHandler.sendMessage(msg1);
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.out.println("socket连接失败");
+
+                    Message msg2 = new Message();
+                    msg2.what = 2;
+                    MsgHandler.sendMessage(msg2);
                 }
             }
         }).start();

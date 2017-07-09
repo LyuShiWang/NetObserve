@@ -119,7 +119,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
             public void run() {
                 try {
                     //1.创建客户端Socket，指定服务器地址和端口
-                    String serviceIP = "172.16.101.17";
+                    String serviceIP = "172.16.102.12";
                     Socket socket = new Socket(serviceIP, 12345);
                     //2.获取输出流，向服务器端发送信息
                     OutputStream os = socket.getOutputStream();//字节输出流
@@ -139,6 +139,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                             pw.write(line + "\n");
                         }
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     pw.flush();
                     socket.shutdownOutput();//关闭输出流
