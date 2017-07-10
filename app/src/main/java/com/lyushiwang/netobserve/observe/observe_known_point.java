@@ -65,7 +65,7 @@ public class observe_known_point extends AppCompatActivity {
     }
 
     protected void define_palettes() {
-        editText_point_name = (EditText) findViewById(R.id.editText_point_name);
+        editText_point_name = (EditText) findViewById(R.id.editText_zhaozhuncha);
         editText_point_X = (EditText) findViewById(R.id.editText_point_X);
         editText_point_Y = (EditText) findViewById(R.id.editText_point_Y);
         editText_point_Z = (EditText) findViewById(R.id.editText_point_Z);

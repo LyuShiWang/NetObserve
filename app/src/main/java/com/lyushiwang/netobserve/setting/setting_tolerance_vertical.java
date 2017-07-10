@@ -45,9 +45,9 @@ public class setting_tolerance_vertical extends AppCompatActivity {
     }
 
     protected void define_palettes() {
-        editText_liangcicha = (EditText) findViewById(R.id.editText_point_name);
+        editText_liangcicha = (EditText) findViewById(R.id.editText_zhaozhuncha);
         editText_zhibiaocha = (EditText) findViewById(R.id.editText_order);
-        editText_gecehui = (EditText) findViewById(R.id.editText_front_hight);
+        editText_gecehui = (EditText) findViewById(R.id.editText_gecehui);
         button_queding = (Button) findViewById(R.id.button_queding_setting);
         button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtu);

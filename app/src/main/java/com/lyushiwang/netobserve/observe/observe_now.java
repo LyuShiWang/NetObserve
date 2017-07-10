@@ -2,41 +2,28 @@ package com.lyushiwang.netobserve.observe;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.IBinder;
-import android.os.Message;
-import android.renderscript.Sampler;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
-import com.lyushiwang.netobserve.connect.ConnectRobot;
 import com.tools.ClassMeasFunction;
 import com.tools.ListView_observe_now;
 import com.tools.My_Functions;
@@ -45,13 +32,10 @@ import com.tools.Observe_data;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOError;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by 吕世望 on 2017/4/22.
@@ -118,6 +102,11 @@ public class observe_now extends AppCompatActivity {
     private List<String> list_point_name = new ArrayList<String>();
     private List<Observe_data> list_observe_data = new ArrayList<Observe_data>();
 
+    private Observe_data ob1_back_faceL;
+    private Observe_data ob1_front_faceL;
+    private Observe_data ob1_front_faceR;
+    private Observe_data ob1_back_faceR;
+
     private int i_tip;
 
     private boolean check;
@@ -134,12 +123,12 @@ public class observe_now extends AppCompatActivity {
     }
 
     protected void define_palettes() {
-        editText_point_name = (EditText) findViewById(R.id.editText_point_name);
+        editText_point_name = (EditText) findViewById(R.id.editText_zhaozhuncha);
         editText_station_hight = (EditText) findViewById(R.id.editText_station_hight);
         editText_back_name = (EditText) findViewById(R.id.editText_back_name);
         editText_front_name = (EditText) findViewById(R.id.editText_front_name);
         editText_back_hight = (EditText) findViewById(R.id.editText_back_hight);
-        editText_front_hight = (EditText) findViewById(R.id.editText_front_hight);
+        editText_front_hight = (EditText) findViewById(R.id.editText_gecehui);
 
         button_input_finish = (Button) findViewById(R.id.button_input_finish);
         button_observe = (Button) findViewById(R.id.button_observe);
@@ -157,7 +146,6 @@ public class observe_now extends AppCompatActivity {
             public void onClick(View v) {
                 i_tip = 1;
                 point_face_tip(i_tip);
-                makeToast(String.valueOf(i_tip));
                 i_tip = i_tip + 1;
             }
         });
@@ -168,6 +156,7 @@ public class observe_now extends AppCompatActivity {
                 String station_name = editText_point_name.getText().toString();
                 String back_name = editText_back_name.getText().toString();
                 String front_name = editText_front_name.getText().toString();
+                String[] points_name = {station_name, back_name, front_name};
 
                 if (list_point_name.contains(station_name)) {
                     //开始重测该点
@@ -187,39 +176,52 @@ public class observe_now extends AppCompatActivity {
                     AD_check_BT.setMessage("未打开蓝牙！请重试").create().show();
                 } else {
                     if (i_tip < 5) {
+                        String[] strings = null;
                         try {
-                            String[] strings = classmeasFun.VB_BAP_MeasDistAng();
-                            String[] Face = classmeasFun.VB_TMC_GetFace();            //盘位可以不要
-                            Observe_data ob1_back_faceL = new Observe_data(back_name,
-                                    strings[1], strings[2], strings[3]);
-                            map = new HashMap<String, Object>();
-                            map.put("Name", back_name);
-                            map.put("observe_number", "1");
-                            map.put("face_position", "盘左");
-                            map.put("Hz", my_functions.rad2ang_show(ob1_back_faceL.getHz()));
-                            map.put("V", my_functions.rad2ang_show(ob1_back_faceL.getV()));
-                            map.put("S", my_functions.rad2ang_show(ob1_back_faceL.getS()));
-                            list_listview.add(map);
-
-                            listview_adapter = new MyAdapter(observe_now.this, list_listview);
-                            listview.setAdapter(listview_adapter);
-                            listview_adapter.notifyDataSetChanged();
+                            strings = classmeasFun.VB_BAP_MeasDistAng();
+//                            map = new HashMap<String, Object>();
+//                            map.put("Name", back_name);
+//                            map.put("observe_number", "1");
+//                            map.put("face_position", "盘左");
+//                            map.put("Hz", my_functions.rad2ang_show(ob1_back_faceL.getHz()));
+//                            map.put("V", my_functions.rad2ang_show(ob1_back_faceL.getV()));
+//                            map.put("S", my_functions.rad2ang_show(ob1_back_faceL.getS()));
+//                            list_listview.add(map);
+//
+//                            listview_adapter = new MyAdapter(observe_now.this, list_listview);
+//                            listview.setAdapter(listview_adapter);
+//                            listview_adapter.notifyDataSetChanged();
                         } catch (Exception e) {
                             e.printStackTrace();
                             AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
                             AD_check_measfun.setMessage("未连接到蓝牙模块！请重试").create().show();
                         }
+                        put_data(i_tip, strings, points_name);
                     }
                 }
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 point_face_tip(i_tip);
-                makeToast(String.valueOf(i_tip));
                 i_tip = i_tip + 1;
+            }
+        });
+
+        button_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                check_data();
+                if (check) {
+
+                } else {
+                    AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
+                    AD_error.setTitle("警告，数据超限！").setPositiveButton("确定", null);
+                    //超限的数据类型不同，会有不同的提示内容
+                    AD_error.show();
+                }
             }
         });
 
@@ -233,22 +235,6 @@ public class observe_now extends AppCompatActivity {
                     editText_front_name.setText("");
                     editText_back_hight.setText("");
                     editText_front_hight.setText("");
-                }
-            }
-        });
-
-        button_check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                check_data();
-                if (check) {
-
-                } else {
-                    AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
-                    AD_error.setTitle("警告，数据超限！")
-                            .setPositiveButton("确定", null);
-                    //超限的数据类型不同，会有不同的提示内容
-                    AD_error.show();
                 }
             }
         });
@@ -475,11 +461,52 @@ public class observe_now extends AppCompatActivity {
                 break;
         }
         if (i_tip > 4) {
+            AD_tip.setMessage("请对本测回进行数据检查").create().show();
             AD_tip.setMessage("本测回已完成，请进行下一测回或下一测站").create().show();
         }
     }
 
-    private void check_data() {
+    private void put_data(int i_tip, String[] strings, String[] points_name) {
+//        String[] points_name={station_name,back_name,front_name};
+        switch (i_tip) {
+            case 1:
+                ob1_back_faceL = new Observe_data(points_name[1],
+                        strings[1], strings[2], strings[3]);
+                break;
+            case 2:
+                ob1_front_faceL = new Observe_data(points_name[2],
+                        strings[1], strings[2], strings[3]);
+                break;
+            case 3:
+                ob1_front_faceR = new Observe_data(points_name[2],
+                        strings[1], strings[2], strings[3]);
+                break;
+            case 4:
+                ob1_back_faceR=new Observe_data(points_name[1],
+                        strings[1], strings[2], strings[3]);
+                break;
+        }
+    }
 
+    private void check_data() {
+        check = true;
+        //读取观测限差文件
+        File Tolerance_Settings = new File(my_functions.get_main_file_path(), "Tolerance Settings.ini");
+        List<String> List_tolerance = new ArrayList<String>();
+        String line = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(Tolerance_Settings));
+            while ((line = br.readLine()) != null) {
+                List_tolerance.add(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
+        }
+        //1、检查水平角
+        int horizontal_zhaozhun=Integer.valueOf(List_tolerance.get(0));
+        int horizontal_bancehui=Integer.valueOf(List_tolerance.get(1));
+        int horizontal_yicehui= Integer.valueOf(List_tolerance.get(2));
+        int horizontal_gecehui=Integer.valueOf(List_tolerance.get(3));
     }
 }

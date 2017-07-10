@@ -45,8 +45,8 @@
                 android:id="@+id/textView26"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/editText_point_name"
-                android:layout_alignBottom="@+id/editText_point_name"
+                android:layout_alignBaseline="@+id/editText_zhaozhuncha"
+                android:layout_alignBottom="@+id/editText_zhaozhuncha"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="10dp"
@@ -55,7 +55,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText_point_name"
+                android:id="@+id/editText_zhaozhuncha"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_alignParentTop="true"
@@ -97,8 +97,8 @@
                 android:id="@+id/textView45"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/editText_point_name"
-                android:layout_alignBottom="@+id/editText_point_name"
+                android:layout_alignBaseline="@+id/editText_zhaozhuncha"
+                android:layout_alignBottom="@+id/editText_zhaozhuncha"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
@@ -252,8 +252,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/textView28"
                     android:layout_alignBottom="@+id/textView28"
-                    android:layout_toLeftOf="@+id/editText_front_hight"
-                    android:layout_toStartOf="@+id/editText_front_hight"
+                    android:layout_toLeftOf="@+id/editText_gecehui"
+                    android:layout_toStartOf="@+id/editText_gecehui"
                     android:text="前"
                     android:textColor="@android:color/background_light"
                     android:textSize="18sp" />
@@ -286,7 +286,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/editText_front_hight"
+                    android:id="@+id/editText_gecehui"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_alignBottom="@+id/editText_back_hight"
