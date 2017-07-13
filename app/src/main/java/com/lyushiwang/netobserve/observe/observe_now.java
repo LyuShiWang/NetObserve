@@ -212,12 +212,13 @@ public class observe_now extends AppCompatActivity {
 //                            }
 //                        }).setNegativeButton("取消", null).show();
             } else {
-                if (focus_name.equals(point_guiling)){
-                    //回到归零点，一个测回结束
-                    AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
-                    AD_check_BT.setMessage("本次测回已结束！").create().show();
-                    face=-face;
-                }
+//                if (focus_name.equals(point_guiling)){
+//                    //回到归零点，一个测回结束
+//                    AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
+//                    AD_check_BT.setMessage("本次测回已结束！").create().show();
+//                    face=-face;
+//                }
+                //在屏幕上添加按钮，手动进入下一测回
 
                 list_point_name.add(station_name);
 
