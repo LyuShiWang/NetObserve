@@ -32,291 +32,162 @@
                 app:srcCompat="@drawable/observe_big" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/relativelayout2"
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/relativelayout2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearlayout1"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_border">
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearlayout1"
-            android:layout_marginTop="10dp">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:text="测站点名："
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/textView26"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/editText_zhaozhuncha"
-                android:layout_alignBottom="@+id/editText_zhaozhuncha"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="10dp"
-                android:text="测站点："
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
+        <EditText
+            android:id="@+id/editText_zhaozhuncha"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textView26"
+            android:layout_toRightOf="@+id/textView26"
+            android:background="@drawable/textview_border"
+            android:ems="10"
+            android:gravity="center"
+            android:text="01"
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/editText_zhaozhuncha"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/textView26"
-                android:layout_toRightOf="@+id/textView26"
-                android:background="@drawable/textview_border"
-                android:ems="10"
-                android:gravity="center"
-                android:text="01"
-                android:textColor="@android:color/background_light"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/textView45"
-                android:layout_alignBottom="@+id/textView45"
-                android:layout_toLeftOf="@+id/editText_station_hight"
-                android:layout_toStartOf="@+id/editText_station_hight"
-                android:text="测站高："
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/editText_station_hight"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/textView45"
-                android:layout_toStartOf="@+id/textView45"
-                android:background="@drawable/textview_border"
-                android:ems="10"
-                android:gravity="center"
-                android:inputType="numberDecimal"
-                android:text="1" />
-
-            <TextView
-                android:id="@+id/textView45"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/editText_zhaozhuncha"
-                android:layout_alignBottom="@+id/editText_zhaozhuncha"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:text="m"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativelayout3"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/linearLayout6"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignStart="@+id/linearLayout6"
-            android:layout_below="@+id/relativelayout2"
-            android:layout_marginTop="10dp">
+            android:layout_alignBaseline="@+id/editText_zhaozhuncha"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/editText_station_hight"
+            android:layout_toStartOf="@+id/editText_station_hight"
+            android:text="测站高："
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/textView49"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:text="照准点名："
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
+        <EditText
+            android:id="@+id/editText_station_hight"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView45"
+            android:layout_toStartOf="@+id/textView45"
+            android:background="@drawable/textview_border"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:text="1"
+            android:textSize="16sp" />
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout2_1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/textView49"
-                android:layout_toRightOf="@+id/textView49"
-                android:background="@drawable/textview_border">
+        <TextView
+            android:id="@+id/textView45"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="m"
+            android:layout_marginRight="30dp"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp"
+            android:layout_alignTop="@+id/textView19"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-                <TextView
-                    android:id="@+id/textView51"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:text="后"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/textView52"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/textView51"
-                    android:layout_alignBottom="@+id/textView51"
-                    android:layout_toLeftOf="@+id/editText_front_name"
-                    android:layout_toStartOf="@+id/editText_front_name"
-                    android:text="前"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
+    <RelativeLayout
+        android:id="@+id/relativelayout3"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/linearLayout6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignStart="@+id/linearLayout6"
+        android:layout_below="@+id/relativelayout2"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_border">
 
-                <EditText
-                    android:id="@+id/editText_back_name"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/textView51"
-                    android:layout_toRightOf="@+id/textView51"
-                    android:background="@drawable/textview_border"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:text="11"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:id="@+id/editText_front_name"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/textview_border"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:text="02"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativelayout4"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView49"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/relativelayout3"
-            android:layout_marginTop="10dp">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:text="照准点名："
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/textView29"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:text="目标高："
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
+        <EditText
+            android:id="@+id/editText_focus_name"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView49"
+            android:background="@drawable/textview_border"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:text="02"
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout3_1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/textView29"
-                android:layout_toRightOf="@+id/textView29"
-                android:background="@drawable/textview_border">
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/editText_focus_name"
+            android:layout_alignBottom="@+id/editText_focus_name"
+            android:layout_toLeftOf="@+id/editText_focus_high"
+            android:layout_toStartOf="@+id/editText_focus_high"
+            android:text="目标高："
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/textView46"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:text="后"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
+        <EditText
+            android:id="@+id/editText_focus_high"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView28"
+            android:layout_toStartOf="@+id/textView28"
+            android:background="@drawable/textview_border"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:text="0.000"
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/textView47"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/textView28"
-                    android:layout_alignBottom="@+id/textView28"
-                    android:layout_toLeftOf="@+id/editText_gecehui"
-                    android:layout_toStartOf="@+id/editText_gecehui"
-                    android:text="前"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="m"
+            android:layout_marginRight="30dp"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-                <EditText
-                    android:id="@+id/editText_back_hight"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/textView46"
-                    android:layout_toRightOf="@+id/textView46"
-                    android:background="@drawable/textview_border"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:text="0.000"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/textView48"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/editText_back_hight"
-                    android:layout_alignBottom="@+id/editText_back_hight"
-                    android:layout_toEndOf="@+id/editText_back_hight"
-                    android:layout_toRightOf="@+id/editText_back_hight"
-                    android:text="m"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/editText_gecehui"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_alignBottom="@+id/editText_back_hight"
-                    android:layout_toLeftOf="@+id/textView28"
-                    android:layout_toStartOf="@+id/textView28"
-                    android:background="@drawable/textview_border"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:text="0.000"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/textView28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/textView46"
-                    android:layout_alignBottom="@+id/textView46"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="m"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relativelayout5"
@@ -324,44 +195,44 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/relativelayout4"
+        android:layout_below="@+id/relativelayout3"
         android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/button_input_finish"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
+            android:layout_height="40dp"
             android:background="@color/colorPrimary"
+            android:onClick="begin_observe"
+            android:layout_marginLeft="20dp"
             android:text="输入完毕"
-            android:textSize="18sp" />
+            android:textSize="14sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/button_observe"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@color/colorPrimary"
-            android:text="测量"
-            android:textSize="18sp"
             android:onClick="do_observe"
+            android:text="测量"
+            android:textSize="14sp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
         <Button
             android:id="@+id/button_check"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="20dp"
             android:background="@color/colorPrimary"
             android:text="检查"
-            android:textSize="18sp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentEnd="true" />
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
@@ -527,18 +398,18 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/linearLayout6"
-            android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/linearLayout6"
-            android:layout_marginRight="20dp"
-            android:textSize="18dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/colorPrimary"
-            android:text="保存" />
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/linearLayout6"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/linearLayout6"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorPrimary"
+        android:text="保存"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/button_next_point"
@@ -548,7 +419,7 @@
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         android:text="下一站"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>
 <!--</ScrollView>-->

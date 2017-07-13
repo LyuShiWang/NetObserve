@@ -182,6 +182,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="27dp"
             android:layout_marginStart="27dp"
+            android:onClick="clear"
             android:background="@color/colorPrimary"
             android:text="清除" />
 

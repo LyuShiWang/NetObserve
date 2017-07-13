@@ -199,7 +199,6 @@ public class observe_known_point extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     public String[] input_known_points(List<String> list_points) {

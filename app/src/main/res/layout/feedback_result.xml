@@ -10,21 +10,22 @@
         android:layout_width="200dp"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="接收反馈"
         android:onClick="get_result"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:scrollbarAlwaysDrawVerticalTrack="false"
-        android:layout_below="@+id/button_get_result">
+        android:layout_below="@+id/button_get_result"
+        android:id="@+id/scrollView2">
 
         <LinearLayout
             android:layout_width="match_parent"

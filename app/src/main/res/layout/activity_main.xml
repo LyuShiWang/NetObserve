@@ -182,6 +182,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:onClick="chakan"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/chakanshuju" />
         </FrameLayout>
