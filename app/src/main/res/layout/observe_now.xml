@@ -14,25 +14,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/holo_blue_dark">
 
-        <LinearLayout
-            android:id="@+id/linearlayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/observe_big" />
-        </LinearLayout>
-
-    <RelativeLayout
+        <RelativeLayout
         android:id="@+id/relativelayout2"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -193,10 +175,10 @@
         android:id="@+id/relativelayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/relativelayout3"
-        android:layout_marginTop="10dp">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/button_input_finish"
@@ -204,9 +186,9 @@
             android:layout_height="40dp"
             android:background="@color/colorPrimary"
             android:onClick="begin_observe"
-            android:layout_marginLeft="20dp"
             android:text="输入完毕"
             android:textSize="14sp"
+            android:layout_marginLeft="80dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -215,23 +197,37 @@
             android:id="@+id/button_observe"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_marginRight="80dp"
             android:background="@color/colorPrimary"
             android:onClick="do_observe"
             android:text="测量"
             android:textSize="14sp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <Button
-            android:id="@+id/button_check"
+            android:id="@+id/button_next_cehui"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignLeft="@+id/button_input_finish"
+            android:layout_alignStart="@+id/button_input_finish"
+            android:layout_below="@+id/button_input_finish"
             android:background="@color/colorPrimary"
-            android:text="检查"
+            android:text="下一测回"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/button_next_point"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignLeft="@+id/button_observe"
+            android:layout_alignStart="@+id/button_observe"
+            android:layout_below="@+id/button_observe"
+            android:background="@color/colorPrimary"
+            android:text="下一站"
             android:textSize="14sp" />
 
     </RelativeLayout>
@@ -401,7 +397,7 @@
     <Button
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignEnd="@+id/linearLayout6"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/linearLayout6"
@@ -412,14 +408,14 @@
         android:textSize="14sp" />
 
     <Button
-        android:id="@+id/button_next_point"
+        android:id="@+id/button_check"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout6"
-        android:layout_centerHorizontal="true"
+        android:layout_height="40dp"
         android:background="@color/colorPrimary"
-        android:text="下一站"
-        android:textSize="14sp" />
+        android:text="检查"
+        android:textSize="14sp"
+        android:layout_below="@+id/linearLayout6"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
 <!--</ScrollView>-->

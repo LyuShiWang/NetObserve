@@ -7,7 +7,7 @@ package com.tools;
 public class Observe_data {
 
     private int Cehuishu;
-    private int Face;
+    private String Face;
     private String Station_Name;
     private String Focus_Name;
     private Double Hz;
@@ -18,7 +18,7 @@ public class Observe_data {
 
     }
 
-    public Observe_data(int Cehuishu1, int Face1,
+    public Observe_data(int Cehuishu1, String Face1,
                         String Station_Name1, String Focus_Name1,
                         double Hz1, double V1, double S1) {
         Cehuishu = Cehuishu1;
@@ -30,7 +30,7 @@ public class Observe_data {
         S = S1;
     }
 
-    public Observe_data(int Cehuishu2, int Face2,
+    public Observe_data(int Cehuishu2, String Face2,
                         String Station_Name2, String Focus_Name2,
                         String Hz2, String V2, String S2) {
         Cehuishu=Cehuishu2;
@@ -45,7 +45,7 @@ public class Observe_data {
     public int getCehuishu(){
         return Cehuishu;
     }
-    public int getFace(){
+    public String getFace(){
         return Face;
     }
 
@@ -77,7 +77,7 @@ public class Observe_data {
     public void setCehuishu(int Cehuishu){
         this.Cehuishu=Cehuishu;
     }
-    public void setFace(int Face){
+    public void setFace(String Face){
         this.Face=Face;
     }
 

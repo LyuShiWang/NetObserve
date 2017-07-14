@@ -36,6 +36,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.lyushiwang.netobserve.R.id.button_next_cehui;
+
 /**
  * Created by 吕世望 on 2017/4/22.
  */
@@ -84,6 +86,7 @@ public class observe_now extends AppCompatActivity {
     private Button button_input_finish;
     private Button button_observe;
     private Button button_check;
+    private Button button_next_cehui;
     private Button button_next_point;
     private Button button_save;
     private ImageButton imageButton_houtui;
@@ -96,14 +99,14 @@ public class observe_now extends AppCompatActivity {
     private observe_now.MyAdapter listview_adapter;
 
     private File file_data = new File(my_functions.get_main_file_path(), "read_data.txt");
-    private List<String> list_point_name = new ArrayList<String>();
+    private List<String> list_station_point = new ArrayList<String>();
     private List<Observe_data> list_observe_data = new ArrayList<Observe_data>();
 
     private List<Observe_data> List_Obdata;
 
     private String point_guiling;
-    private int face;
     private int i_cehuishu;
+    private int i_focus_points;
 
     private boolean check;
 
@@ -127,6 +130,7 @@ public class observe_now extends AppCompatActivity {
         button_input_finish = (Button) findViewById(R.id.button_input_finish);
         button_observe = (Button) findViewById(R.id.button_observe);
         button_check = (Button) findViewById(R.id.button_check);
+        button_next_cehui = (Button) findViewById(R.id.button_next_cehui);
         button_next_point = (Button) findViewById(R.id.button_next_point);
         button_save = (Button) findViewById(R.id.button_save);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
@@ -135,19 +139,25 @@ public class observe_now extends AppCompatActivity {
     }
 
     protected void do_click() {
-        button_input_finish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                point_guiling=editText_focus_name.getText().toString();
-                i_cehuishu = 1;
-                AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
-                AD_check_BT.setMessage("输入完毕！已将当前照准点设置为归零点，请开始观测。\n" +
-                        "此为第" + String.valueOf(i_cehuishu) + "测回")
-                        .create().show();
-            }
-        });
+        button_input_finish.setOnClickListener(listener_input_finish);
 
         button_observe.setOnClickListener(listener_observe);
+
+        button_next_cehui.setOnClickListener(listener_next_cehui);
+
+        button_next_point.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (check) {
+                    editText_point_name.setText("");
+                    editText_station_hight.setText("");
+                    editText_focus_name.setText("");
+                    editText_focus_high.setText("");
+
+                    i_cehuishu = 1;//到下一个测站点去测，测回数要进行初始化
+                }
+            }
+        });
 
         button_check.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,17 +175,10 @@ public class observe_now extends AppCompatActivity {
             }
         });
 
-        button_next_point.setOnClickListener(new View.OnClickListener() {
+        button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (check) {
-                    editText_point_name.setText("");
-                    editText_station_hight.setText("");
-                    editText_focus_name.setText("");
-                    editText_focus_high.setText("");
 
-                    i_cehuishu = 1;//到下一个测站点去测，测回数要进行初始化
-                }
             }
         });
 
@@ -185,23 +188,27 @@ public class observe_now extends AppCompatActivity {
                 finish();
             }
         });
-
-        button_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
+
+    Button.OnClickListener listener_input_finish = new Button.OnClickListener() {
+        public void onClick(View v) {
+            point_guiling = editText_focus_name.getText().toString();
+            i_cehuishu = 1;
+            i_focus_points = 0;
+            AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
+            AD_check_BT.setMessage("输入完毕！已将当前照准点设置为归零点，请开始观测。\n" +
+                    "此为第" + String.valueOf(i_cehuishu) + "测回")
+                    .create().show();
+        }
+    };
 
     Button.OnClickListener listener_observe = new Button.OnClickListener() {
         public void onClick(View v) {
-
             String station_name = editText_point_name.getText().toString();
             String focus_name = editText_focus_name.getText().toString();
             String[] points_name = {station_name, focus_name};
 
-            if (list_point_name.contains(station_name)) {
+//            if (list_station_point.contains(station_name)) {
 //                //开始重测该测站点
 //                AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
 //                AD_reobserve.setMessage("该测站点已存在！是否重测该点?")
@@ -211,53 +218,38 @@ public class observe_now extends AppCompatActivity {
 //
 //                            }
 //                        }).setNegativeButton("取消", null).show();
-            } else {
+//            } else {
+                if (list_station_point.contains(point_guiling)) {
+                    //如果回到了归零点
+                    makeToast("已回到初始照准点！");
+                } else {
+                    list_station_point.add(station_name);
 //                if (focus_name.equals(point_guiling)){
-//                    //回到归零点，一个测回结束
 //                    AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
 //                    AD_check_BT.setMessage("本次测回已结束！").create().show();
 //                    face=-face;
 //                }
-                //在屏幕上添加按钮，手动进入下一测回
+                    //进行观测，存储数据，及屏幕显示
+                    do_observe_and_put_and_display(i_cehuishu,points_name);
 
-                list_point_name.add(station_name);
-
-                if (!BluetoothAdap.isEnabled()) {
-                    AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
-                    AD_check_BT.setMessage("未打开蓝牙！请重试").create().show();
-                } else {
-                    String[] strings_Total_station = null;
-                    try {
-                        //数据的结构：第2、3、4分别为水平角、竖直角和距离，单位为弧度、弧度、米
-                        strings_Total_station = classmeasFun.VB_BAP_MeasDistAng();
-
-                        List_Obdata.add(put_data_into_Obdata(i_cehuishu, face, points_name, strings_Total_station));
-
-                        //显示在手机屏幕上
-                        map = new HashMap<String, Object>();
-                        map.put("Name", focus_name);
-                        map.put("observe_number", i_cehuishu);
-                        map.put("face_position", face_position(face));
-                        map.put("Hz", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[1])));
-                        map.put("V", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[2])));
-                        map.put("S", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[3])));
-                        list_listview.add(map);
-                        listview_adapter = new MyAdapter(observe_now.this, list_listview);
-                        listview.setAdapter(listview_adapter);
-                        listview_adapter.notifyDataSetChanged();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
-                        AD_check_measfun.setMessage("未连接到蓝牙模块！请重试").create().show();
-                    }
+                    //计算一共本测站一共观测了多少个目标点
+                    i_focus_points=i_focus_points+1;
                 }
-                try {
-                    Thread.sleep(250);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+//            }
 //                read_read_data_txt();
+        }
+    };
+
+    Button.OnClickListener listener_next_cehui = new Button.OnClickListener() {
+        public void onClick(View v) {
+            AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
+            AD_check_measfun.setMessage("是否进入下一测回？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).create().show();
         }
     };
 
@@ -442,7 +434,7 @@ public class observe_now extends AppCompatActivity {
         check = true;
 
         AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
-        AD_check_BT.setMessage("请输入测站点和照准点的信息，然后点击“输入完毕”键")
+        AD_check_BT.setMessage("请输入测站点和初始照准点的信息，然后点击“输入完毕”键")
                 .create().show();
     }
 
@@ -492,22 +484,69 @@ public class observe_now extends AppCompatActivity {
 //                break;
 //        }
 //    }
-    private String face_position(int face) {
+
+    public void do_observe_and_put_and_display(int i_cehuishu,String[] points_name) {
+        if (!BluetoothAdap.isEnabled()) {
+            AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
+            AD_check_BT.setMessage("未打开蓝牙！请重试").create().show();
+        } else {
+            String[] strings_Total_station = null;
+            String[] strings_face = null;
+
+            //测试，发送“得到盘位”命令后会得到何种反馈信息
+//            strings_face = classmeasFun.VB_TMC_GetFace();
+//            AlertDialog.Builder AD_test = new AlertDialog.Builder(observe_now.this);
+//            AD_test.setMessage(strings_face[0] + strings_face[1]).create().show();
+
+            try {
+                //数据的结构：第2、3、4分别为水平角、竖直角和距离，单位为弧度、弧度、米
+//                strings_Total_station = classmeasFun.VB_BAP_MeasDistAng();
+//                strings_face = classmeasFun.VB_TMC_GetFace();
+//
+//                List_Obdata.add(put_data_into_Obdata(i_cehuishu, strings_face[1], points_name, strings_Total_station));
+//
+//                //显示在手机屏幕上
+//                map = new HashMap<String, Object>();
+//                map.put("Name", points_name[1]);
+//                map.put("observe_number", i_cehuishu);
+//                map.put("face_position", face_position(strings_face[1]));
+//                map.put("Hz", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[1])));
+//                map.put("V", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[2])));
+//                map.put("S", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[3])));
+//                list_listview.add(map);
+//                listview_adapter = new MyAdapter(observe_now.this, list_listview);
+//                listview.setAdapter(listview_adapter);
+//                listview_adapter.notifyDataSetChanged();
+                AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
+                AD_check_measfun.setMessage("未连接到蓝牙模块！请重试").create().show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String face_position(String string_face) {
         String face_pos = "";
-        if (face == -1) {
+        if (string_face == "LEFT") {
             face_pos = "盘左";
         }
-        if (face == 1) {
+        if (string_face == "RIGHT") {
             face_pos = "盘右";
         }
         return face_pos;
     }
 
-    private Observe_data put_data_into_Obdata(int i_cehuishu, int face,
+    private Observe_data put_data_into_Obdata(int i_cehuishu, String string_face,
                                               String[] points_name, String[] strings_Total_station) {
+        //结构：测回数，盘位，测站点，照准点，水平角，竖直角，斜距
         Observe_data ob_data = new Observe_data();
         ob_data.setCehuishu(i_cehuishu);
-        ob_data.setFace(face);
+        ob_data.setFace(string_face);
         ob_data.setStationName(points_name[0]);
         ob_data.setFocusName(points_name[1]);
         ob_data.setHz(Double.valueOf(strings_Total_station[1]));
@@ -546,6 +585,9 @@ public class observe_now extends AppCompatActivity {
         int hz_toler_bancehui = Integer.valueOf(List_tolerance.get(1));
         int hz_toler_yicehui = Integer.valueOf(List_tolerance.get(2));
         int hz_toler_gecehui = Integer.valueOf(List_tolerance.get(3));
+        if (i_focus_points < 4) {
+            //不检查半测回归零差
+        }
 
         //2、检查竖直角
         int v_toler_zhaozhun = Integer.valueOf(List_tolerance.get(4));
