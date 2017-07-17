@@ -108,6 +108,7 @@ public class observe_now extends AppCompatActivity {
     //这个list_Obdata只储存一个测站的数据。该测站的数据合格后，写入txt文件中，并清空该List
 
     private String point_guiling;
+    private String face;
     private int i_cehuishu;
     private int i_focus_points;
 
@@ -189,6 +190,22 @@ public class observe_now extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+
+                //展示list_Obdata
+                String text = "";
+                for (Observe_data Obdata_temp : list_Obdata) {
+                    String text_Obdata = "";
+                    text_Obdata += Obdata_temp.getStationName()+",";
+                    text_Obdata += String.valueOf(Obdata_temp.getCehuishu())+",";
+                    text_Obdata += Obdata_temp.getFace()+",";
+                    text_Obdata += Obdata_temp.getFocusName()+",";
+                    text_Obdata += Obdata_temp.getHz_String()+",";
+                    text_Obdata += Obdata_temp.getV_String()+",";
+                    text_Obdata += Obdata_temp.getS_String();
+                    text += text_Obdata+"\n";
+                }
+                AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
+                AD_error.setTitle("警告，数据超限！").setPositiveButton("确定", null);
             }
         });
     }
@@ -231,8 +248,6 @@ public class observe_now extends AppCompatActivity {
 //                            .create().show();
                     if (!check_data(list_Obdata, 0)) {
                         //检查半测回归零差
-//                        AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
-//                        AD_reobserve.setMessage("该测站点已存在！是否重测该点?");
                         makeToast("半测回归零差超限！");
                     }
                 } else {
@@ -240,7 +255,11 @@ public class observe_now extends AppCompatActivity {
                     do_observe_and_put_and_display(i_cehuishu, points_name);
 
                     //计算一共本测站一共观测了多少个目标点
-                    i_focus_points += 1;
+                    if (i_cehuishu == 1) {
+                        if (face == "LEFT") {
+                            i_focus_points += 1;
+                        }
+                    }
                 }
             }
 
@@ -255,12 +274,6 @@ public class observe_now extends AppCompatActivity {
 //                            }
 //                        }).setNegativeButton("取消", null).show();
 //            } else {
-
-            if (focus_name.equals(list_focus_points.get(0))) {
-
-            } else {
-
-            }
         }
     };
 
@@ -525,15 +538,24 @@ public class observe_now extends AppCompatActivity {
             try {
                 //数据的结构：第2、3、4分别为水平角、竖直角和距离，单位为弧度、弧度、米
                 strings_Total_station = classmeasFun.VB_BAP_MeasDistAng();
-                strings_face = classmeasFun.VB_TMC_GetFace();
+//                strings_face = classmeasFun.VB_TMC_GetFace();
 
-                list_Obdata.add(put_data_into_Obdata(i_cehuishu, strings_face[1], points_name, strings_Total_station));
+                //左右盘通过竖直角的数值就可以知道了
+                Double V_face = Double.valueOf(strings_Total_station[2]);
+                if (V_face < Math.PI) {
+                    face = "LEFT";
+                }
+                if (V_face > Math.PI) {
+                    face = "RIGHT";
+                }
+
+                list_Obdata.add(put_data_into_Obdata(i_cehuishu, face, points_name, strings_Total_station));
 //
 //                //显示在手机屏幕上
                 map = new HashMap<String, Object>();
                 map.put("Name", points_name[1]);
                 map.put("observe_number", i_cehuishu);
-                map.put("face_position", face_position(strings_face[1]));
+                map.put("face_position", face_position(face));
                 map.put("Hz", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[1])));
                 map.put("V", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[2])));
                 map.put("S", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[3])));
@@ -554,28 +576,28 @@ public class observe_now extends AppCompatActivity {
         }
     }
 
-    private String face_position(String string_face) {
+    private String face_position(String face) {
         String face_pos = "";
-        if (string_face == "LEFT") {
+        if (face == "LEFT") {
             face_pos = "盘左";
         }
-        if (string_face == "RIGHT") {
+        if (face == "RIGHT") {
             face_pos = "盘右";
         }
         return face_pos;
     }
 
-    private Observe_data put_data_into_Obdata(int i_cehuishu, String string_face,
+    private Observe_data put_data_into_Obdata(int i_cehuishu, String face,
                                               String[] points_name, String[] strings_Total_station) {
         //结构：测回数，盘位，测站点，照准点，水平角，竖直角，斜距
         Observe_data ob_data = new Observe_data();
         ob_data.setCehuishu(i_cehuishu);
-        ob_data.setFace(string_face);
+        ob_data.setFace(face);
         ob_data.setStationName(points_name[0]);
         ob_data.setFocusName(points_name[1]);
-        ob_data.setHz(Double.valueOf(strings_Total_station[1]));
-        ob_data.setV(Double.valueOf(strings_Total_station[2]));
-        ob_data.setS(Double.valueOf(strings_Total_station[3]));
+        ob_data.setHz(Double.valueOf(strings_Total_station[1]));//单位：弧度
+        ob_data.setV(Double.valueOf(strings_Total_station[2]));//单位：弧度
+        ob_data.setS(Double.valueOf(strings_Total_station[3]));//单位：米
 
         return ob_data;
     }
@@ -584,6 +606,7 @@ public class observe_now extends AppCompatActivity {
         boolean check_data;
         int error = 0;
         //读取观测限差文件
+        //每次检查都要读取一次文件，不妥，需改正
         File Tolerance_Settings = new File(my_functions.get_main_file_path(), "Tolerance Settings.ini");
         List<String> List_tolerance = new ArrayList<String>();
         String line = "";
@@ -609,9 +632,6 @@ public class observe_now extends AppCompatActivity {
         int hz_toler_bancehui = Integer.valueOf(List_tolerance.get(1));
         int hz_toler_yicehui = Integer.valueOf(List_tolerance.get(2));
         int hz_toler_gecehui = Integer.valueOf(List_tolerance.get(3));
-        if (i_focus_points < 4) {
-            //不检查半测回归零差
-        }
 
         //2、检查竖直角
         int v_toler_zhaozhun = Integer.valueOf(List_tolerance.get(4));
@@ -621,6 +641,15 @@ public class observe_now extends AppCompatActivity {
         //3、检查距离
         int s_toler_zhaozhun = Integer.valueOf(List_tolerance.get(7));
         int s_toler_gecehui = Integer.valueOf(List_tolerance.get(8));
+
+        if (type == 0) {
+            if (i_focus_points > 2) {
+                //检查半测回归零差
+                Double Hz_1=list_Obdata.get(0).getHz();
+                Double Hz_end=list_Obdata.get(i_focus_points+1).getHz();
+
+            }
+        }
 
         if (error > 0) {
             check_data = false;

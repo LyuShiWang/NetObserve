@@ -6,9 +6,9 @@ package com.tools;
 
 public class Observe_data {
 
+    private String Station_Name;
     private int Cehuishu;
     private String Face;
-    private String Station_Name;
     private String Focus_Name;
     private Double Hz;
     private Double V;
@@ -18,20 +18,20 @@ public class Observe_data {
 
     }
 
-    public Observe_data(int Cehuishu1, String Face1,
-                        String Station_Name1, String Focus_Name1,
+    public Observe_data(String Station_Name1,
+                        int Cehuishu1, String Face1, String Focus_Name1,
                         double Hz1, double V1, double S1) {
+        Station_Name = Station_Name1;
         Cehuishu = Cehuishu1;
         Face = Face1;
-        Station_Name = Station_Name1;
         Focus_Name = Focus_Name1;
         Hz = Hz1;
         V = V1;
         S = S1;
     }
 
-    public Observe_data(int Cehuishu2, String Face2,
-                        String Station_Name2, String Focus_Name2,
+    public Observe_data(String Station_Name2,
+                        int Cehuishu2, String Face2, String Focus_Name2,
                         String Hz2, String V2, String S2) {
         Cehuishu=Cehuishu2;
         Face=Face2;
@@ -42,6 +42,9 @@ public class Observe_data {
         S = Double.valueOf(S2);
     }
 
+    public String getStationName() {
+        return Station_Name;
+    }
     public int getCehuishu(){
         return Cehuishu;
     }
@@ -49,9 +52,6 @@ public class Observe_data {
         return Face;
     }
 
-    public String getStationName() {
-        return Station_Name;
-    }
     public String getFocusName() {
         return Focus_Name;
     }
