@@ -99,10 +99,13 @@ public class observe_now extends AppCompatActivity {
     private observe_now.MyAdapter listview_adapter;
 
     private File file_data = new File(my_functions.get_main_file_path(), "read_data.txt");
-    private List<String> list_station_point = new ArrayList<String>();
-    private List<Observe_data> list_observe_data = new ArrayList<Observe_data>();
 
-    private List<Observe_data> List_Obdata;
+    private List<String> list_station_points = new ArrayList<String>();
+    private List<String> list_focus_points = new ArrayList<String>();
+
+    private List<Observe_data> list_data_read = new ArrayList<Observe_data>();
+    private List<Observe_data> list_Obdata = new ArrayList<Observe_data>();
+    //这个list_Obdata只储存一个测站的数据。该测站的数据合格后，写入txt文件中，并清空该List
 
     private String point_guiling;
     private int i_cehuishu;
@@ -163,7 +166,7 @@ public class observe_now extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 List<Observe_data> List_data = new ArrayList<Observe_data>();
-                check = check_data(List_data);
+                check = check_data(List_data, -1);
                 if (check) {
 
                 } else {
@@ -195,6 +198,8 @@ public class observe_now extends AppCompatActivity {
             point_guiling = editText_focus_name.getText().toString();
             i_cehuishu = 1;
             i_focus_points = 0;
+            String station_name = editText_point_name.getText().toString();
+            list_station_points.add(station_name);
             AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
             AD_check_BT.setMessage("输入完毕！已将当前照准点设置为归零点，请开始观测。\n" +
                     "此为第" + String.valueOf(i_cehuishu) + "测回")
@@ -208,7 +213,38 @@ public class observe_now extends AppCompatActivity {
             String focus_name = editText_focus_name.getText().toString();
             String[] points_name = {station_name, focus_name};
 
-//            if (list_station_point.contains(station_name)) {
+            list_focus_points.add(focus_name);
+
+            int list_size = list_focus_points.size();
+            if (list_size == 1) {
+                //第一次观测归零点
+                do_observe_and_put_and_display(i_cehuishu, points_name);
+                i_focus_points += 1;
+            }
+            if (list_size > 1) {
+                if (list_focus_points.get(list_size - 1).equals(list_focus_points.get(0))) {
+                    //如果回到了归零点
+                    makeToast("已回到初始照准点！");
+//                    AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
+//                    AD_check_BT.setMessage("归零点为：" + guiling + "\nlist_focus_points："
+//                            + list_focus_points.toString())
+//                            .create().show();
+                    if (!check_data(list_Obdata, 0)) {
+                        //检查半测回归零差
+//                        AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
+//                        AD_reobserve.setMessage("该测站点已存在！是否重测该点?");
+                        makeToast("半测回归零差超限！");
+                    }
+                } else {
+                    //进行观测，存储数据，及屏幕显示
+                    do_observe_and_put_and_display(i_cehuishu, points_name);
+
+                    //计算一共本测站一共观测了多少个目标点
+                    i_focus_points += 1;
+                }
+            }
+
+//            if (list_station_points.contains(station_name)) {
 //                //开始重测该测站点
 //                AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
 //                AD_reobserve.setMessage("该测站点已存在！是否重测该点?")
@@ -219,24 +255,12 @@ public class observe_now extends AppCompatActivity {
 //                            }
 //                        }).setNegativeButton("取消", null).show();
 //            } else {
-                if (list_station_point.contains(point_guiling)) {
-                    //如果回到了归零点
-                    makeToast("已回到初始照准点！");
-                } else {
-                    list_station_point.add(station_name);
-//                if (focus_name.equals(point_guiling)){
-//                    AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
-//                    AD_check_BT.setMessage("本次测回已结束！").create().show();
-//                    face=-face;
-//                }
-                    //进行观测，存储数据，及屏幕显示
-                    do_observe_and_put_and_display(i_cehuishu,points_name);
 
-                    //计算一共本测站一共观测了多少个目标点
-                    i_focus_points=i_focus_points+1;
-                }
-//            }
-//                read_read_data_txt();
+            if (focus_name.equals(list_focus_points.get(0))) {
+
+            } else {
+
+            }
         }
     };
 
@@ -247,7 +271,7 @@ public class observe_now extends AppCompatActivity {
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            i_cehuishu += 1;
                         }
                     }).create().show();
         }
@@ -264,7 +288,7 @@ public class observe_now extends AppCompatActivity {
 //
 //            Observe_data ob1_back_faceL = new Observe_data(focus_name,
 //                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_observe_data.add(ob1_back_faceL);
+//            list_data_read.add(ob1_back_faceL);
 //            map = new HashMap<String, Object>();
 //            map.put("Name", focus_name);
 //            map.put("observe_number", "1");
@@ -276,7 +300,7 @@ public class observe_now extends AppCompatActivity {
 //
 //            Observe_data ob1_front_faceL = new Observe_data(front_name,
 //                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_observe_data.add(ob1_front_faceL);
+//            list_data_read.add(ob1_front_faceL);
 //            map = new HashMap<String, Object>();
 //            map.put("Name", front_name);
 //            map.put("observe_number", "1");
@@ -288,7 +312,7 @@ public class observe_now extends AppCompatActivity {
 //
 //            Observe_data ob1_front_faceR = new Observe_data(front_name,
 //                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_observe_data.add(ob1_front_faceR);
+//            list_data_read.add(ob1_front_faceR);
 //            map = new HashMap<String, Object>();
 //            map.put("Name", front_name);
 //            map.put("observe_number", "1");
@@ -300,7 +324,7 @@ public class observe_now extends AppCompatActivity {
 //
 //            Observe_data ob1_back_faceR = new Observe_data(back_name,
 //                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_observe_data.add(ob1_back_faceR);
+//            list_data_read.add(ob1_back_faceR);
 //            map = new HashMap<String, Object>();
 //            map.put("Name", back_name);
 //            map.put("observe_number", "1");
@@ -312,7 +336,7 @@ public class observe_now extends AppCompatActivity {
 //
 //            Observe_data ob2_back_faceL = new Observe_data(back_name,
 //                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_observe_data.add(ob2_back_faceL);
+//            list_data_read.add(ob2_back_faceL);
 //            map = new HashMap<String, Object>();
 //            map.put("Name", back_name);
 //            map.put("observe_number", "2");
@@ -324,7 +348,7 @@ public class observe_now extends AppCompatActivity {
 //
 //            Observe_data ob2_front_faceL = new Observe_data(front_name,
 //                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_observe_data.add(ob2_front_faceL);
+//            list_data_read.add(ob2_front_faceL);
 //            map = new HashMap<String, Object>();
 //            map.put("Name", front_name);
 //            map.put("observe_number", "2");
@@ -336,7 +360,7 @@ public class observe_now extends AppCompatActivity {
 //
 //            Observe_data ob2_front_faceR = new Observe_data(front_name,
 //                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_observe_data.add(ob2_front_faceR);
+//            list_data_read.add(ob2_front_faceR);
 //            map = new HashMap<String, Object>();
 //            map.put("Name", front_name);
 //            map.put("observe_number", "2");
@@ -348,7 +372,7 @@ public class observe_now extends AppCompatActivity {
 //
 //            Observe_data ob2_back_faceR = new Observe_data(back_name,
 //                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_observe_data.add(ob2_back_faceR);
+//            list_data_read.add(ob2_back_faceR);
 //            map = new HashMap<String, Object>();
 //            map.put("Name", back_name);
 //            map.put("observe_number", "2");
@@ -485,7 +509,7 @@ public class observe_now extends AppCompatActivity {
 //        }
 //    }
 
-    public void do_observe_and_put_and_display(int i_cehuishu,String[] points_name) {
+    public void do_observe_and_put_and_display(int i_cehuishu, String[] points_name) {
         if (!BluetoothAdap.isEnabled()) {
             AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
             AD_check_BT.setMessage("未打开蓝牙！请重试").create().show();
@@ -500,23 +524,23 @@ public class observe_now extends AppCompatActivity {
 
             try {
                 //数据的结构：第2、3、4分别为水平角、竖直角和距离，单位为弧度、弧度、米
-//                strings_Total_station = classmeasFun.VB_BAP_MeasDistAng();
-//                strings_face = classmeasFun.VB_TMC_GetFace();
-//
-//                List_Obdata.add(put_data_into_Obdata(i_cehuishu, strings_face[1], points_name, strings_Total_station));
+                strings_Total_station = classmeasFun.VB_BAP_MeasDistAng();
+                strings_face = classmeasFun.VB_TMC_GetFace();
+
+                list_Obdata.add(put_data_into_Obdata(i_cehuishu, strings_face[1], points_name, strings_Total_station));
 //
 //                //显示在手机屏幕上
-//                map = new HashMap<String, Object>();
-//                map.put("Name", points_name[1]);
-//                map.put("observe_number", i_cehuishu);
-//                map.put("face_position", face_position(strings_face[1]));
-//                map.put("Hz", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[1])));
-//                map.put("V", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[2])));
-//                map.put("S", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[3])));
-//                list_listview.add(map);
-//                listview_adapter = new MyAdapter(observe_now.this, list_listview);
-//                listview.setAdapter(listview_adapter);
-//                listview_adapter.notifyDataSetChanged();
+                map = new HashMap<String, Object>();
+                map.put("Name", points_name[1]);
+                map.put("observe_number", i_cehuishu);
+                map.put("face_position", face_position(strings_face[1]));
+                map.put("Hz", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[1])));
+                map.put("V", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[2])));
+                map.put("S", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[3])));
+                list_listview.add(map);
+                listview_adapter = new MyAdapter(observe_now.this, list_listview);
+                listview.setAdapter(listview_adapter);
+                listview_adapter.notifyDataSetChanged();
                 AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
                 AD_check_measfun.setMessage("未连接到蓝牙模块！请重试").create().show();
             } catch (Exception e) {
@@ -556,7 +580,7 @@ public class observe_now extends AppCompatActivity {
         return ob_data;
     }
 
-    private boolean check_data(List<Observe_data> List_data) {
+    private boolean check_data(List<Observe_data> List_data, int type) {
         boolean check_data;
         int error = 0;
         //读取观测限差文件

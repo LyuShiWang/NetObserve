@@ -237,8 +237,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relativelayout5"
-            android:layout_marginLeft="3dip"
-            android:layout_marginRight="3dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/squre_border"
@@ -374,7 +374,7 @@
             <ListView
                 android:id="@+id/listview_observe_now"
                 android:layout_width="fill_parent"
-                android:layout_height="218dp"
+                android:layout_height="match_parent"
                 android:cacheColorHint="@android:color/transparent"
                 android:divider="#B4B3B3"
                 android:dividerHeight="0dip"
@@ -382,30 +382,18 @@
                 android:scrollbars="vertical"></ListView>
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/imageButton_houtui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            app:srcCompat="@drawable/houtui"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_alignTop="@+id/button_save"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/button_save"
+    <ImageButton
+        android:id="@+id/imageButton_houtui"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignEnd="@+id/linearLayout6"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/linearLayout6"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/colorPrimary"
-        android:text="保存"
-        android:textSize="14sp" />
+        android:background="#00000000"
+        app:srcCompat="@drawable/houtui"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/linearLayout6"
+        android:layout_alignStart="@+id/linearLayout6"
+        android:layout_marginStart="7dp" />
 
     <Button
         android:id="@+id/button_check"
@@ -414,8 +402,18 @@
         android:background="@color/colorPrimary"
         android:text="检查"
         android:textSize="14sp"
-        android:layout_below="@+id/linearLayout6"
+        android:layout_alignBottom="@+id/imageButton_houtui"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:text="保存"
+        android:textSize="14sp"
+        android:layout_alignBottom="@+id/imageButton_houtui"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>
 <!--</ScrollView>-->
