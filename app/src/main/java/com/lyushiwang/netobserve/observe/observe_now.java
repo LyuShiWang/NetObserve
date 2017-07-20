@@ -105,7 +105,14 @@ public class observe_now extends AppCompatActivity {
 
     private List<Observe_data> list_data_read = new ArrayList<Observe_data>();
     private List<Observe_data> list_Obdata = new ArrayList<Observe_data>();
-    //这个list_Obdata只储存一个测站的数据。该测站的数据合格后，写入txt文件中，并清空该List
+    //这个list_Obdata只储存一个测站的观测数据。该测站的数据合格后，写入txt文件中，并清空该List
+
+    private List<Double> Hz_2C = new ArrayList<Double>();
+    private List<Double> V_zhibiaocha = new ArrayList<Double>();
+
+    private List<Double> Hz_bencehui = new ArrayList<Double>();
+    private List<Double> V_bencehui = new ArrayList<Double>();
+    private List<Double> S_bencehui = new ArrayList<Double>();
 
     private String point_guiling;
     private String face;
@@ -195,14 +202,14 @@ public class observe_now extends AppCompatActivity {
                 String text = "";
                 for (Observe_data Obdata_temp : list_Obdata) {
                     String text_Obdata = "";
-                    text_Obdata += Obdata_temp.getStationName()+",";
-                    text_Obdata += String.valueOf(Obdata_temp.getCehuishu())+",";
-                    text_Obdata += Obdata_temp.getFace()+",";
-                    text_Obdata += Obdata_temp.getFocusName()+",";
-                    text_Obdata += Obdata_temp.getHz_String()+",";
-                    text_Obdata += Obdata_temp.getV_String()+",";
+                    text_Obdata += Obdata_temp.getStationName() + ",";
+                    text_Obdata += String.valueOf(Obdata_temp.getCehuishu()) + ",";
+                    text_Obdata += Obdata_temp.getFace() + ",";
+                    text_Obdata += Obdata_temp.getFocusName() + ",";
+                    text_Obdata += Obdata_temp.getHz_String() + ",";
+                    text_Obdata += Obdata_temp.getV_String() + ",";
                     text_Obdata += Obdata_temp.getS_String();
-                    text += text_Obdata+"\n";
+                    text += text_Obdata + "\n";
                 }
                 AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
                 AD_error.setTitle("警告，数据超限！").setPositiveButton("确定", null);
@@ -233,35 +240,25 @@ public class observe_now extends AppCompatActivity {
             list_focus_points.add(focus_name);
 
             int list_size = list_focus_points.size();
-            if (list_size == 1) {
-                //第一次观测归零点
-                do_observe_and_put_and_display(i_cehuishu, points_name);
-                i_focus_points += 1;
-            }
-            if (list_size > 1) {
-                if (list_focus_points.get(list_size - 1).equals(list_focus_points.get(0))) {
-                    //如果回到了归零点
-                    makeToast("已回到初始照准点！");
-//                    AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
-//                    AD_check_BT.setMessage("归零点为：" + guiling + "\nlist_focus_points："
-//                            + list_focus_points.toString())
-//                            .create().show();
-                    if (!check_data(list_Obdata, 0)) {
-                        //检查半测回归零差
-                        makeToast("半测回归零差超限！");
-                    }
-                } else {
-                    //进行观测，存储数据，及屏幕显示
-                    do_observe_and_put_and_display(i_cehuishu, points_name);
 
-                    //计算一共本测站一共观测了多少个目标点
+            //进行观测，存储数据，及屏幕显示
+            do_observe_and_put_and_display(i_cehuishu, points_name);
+
+            if (face.equals("LEFT")) {
+                //计算一共本测站一共观测了多少个目标点
+                if (list_focus_points.get(list_size - 1).equals(list_focus_points.get(0))) {
+                    makeToast("已回到初始照准点！");
+                    if (!check_data(list_Obdata, 0)) {
+                        makeToast("盘左水平角归零差超限！");
+                    }
+                    ;
+                } else {
                     if (i_cehuishu == 1) {
-                        if (face == "LEFT") {
-                            i_focus_points += 1;
-                        }
+                        i_focus_points += 1;
                     }
                 }
             }
+
 
 //            if (list_station_points.contains(station_name)) {
 //                //开始重测该测站点
@@ -530,11 +527,6 @@ public class observe_now extends AppCompatActivity {
             String[] strings_Total_station = null;
             String[] strings_face = null;
 
-            //测试，发送“得到盘位”命令后会得到何种反馈信息
-//            strings_face = classmeasFun.VB_TMC_GetFace();
-//            AlertDialog.Builder AD_test = new AlertDialog.Builder(observe_now.this);
-//            AD_test.setMessage(strings_face[0] + strings_face[1]).create().show();
-
             try {
                 //数据的结构：第2、3、4分别为水平角、竖直角和距离，单位为弧度、弧度、米
                 strings_Total_station = classmeasFun.VB_BAP_MeasDistAng();
@@ -627,34 +619,48 @@ public class observe_now extends AppCompatActivity {
                 List_data.get(3).getHz(), List_data.get(3).getV(), List_data.get(3).getS()
         };
 
-        //1、检查水平角
+        //1、水平角限差，单位：秒″
         int hz_toler_zhaozhun = Integer.valueOf(List_tolerance.get(0));
-        int hz_toler_bancehui = Integer.valueOf(List_tolerance.get(1));
-        int hz_toler_yicehui = Integer.valueOf(List_tolerance.get(2));
-        int hz_toler_gecehui = Integer.valueOf(List_tolerance.get(3));
+        int hz_toler_guiling = Integer.valueOf(List_tolerance.get(1));//水平角半测回归零差
+        int hz_toler_2C = Integer.valueOf(List_tolerance.get(2));//水平角一测回2C互差
+        int hz_toler_gecehui = Integer.valueOf(List_tolerance.get(3));//水平角同方向各测回互差
 
-        //2、检查竖直角
+        //2、竖直角限差，单位：秒″
         int v_toler_zhaozhun = Integer.valueOf(List_tolerance.get(4));
-        int v_toler_zhibiaocha = Integer.valueOf(List_tolerance.get(5));
-        int v_toler_gecehui = Integer.valueOf(List_tolerance.get(6));
+        int v_toler_zhibiaocha = Integer.valueOf(List_tolerance.get(5));//竖直角一测回指标差互差
+        int v_toler_gecehui = Integer.valueOf(List_tolerance.get(6));//竖直角同方向各测回互差
 
-        //3、检查距离
+        //3、距离限差，单位：毫米mm
         int s_toler_zhaozhun = Integer.valueOf(List_tolerance.get(7));
-        int s_toler_gecehui = Integer.valueOf(List_tolerance.get(8));
+        int s_toler_gecehui = Integer.valueOf(List_tolerance.get(8));//距离同方向各测回互差
 
         if (type == 0) {
             if (i_focus_points > 2) {
-                //检查半测回归零差
-                Double Hz_1=list_Obdata.get(0).getHz();
-                Double Hz_end=list_Obdata.get(i_focus_points+1).getHz();
+                //检查盘左半测回归零差
+                int first = 2 * (i_cehuishu - 1) * (i_focus_points + 1);
+                int sencond = 2 * (i_cehuishu - 1) * (i_focus_points + 1) + i_focus_points;
+                Double Hz_0_LEFT = list_Obdata.get(first).getHz();
+                Double Hz_end_LEFT = list_Obdata.get(sencond).getHz();
+                Double guilingcha = my_functions.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
 
+                if (guilingcha > hz_toler_guiling) {
+                    error += 1;
+                }
             }
         }
 
-        if (error > 0) {
-            check_data = false;
-        } else {
+        if (type == 1) {
+            //进行一测回内的检查
+        }
+
+        if (type == 2) {
+            //进行测回间的互差检查
+        }
+
+        if (error == 0) {
             check_data = true;
+        } else {
+            check_data = false;
         }
         return check_data;
     }

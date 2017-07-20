@@ -123,7 +123,7 @@ public class My_Functions {
         return list_temp.toString();
     }
 
-    public double rad2ang(double radian){
+    public double rad2ang(double radian){//弧度转为纯角度，单位：度°
         double angle=radian*180/Math.PI;
         return angle;
     }
