@@ -103,12 +103,14 @@ public class observe_now extends AppCompatActivity {
     private List<String> list_station_points = new ArrayList<String>();
     private List<String> list_focus_points = new ArrayList<String>();
 
-    private List<Observe_data> list_data_read = new ArrayList<Observe_data>();
+//    private List<Observe_data> list_data_read = new ArrayList<Observe_data>();
     private List<Observe_data> list_Obdata = new ArrayList<Observe_data>();
     //这个list_Obdata只储存一个测站的观测数据。该测站的数据合格后，写入txt文件中，并清空该List
 
     private List<Double> Hz_2C = new ArrayList<Double>();
     private List<Double> V_zhibiaocha = new ArrayList<Double>();
+
+    private List<List<Double>> calculate_Hz=new ArrayList<List<Double>>();
 
     private List<Double> Hz_bencehui = new ArrayList<Double>();
     private List<Double> V_bencehui = new ArrayList<Double>();
