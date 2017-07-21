@@ -32,6 +32,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,14 +104,16 @@ public class observe_now extends AppCompatActivity {
     private List<String> list_station_points = new ArrayList<String>();
     private List<String> list_focus_points = new ArrayList<String>();
 
-//    private List<Observe_data> list_data_read = new ArrayList<Observe_data>();
+    //    private List<Observe_data> list_data_read = new ArrayList<Observe_data>();
     private List<Observe_data> list_Obdata = new ArrayList<Observe_data>();
     //这个list_Obdata只储存一个测站的观测数据。该测站的数据合格后，写入txt文件中，并清空该List
 
     private List<Double> Hz_2C = new ArrayList<Double>();
     private List<Double> V_zhibiaocha = new ArrayList<Double>();
 
-    private List<List<Double>> calculate_Hz=new ArrayList<List<Double>>();
+    private List<Double[]> calculate_Hz = new ArrayList<Double[]>();
+    private List<Double[]> calculate_V = new ArrayList<Double[]>();
+    private List<Double[]> calculate_S = new ArrayList<Double[]>();
 
     private List<Double> Hz_bencehui = new ArrayList<Double>();
     private List<Double> V_bencehui = new ArrayList<Double>();
@@ -636,11 +639,15 @@ public class observe_now extends AppCompatActivity {
         int s_toler_zhaozhun = Integer.valueOf(List_tolerance.get(7));
         int s_toler_gecehui = Integer.valueOf(List_tolerance.get(8));//距离同方向各测回互差
 
+
+        int first = 2 * (i_cehuishu - 1) * (i_focus_points + 1);
+        int sencond = 2 * (i_cehuishu - 1) * (i_focus_points + 1) + i_focus_points;
+        int third = (2 * i_cehuishu - 1) * (i_focus_points + 1);
+        int forth = (2 * i_cehuishu - 1) * (i_focus_points + 1) + i_focus_points;
+
         if (type == 0) {
             if (i_focus_points > 2) {
                 //检查盘左半测回归零差
-                int first = 2 * (i_cehuishu - 1) * (i_focus_points + 1);
-                int sencond = 2 * (i_cehuishu - 1) * (i_focus_points + 1) + i_focus_points;
                 Double Hz_0_LEFT = list_Obdata.get(first).getHz();
                 Double Hz_end_LEFT = list_Obdata.get(sencond).getHz();
                 Double guilingcha = my_functions.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
@@ -653,6 +660,60 @@ public class observe_now extends AppCompatActivity {
 
         if (type == 1) {
             //进行一测回内的检查
+            if (i_focus_points > 2) {
+                //检查盘右半测回归零差
+                Double Hz_0_LEFT = list_Obdata.get(third).getHz();
+                Double Hz_end_LEFT = list_Obdata.get(forth).getHz();//单位：弧度
+                Double guilingcha = my_functions.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
+                if (guilingcha > hz_toler_guiling) {
+                    error += 1;
+                }
+            }
+
+            //进行一测回各方向Hz的2C互差检查
+            Hz_2C.clear();
+            for (int i = 0; i < i_focus_points; i++) {
+                Double Hz_2C_1 = list_Obdata.get(first + i).getHz();
+                Double Hz_2C_4 = list_Obdata.get(forth - i).getHz();//单位：弧度
+                Double two_C;
+                if (Hz_2C_4 > Math.PI) {
+                    two_C = my_functions.rad2ang_show(Hz_2C_1 - (Hz_2C_4 - Math.PI)) * 100 * 100;//单位：秒 ″
+                } else {
+                    two_C = my_functions.rad2ang_show(Hz_2C_1 - (Hz_2C_4 + Math.PI)) * 100 * 100;//单位：秒 ″
+                }
+                Hz_2C.add(two_C);
+            }
+            Double delta_2C = Collections.max(Hz_2C) - Collections.min(Hz_2C);
+            if (delta_2C > hz_toler_2C) {
+                error += 1;
+            }
+
+            //进行一测回各方向V指标差互差检查
+            V_zhibiaocha.clear();
+            for (int i = 0; i < i_focus_points; i++) {
+                Double V_zhibiaocha_1 = list_Obdata.get(first + i).getV();
+                Double V_zhibiaocha_4 = list_Obdata.get(forth - i).getV();//单位：弧度
+                Double zhibiaocha;
+                zhibiaocha = my_functions.rad2ang_show((V_zhibiaocha_1 + V_zhibiaocha_4 - 2 * Math.PI) / (double) 2) * 100 * 100;//单位：秒 ″
+                V_zhibiaocha.add(zhibiaocha);
+            }
+            Double delta_zhibiaocha = Collections.max(V_zhibiaocha) - Collections.min(V_zhibiaocha);
+            if (delta_zhibiaocha > v_toler_zhibiaocha) {
+                error += 1;
+            }
+
+            //计算本测回各方向Hz值
+            Double[] Hz_set = new Double[i_focus_points];
+            Hz_set[0] = my_functions.rad2ang_show(list_Obdata.get(first).getHz());//度.分秒形式
+            for (int i = 1; i < i_focus_points; i++) {
+                Double Hz_LEFT_0 = list_Obdata.get(first).getHz();
+                Double Hz_LEFT = list_Obdata.get(first + i).getHz();
+                Double Hz_RIGHT_0 = list_Obdata.get(forth).getHz();
+                Double Hz_RIGHT = list_Obdata.get(forth - i).getHz();//单位：弧度
+                Double Hz_focus = (Hz_LEFT - Hz_LEFT_0 + Hz_RIGHT - Hz_RIGHT_0) / (double) 2;
+                Hz_set[i] = my_functions.rad2ang_show(Hz_focus);
+            }
+            calculate_Hz.add(Hz_set);
         }
 
         if (type == 2) {
