@@ -103,10 +103,26 @@ public class observe_now extends AppCompatActivity {
 
     private List<String> list_station_points = new ArrayList<String>();
     private List<String> list_focus_points = new ArrayList<String>();
+    private List<String> list_sub_focus=new ArrayList<String>();
 
     //    private List<Observe_data> list_data_read = new ArrayList<Observe_data>();
     private List<Observe_data> list_Obdata = new ArrayList<Observe_data>();
     //这个list_Obdata只储存一个测站的观测数据。该测站的数据合格后，写入txt文件中，并清空该List
+
+    //1、水平角限差，单位：秒″
+    private int hz_toler_zhaozhun;
+    private int hz_toler_guiling;//水平角半测回归零差
+    private int hz_toler_2C;//水平角一测回2C互差
+    private int hz_toler_gecehui;//水平角同方向各测回互差
+
+    //2、竖直角限差，单位：秒″
+    private int v_toler_zhaozhun;
+    private int v_toler_zhibiaocha;//竖直角一测回指标差互差
+    private int v_toler_gecehui;//竖直角同方向各测回互差
+
+    //3、距离限差，单位：毫米mm
+    private int s_toler_zhaozhun;
+    private int s_toler_gecehui;//距离同方向各测回互差
 
     private List<Double> Hz_2C = new ArrayList<Double>();
     private List<Double> V_zhibiaocha = new ArrayList<Double>();
@@ -178,16 +194,11 @@ public class observe_now extends AppCompatActivity {
         button_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Observe_data> List_data = new ArrayList<Observe_data>();
-                check = check_data(List_data, -1);
-                if (check) {
+                AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
+                AD_error.setTitle("警告，数据超限！").setPositiveButton("确定", null);
+                //超限的数据类型不同，会有不同的提示内容
+                AD_error.show();
 
-                } else {
-                    AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
-                    AD_error.setTitle("警告，数据超限！").setPositiveButton("确定", null);
-                    //超限的数据类型不同，会有不同的提示内容
-                    AD_error.show();
-                }
             }
         });
 
@@ -256,10 +267,10 @@ public class observe_now extends AppCompatActivity {
                     if (!check_data(list_Obdata, 0)) {
                         makeToast("盘左水平角归零差超限！");
                     }
-                    ;
                 } else {
                     if (i_cehuishu == 1) {
                         i_focus_points += 1;
+                        list_sub_focus.add(focus_name);
                     }
                 }
             }
@@ -472,6 +483,8 @@ public class observe_now extends AppCompatActivity {
         bindContactService();
         check = true;
 
+        read_tolerance();
+
         AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
         AD_check_BT.setMessage("请输入测站点和初始照准点的信息，然后点击“输入完毕”键")
                 .create().show();
@@ -602,43 +615,6 @@ public class observe_now extends AppCompatActivity {
     private boolean check_data(List<Observe_data> List_data, int type) {
         boolean check_data;
         int error = 0;
-        //读取观测限差文件
-        //每次检查都要读取一次文件，不妥，需改正
-        File Tolerance_Settings = new File(my_functions.get_main_file_path(), "Tolerance Settings.ini");
-        List<String> List_tolerance = new ArrayList<String>();
-        String line = "";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(Tolerance_Settings));
-            while ((line = br.readLine()) != null) {
-                List_tolerance.add(line);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
-        }
-
-        Double[] double_set_data = {
-                List_data.get(0).getHz(), List_data.get(0).getV(), List_data.get(0).getS(),
-                List_data.get(1).getHz(), List_data.get(1).getV(), List_data.get(1).getS(),
-                List_data.get(2).getHz(), List_data.get(2).getV(), List_data.get(2).getS(),
-                List_data.get(3).getHz(), List_data.get(3).getV(), List_data.get(3).getS()
-        };
-
-        //1、水平角限差，单位：秒″
-        int hz_toler_zhaozhun = Integer.valueOf(List_tolerance.get(0));
-        int hz_toler_guiling = Integer.valueOf(List_tolerance.get(1));//水平角半测回归零差
-        int hz_toler_2C = Integer.valueOf(List_tolerance.get(2));//水平角一测回2C互差
-        int hz_toler_gecehui = Integer.valueOf(List_tolerance.get(3));//水平角同方向各测回互差
-
-        //2、竖直角限差，单位：秒″
-        int v_toler_zhaozhun = Integer.valueOf(List_tolerance.get(4));
-        int v_toler_zhibiaocha = Integer.valueOf(List_tolerance.get(5));//竖直角一测回指标差互差
-        int v_toler_gecehui = Integer.valueOf(List_tolerance.get(6));//竖直角同方向各测回互差
-
-        //3、距离限差，单位：毫米mm
-        int s_toler_zhaozhun = Integer.valueOf(List_tolerance.get(7));
-        int s_toler_gecehui = Integer.valueOf(List_tolerance.get(8));//距离同方向各测回互差
-
 
         int first = 2 * (i_cehuishu - 1) * (i_focus_points + 1);
         int sencond = 2 * (i_cehuishu - 1) * (i_focus_points + 1) + i_focus_points;
@@ -653,6 +629,7 @@ public class observe_now extends AppCompatActivity {
                 Double guilingcha = my_functions.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
 
                 if (guilingcha > hz_toler_guiling) {
+                    //该半测回归零差超限
                     error += 1;
                 }
             }
@@ -666,6 +643,7 @@ public class observe_now extends AppCompatActivity {
                 Double Hz_end_LEFT = list_Obdata.get(forth).getHz();//单位：弧度
                 Double guilingcha = my_functions.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
                 if (guilingcha > hz_toler_guiling) {
+                    //该半测回归零差超限
                     error += 1;
                 }
             }
@@ -677,14 +655,16 @@ public class observe_now extends AppCompatActivity {
                 Double Hz_2C_4 = list_Obdata.get(forth - i).getHz();//单位：弧度
                 Double two_C;
                 if (Hz_2C_4 > Math.PI) {
-                    two_C = my_functions.rad2ang_show(Hz_2C_1 - (Hz_2C_4 - Math.PI)) * 100 * 100;//单位：秒 ″
+                    two_C = Hz_2C_1 - (Hz_2C_4 - Math.PI);//单位：弧度
                 } else {
-                    two_C = my_functions.rad2ang_show(Hz_2C_1 - (Hz_2C_4 + Math.PI)) * 100 * 100;//单位：秒 ″
+                    two_C = Hz_2C_1 - (Hz_2C_4 + Math.PI);//单位：弧度
                 }
                 Hz_2C.add(two_C);
             }
-            Double delta_2C = Collections.max(Hz_2C) - Collections.min(Hz_2C);
+            Double delta_2C = Collections.max(Hz_2C) - Collections.min(Hz_2C);//单位：弧度
+            delta_2C = my_functions.rad2ang_show(delta_2C) * 100 * 100;//单位：秒 ″
             if (delta_2C > hz_toler_2C) {
+                //该测回2C互差超限
                 error += 1;
             }
 
@@ -694,30 +674,54 @@ public class observe_now extends AppCompatActivity {
                 Double V_zhibiaocha_1 = list_Obdata.get(first + i).getV();
                 Double V_zhibiaocha_4 = list_Obdata.get(forth - i).getV();//单位：弧度
                 Double zhibiaocha;
-                zhibiaocha = my_functions.rad2ang_show((V_zhibiaocha_1 + V_zhibiaocha_4 - 2 * Math.PI) / (double) 2) * 100 * 100;//单位：秒 ″
+                zhibiaocha = my_functions.rad2ang_show
+                        ((V_zhibiaocha_1 + V_zhibiaocha_4 - 2 * Math.PI) / (double) 2) * 100 * 100;//单位：秒 ″
+                zhibiaocha = (V_zhibiaocha_1 + V_zhibiaocha_4 - 2 * Math.PI) / (double) 2;//单位：弧度
                 V_zhibiaocha.add(zhibiaocha);
             }
             Double delta_zhibiaocha = Collections.max(V_zhibiaocha) - Collections.min(V_zhibiaocha);
+            delta_zhibiaocha = my_functions.rad2ang_show(delta_zhibiaocha) * 100 * 100;//单位：秒 ″
             if (delta_zhibiaocha > v_toler_zhibiaocha) {
+                //该测回指标差互差超限
                 error += 1;
             }
 
             //计算本测回各方向Hz值
             Double[] Hz_set = new Double[i_focus_points];
             Hz_set[0] = my_functions.rad2ang_show(list_Obdata.get(first).getHz());//度.分秒形式
+
+            Double Hz_LEFT_0 = list_Obdata.get(first).getHz();
+            Double Hz_RIGHT_0 = list_Obdata.get(forth).getHz();
             for (int i = 1; i < i_focus_points; i++) {
-                Double Hz_LEFT_0 = list_Obdata.get(first).getHz();
                 Double Hz_LEFT = list_Obdata.get(first + i).getHz();
-                Double Hz_RIGHT_0 = list_Obdata.get(forth).getHz();
                 Double Hz_RIGHT = list_Obdata.get(forth - i).getHz();//单位：弧度
+
                 Double Hz_focus = (Hz_LEFT - Hz_LEFT_0 + Hz_RIGHT - Hz_RIGHT_0) / (double) 2;
                 Hz_set[i] = my_functions.rad2ang_show(Hz_focus);
             }
             calculate_Hz.add(Hz_set);
-        }
 
-        if (type == 2) {
-            //进行测回间的互差检查
+            //计算本测回各方向V值
+            Double[] V_set = new Double[i_focus_points];
+            for (int i = 0; i < i_focus_points; i++) {
+                Double V_LEFT = list_Obdata.get(first + i).getV();
+                Double V_RIGHT = list_Obdata.get(forth - i).getV();//单位：弧度
+
+                Double V_focus = (V_RIGHT - V_LEFT - Math.PI) / (double) 2;
+                V_set[i] = my_functions.rad2ang_show(V_focus);
+            }
+            calculate_V.add(V_set);
+
+            //计算本测回各方向S值
+            Double[] S_set = new Double[i_focus_points];
+            for (int i = 0; i < i_focus_points; i++) {
+                Double S_LEFT = list_Obdata.get(first + i).getS();
+                Double S_RIGHT = list_Obdata.get(forth - i).getS();//单位：米
+
+                Double S_focus = (S_LEFT + S_RIGHT) / (double) 2;
+                S_set[i] = S_focus;
+            }
+            calculate_S.add(S_set);
         }
 
         if (error == 0) {
@@ -726,5 +730,59 @@ public class observe_now extends AppCompatActivity {
             check_data = false;
         }
         return check_data;
+    }
+
+    public List<String[]> check_gecehui(List<Observe_data> List_data) {
+        List<String[]> list_error_fangxiang=new ArrayList<String[]>();
+        String[] error_set = new String[2];
+
+        //进行测回间的Hz互差检查
+        error_set=null;
+        ArrayList<Double> Hz_gecehui = new ArrayList<Double>();
+        for (int i = 0; i < i_focus_points; i++) {
+            for (int j = 0; j < i_cehuishu; j++) {
+                Hz_gecehui.add(calculate_Hz.get(j)[i]);
+            }
+            Double delta_Hz = Collections.max(Hz_gecehui) - Collections.min(Hz_gecehui);//单位：弧度
+            delta_Hz = my_functions.rad2ang_show(delta_Hz);//单位：秒 ″
+            if (delta_Hz > hz_toler_gecehui) {
+                error_set[0]="Hz";
+                error_set[1]=list_sub_focus.get(i);
+                list_error_fangxiang.add(error_set);
+            }
+        }
+
+        return list_error_fangxiang;
+    }
+
+    public void read_tolerance() {
+        //读取观测限差文件
+        File Tolerance_Settings = new File(my_functions.get_main_file_path(), "Tolerance Settings.ini");
+        List<String> List_tolerance = new ArrayList<String>();
+        String line = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(Tolerance_Settings));
+            while ((line = br.readLine()) != null) {
+                List_tolerance.add(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            makeToast("Error：无法读取Tolerance_Settings文件已有的数据！");
+        }
+
+        //1、水平角限差，单位：秒″
+        hz_toler_zhaozhun = Integer.valueOf(List_tolerance.get(0));
+        hz_toler_guiling = Integer.valueOf(List_tolerance.get(1));//水平角半测回归零差
+        hz_toler_2C = Integer.valueOf(List_tolerance.get(2));//水平角一测回2C互差
+        hz_toler_gecehui = Integer.valueOf(List_tolerance.get(3));//水平角同方向各测回互差
+
+        //2、竖直角限差，单位：秒″
+        v_toler_zhaozhun = Integer.valueOf(List_tolerance.get(4));
+        v_toler_zhibiaocha = Integer.valueOf(List_tolerance.get(5));//竖直角一测回指标差互差
+        v_toler_gecehui = Integer.valueOf(List_tolerance.get(6));//竖直角同方向各测回互差
+
+        //3、距离限差，单位：毫米mm
+        s_toler_zhaozhun = Integer.valueOf(List_tolerance.get(7));
+        s_toler_gecehui = Integer.valueOf(List_tolerance.get(8));//距离同方向各测回互差
     }
 }
