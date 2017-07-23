@@ -103,7 +103,7 @@ public class observe_now extends AppCompatActivity {
 
     private List<String> list_station_points = new ArrayList<String>();
     private List<String> list_focus_points = new ArrayList<String>();
-    private List<String> list_sub_focus=new ArrayList<String>();
+    private List<String> list_sub_focus = new ArrayList<String>();
 
     //    private List<Observe_data> list_data_read = new ArrayList<Observe_data>();
     private List<Observe_data> list_Obdata = new ArrayList<Observe_data>();
@@ -733,11 +733,11 @@ public class observe_now extends AppCompatActivity {
     }
 
     public List<String[]> check_gecehui(List<Observe_data> List_data) {
-        List<String[]> list_error_fangxiang=new ArrayList<String[]>();
+        List<String[]> list_error_fangxiang = new ArrayList<String[]>();
         String[] error_set = new String[2];
 
         //进行测回间的Hz互差检查
-        error_set=null;
+        error_set = new String[2];
         ArrayList<Double> Hz_gecehui = new ArrayList<Double>();
         for (int i = 0; i < i_focus_points; i++) {
             for (int j = 0; j < i_cehuishu; j++) {
@@ -746,8 +746,40 @@ public class observe_now extends AppCompatActivity {
             Double delta_Hz = Collections.max(Hz_gecehui) - Collections.min(Hz_gecehui);//单位：弧度
             delta_Hz = my_functions.rad2ang_show(delta_Hz);//单位：秒 ″
             if (delta_Hz > hz_toler_gecehui) {
-                error_set[0]="Hz";
-                error_set[1]=list_sub_focus.get(i);
+                error_set[0] = "Hz";
+                error_set[1] = list_sub_focus.get(i);
+                list_error_fangxiang.add(error_set);
+            }
+        }
+
+        //进行测回间的V互差检查
+        error_set = new String[2];
+        List<Double> V_gecehui = new ArrayList<Double>();
+        for (int i = 0; i < i_focus_points; i++) {
+            for (int j = 0; j < i_cehuishu; j++) {
+                V_gecehui.add(calculate_V.get(j)[i]);
+            }
+            Double delta_V = Collections.max(V_gecehui) - Collections.min(V_gecehui);//单位：弧度
+            delta_V = my_functions.rad2ang_show(delta_V) * 100 * 100;//单位：秒 ″
+            if (delta_V > v_toler_gecehui) {
+                error_set[0] = "V";
+                error_set[1] = list_sub_focus.get(i);
+                list_error_fangxiang.add(error_set);
+            }
+        }
+
+        //进行测回间的S互差检查
+        error_set = new String[2];
+        List<Double> S_gecehui = new ArrayList<Double>();
+        for (int i = 0; i < i_focus_points; i++) {
+            for (int j = 0; j < i_cehuishu; j++) {
+                S_gecehui.add(calculate_S.get(j)[i]);
+            }
+            Double delta_S = Collections.max(S_gecehui) - Collections.min(S_gecehui);//单位：米
+            delta_S = delta_S * 1000;//单位：毫米
+            if (delta_S > s_toler_gecehui) {
+                error_set[0] = "V";
+                error_set[1] = list_sub_focus.get(i);
                 list_error_fangxiang.add(error_set);
             }
         }
