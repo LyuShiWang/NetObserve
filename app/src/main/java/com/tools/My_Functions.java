@@ -5,6 +5,7 @@ import android.os.Environment;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -128,12 +129,31 @@ public class My_Functions {
         return angle;
     }
 
-    public double rad2ang_show(double radian) {//弧度转为度分秒形式，用于显示
+    public double rad2ang_show(double radian) {
+        //弧度转为度分秒形式，用于显示
+        //249.47005=249°47′00.5″
         double angle = radian * 180 / Math.PI;
         double du = Math.floor(angle);
         double fen = Math.floor((angle - du)*60);
         double miao=Math.floor((angle-du-fen/60)*60*60*10)/10;
+        miao=baoliu_weishu(miao,2);
         double result=du+fen/100+miao/100/100;
+        result=baoliu_weishu(result,5);
         return result;
+    }
+
+    public double baoliu_weishu(double number,int weishu){
+        //根据四舍五入的原则来保留位数
+        BigDecimal b = new BigDecimal(number);
+        double number1 = b.setScale(weishu,BigDecimal.ROUND_HALF_UP).doubleValue();
+        return number1;
+    }
+
+    public double baoliu_weishu(String number,int weishu){
+        //根据四舍五入的原则来保留位数
+        Double number1=Double.valueOf(number);
+        BigDecimal b = new BigDecimal(number1);
+        double number2 = b.setScale(weishu,BigDecimal.ROUND_HALF_UP).doubleValue();
+        return number2;
     }
 }
