@@ -124,7 +124,8 @@ public class My_Functions {
         return list_temp.toString();
     }
 
-    public double rad2ang(double radian){//弧度转为纯角度，单位：度°
+    public double rad2ang(double radian){
+        //弧度转为纯角度，单位：度°
         double angle=radian*180/Math.PI;
         return angle;
     }
@@ -140,6 +141,12 @@ public class My_Functions {
         double result=du+fen/100+miao/100/100;
         result=baoliu_weishu(result,5);
         return result;
+    }
+
+    public double ang2second(double angle){
+        //纯角度转为纯秒数
+        double miao=angle*60*60;
+        return miao;
     }
 
     public double baoliu_weishu(double number,int weishu){

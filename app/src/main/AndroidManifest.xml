@@ -53,7 +53,8 @@
         <activity android:name="com.lyushiwang.netobserve.observe.observe_known_point"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name="com.lyushiwang.netobserve.observe.observe_now"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="adjustResize"/>
+            //android:windowSoftInputMode="adjustUnspecified|stateHidden"
         <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_honrizontal"/>
         <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_vertical"/>
 
