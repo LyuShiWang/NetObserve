@@ -88,7 +88,8 @@ public class observe_now extends AppCompatActivity {
     private EditText editText_focus_name;
     private EditText editText_focus_high;
 
-    private Button button_input_finish;
+    private TextView textView_tips;
+
     private Button button_observe;
     private Button button_undo;
     private Button button_next_cehui;
@@ -162,7 +163,8 @@ public class observe_now extends AppCompatActivity {
         editText_focus_name = (EditText) findViewById(R.id.editText_focus_name);
         editText_focus_high = (EditText) findViewById(R.id.editText_focus_high);
 
-        button_input_finish = (Button) findViewById(R.id.button_input_finish);
+        textView_tips=(TextView)findViewById(R.id.textView_tips);
+
         button_observe = (Button) findViewById(R.id.button_observe);
         button_undo = (Button) findViewById(R.id.button_undo);
         button_save=(Button)findViewById(R.id.button_save);
@@ -174,7 +176,6 @@ public class observe_now extends AppCompatActivity {
     }
 
     protected void do_click() {
-        button_input_finish.setOnClickListener(listener_input_finish);
 
         button_observe.setOnClickListener(listener_observe);
 
@@ -243,36 +244,6 @@ public class observe_now extends AppCompatActivity {
         });
     }
 
-    Button.OnClickListener listener_input_finish = new Button.OnClickListener() {
-        public void onClick(View v) {
-            String station_name = editText_point_name.getText().toString();
-            if (list_station_points.contains(station_name)) {
-                AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
-                AD_reobserve.setMessage("该测站点已存在！是否重测？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //假设是刚测完就进行重测，删除list_Obdata最近的四条数据即可
-                                int list_size = list_Obdata.size();
-                                for (int i = 0; i < 4; i++) {
-                                    list_Obdata.remove(list_size - i);
-                                }
-                            }
-                        }).setNegativeButton("取消", null).create().show();
-            } else {
-                i_cehuishu = 1;
-                i_focus_points = 0;
-                list_station_points.add(station_name);
-                list_focus_points.clear();
-                list_Obdata.clear();
-                AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
-                AD_check_BT.setMessage("输入完毕！已将当前照准点设置为归零点，请开始观测。\n" +
-                        "此为第" + String.valueOf(i_cehuishu) + "测回")
-                        .create().show();
-            }
-        }
-    };
-
     Button.OnClickListener listener_observe = new Button.OnClickListener() {
         public void onClick(View v) {
             if (editText_focus_name.getText().equals("")) {
@@ -280,65 +251,58 @@ public class observe_now extends AppCompatActivity {
                 AD_no_error.setMessage("请输入照准点名！").create().show();
             } else {
                 String station_name = editText_point_name.getText().toString();
-                String focus_name = editText_focus_name.getText().toString();
-                String[] points_name = {station_name, focus_name};
+                if (list_station_points.contains(station_name)){
+                    AlertDialog.Builder AD_same_point_tip = new AlertDialog.Builder(observe_now.this);
+                    AD_same_point_tip.setMessage("该测站点已存在！\n" +
+                            "是否对其进行重新观测？").create().show();
+                }else {
+                    String focus_name = editText_focus_name.getText().toString();
+                    String[] points_name = {station_name, focus_name};
 
-                list_focus_points.add(focus_name);
+                    list_focus_points.add(focus_name);
 
-                int list_size = list_focus_points.size();
+                    int list_size = list_focus_points.size();
 
-                //进行观测，存储数据，及屏幕显示
-                do_observe_and_put_and_display(i_cehuishu, points_name);
+                    //进行观测，存储数据，及屏幕显示
+                    do_observe_and_put_and_display(i_cehuishu, points_name);
 
-                if (face.equals("LEFT")) {
-                    //计算一共本测站一共观测了多少个目标点
-                    if (list_size == 1) {
-                        i_focus_points += 1;
-                        list_sub_focus.add(focus_name);
-                    }
-                    if (list_size > 1) {
-                        if (list_focus_points.get(list_size - 1).equals(list_focus_points.get(0))) {
-                            makeToast("已回到初始照准点！");
+                    if (face.equals("LEFT")) {
+                        //计算一共本测站一共观测了多少个目标点
+                        if (list_size == 1) {
+                            i_focus_points += 1;
+                            list_sub_focus.add(focus_name);
+                        }
+                        if (list_size > 1) {
+                            if (list_focus_points.get(list_size - 1).equals(list_focus_points.get(0))) {
+                                makeToast("已回到初始照准点！");
 //                        if (!check_data_round_left(list_Obdata)) {
 //                            makeToast("盘左水平角归零差超限！\n请重新观测！");
 //                        }
-                        } else {
-                            if (i_cehuishu == 1) {
-                                i_focus_points += 1;
-                                list_sub_focus.add(focus_name);
+                            } else {
+                                if (i_cehuishu == 1) {
+                                    i_focus_points += 1;
+                                    list_sub_focus.add(focus_name);
+                                }
                             }
                         }
                     }
+
+                    editText_focus_name.setFocusable(true);
+                    editText_focus_name.requestFocus();//将光标移动到该edittext上
+
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {//弹出输入法
+                            InputMethodManager inputManager = (InputMethodManager) editText_focus_name.getContext()
+                                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+                            inputManager.showSoftInput(editText_focus_name, 0);
+                        }
+
+                    }, 250);
                 }
-
-                editText_focus_name.setFocusable(true);
-                editText_focus_name.requestFocus();//将光标移动到该edittext上
-
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    public void run() {//弹出输入法
-                        InputMethodManager inputManager = (InputMethodManager) editText_focus_name.getContext()
-                                .getSystemService(Context.INPUT_METHOD_SERVICE);
-                        inputManager.showSoftInput(editText_focus_name, 0);
-                    }
-
-                }, 250);
             }
         }
     };
-
-//            if (list_station_points.contains(station_name)) {
-//                //开始重测该测站点
-//                AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
-//                AD_reobserve.setMessage("该测站点已存在！是否重测该点?")
-//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//
-//                            }
-//                        }).setNegativeButton("取消", null).show();
-//            } else {
-
 
     Button.OnClickListener listener_next_cehui = new Button.OnClickListener() {
         public void onClick(View v) {
@@ -350,6 +314,9 @@ public class observe_now extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 i_cehuishu += 1;
+                                i_focus_points = 0;
+                                list_focus_points.clear();
+                                list_Obdata.clear();
                             }
                         }).create().show();
             } else {
@@ -552,12 +519,17 @@ public class observe_now extends AppCompatActivity {
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
         bindContactService();
         check = true;
+        i_cehuishu = 1;
+        i_focus_points = 0;
 
         read_tolerance();
+
 
         AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
         AD_check_BT.setMessage("请输入测站点和初始照准点的信息，然后点击“输入完毕”键")
                 .create().show();
+
+        textView_tips.setText("请输入测站点和初始照准点的信息，然后点击“观测”键");
     }
 
 //    private void point_face_tip(int i_tip) {
@@ -699,6 +671,24 @@ public class observe_now extends AppCompatActivity {
             AlertDialog.Builder AD_undo_error=new AlertDialog.Builder(observe_now.this);
             AD_undo_error.setMessage("没有可以撤销的数据！").create().show();
         }
+
+        //进行重测
+//        String station_name = editText_point_name.getText().toString();
+//        if (list_station_points.contains(station_name)) {
+//            AlertDialog.Builder AD_reobserve = new AlertDialog.Builder(observe_now.this);
+//            AD_reobserve.setMessage("该测站点已存在！是否重测？")
+//                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            //假设是刚测完就进行重测，删除list_Obdata最近的四条数据即可
+//                            int list_size = list_Obdata.size();
+//                            for (int i = 0; i < 4; i++) {
+//                                list_Obdata.remove(list_size - i);
+//                            }
+//                        }
+//                    }).setNegativeButton("取消", null).create().show();
+//        }
+//        else {}
     }
 
     public boolean check_data_round_left(List<Observe_data> List_data) {

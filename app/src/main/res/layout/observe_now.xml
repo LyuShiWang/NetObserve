@@ -173,61 +173,60 @@
     <RelativeLayout
         android:id="@+id/relativelayout5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/relativelayout3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <Button
-            android:id="@+id/button_input_finish"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@color/colorPrimary"
-            android:onClick="begin_observe"
-            android:text="输入完毕"
-            android:textSize="14sp"
-            android:layout_marginLeft="80dp"
+        <TextView
+            android:id="@+id/textView_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/button_next_point"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+
+            android:textColor="@android:color/holo_orange_light"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/button_observe"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginRight="80dp"
             android:background="@color/colorPrimary"
             android:onClick="do_observe"
             android:text="测量"
             android:textSize="14sp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_marginLeft="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/button_next_cehui"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_alignLeft="@+id/button_input_finish"
-            android:layout_alignStart="@+id/button_input_finish"
-            android:layout_below="@+id/button_input_finish"
             android:background="@color/colorPrimary"
             android:text="下一测回"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
 
         <Button
             android:id="@+id/button_next_point"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_alignLeft="@+id/button_observe"
-            android:layout_alignStart="@+id/button_observe"
-            android:layout_below="@+id/button_observe"
             android:background="@color/colorPrimary"
             android:text="下一站"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginRight="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
