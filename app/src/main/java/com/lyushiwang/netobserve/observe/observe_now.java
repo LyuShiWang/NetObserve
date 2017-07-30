@@ -106,6 +106,7 @@ public class observe_now extends AppCompatActivity {
     private List<String> list_station_points = new ArrayList<String>();
     private List<String> list_focus_points = new ArrayList<String>();
     private List<String> list_sub_focus = new ArrayList<String>();
+    private List<String> list_focus_1_round=new ArrayList<String>();
     private List<String> list_order_name_LEFT = new ArrayList<String>();
     private List<String> list_order_name_RIGHT = new ArrayList<String>();
 
@@ -190,7 +191,10 @@ public class observe_now extends AppCompatActivity {
 
                     i_cehuishu = 1;//到下一个测站点去测，测回数要进行初始化
                     i_focus_points = 0;
+
                     list_focus_points.clear();
+                    list_sub_focus.clear();
+                    list_focus_1_round.clear();
                     list_Obdata.clear();
                 }
             }
@@ -283,43 +287,31 @@ public class observe_now extends AppCompatActivity {
                                 //存储数据，及屏幕显示
                                 put_and_display(i_cehuishu, points_name, strings_Total_station);
 
-                                int list_size = list_focus_points.size();
                                 if (face.equals("LEFT")) {
                                     //计算一共本测站一共观测了多少个目标点
-                                    if (list_size == 1) {
+                                    if (i_cehuishu == 1) {
                                         i_focus_points += 1;
                                         list_sub_focus.add(focus_name);
                                         list_order_name_LEFT = list_sub_focus;
                                         list_order_name_RIGHT = list_sub_focus;
-                                        textView_tips.setText("观测盘左第" + i_focus_points +
-                                                "个点成功！\n请观测下一个点");
-                                        makeToast("list_sub_focus:"+list_sub_focus.toString());
-                                    }
-                                    if (list_size > 1) {
-//                            if (list_focus_points.get(list_size - 1).equals(list_focus_points.get(0))) {
-//                                makeToast("已回到初始照准点！");
-//                        if (!check_data_round_left(list_Obdata)) {
-//                            makeToast("盘左水平角归零差超限！\n请重新观测！");
-
-//                            } else {
-                                        if (i_cehuishu == 1) {
-                                            i_focus_points += 1;
-                                            list_sub_focus.add(focus_name);
-                                            list_order_name_LEFT = list_sub_focus;
-                                            list_order_name_RIGHT = list_sub_focus;
-                                            makeToast("list_sub_focus:"+list_sub_focus.toString());
-                                        }
-//                            }
+                                        textView_tips.setText("第" + String.valueOf(i_focus_points) +
+                                                "个点盘左观测成功！\n请观测下一个点");
+                                        AlertDialog.Builder AD_temp = new AlertDialog.Builder(observe_now.this);
+                                        AD_temp.setMessage("list_sub_focus:" + list_sub_focus.toString()).create().show();
                                     }
                                 } else {
-                                    makeToast("list_sub_focus:"+list_sub_focus.toString());
+                                    AlertDialog.Builder AD_temp = new AlertDialog.Builder(observe_now.this);
+                                    AD_temp.setMessage("list_sub_focus:" + list_sub_focus.toString()).create().show();
                                     int size_RIGHT = list_order_name_RIGHT.size();
                                     if (size_RIGHT > 0) {
-                                        textView_tips.setText("观测盘右第" + size_RIGHT +
-                                                "个点成功！\n请观测下一个点");
+                                        textView_tips.setText("第" + String.valueOf(size_RIGHT+1) +
+                                                "个点盘右观测成功！\n请观测下一个点");
                                     } else {
                                         textView_tips.setText("盘右观测完毕！\n" + "请选择进行下一测回，或下一测站");
                                     }
+                                }
+                                if (i_cehuishu==1){
+                                    list_focus_1_round.add(focus_name);
                                 }
                             }
                         } catch (Exception e) {
@@ -639,6 +631,8 @@ public class observe_now extends AppCompatActivity {
             }
         }
         if (face.equals("RIGHT")) {
+//            AlertDialog.Builder AD_temp = new AlertDialog.Builder(observe_now.this);
+//            AD_temp.setMessage("list_sub_focus:" + list_sub_focus.toString()).create().show();
             //盘右观测，不需要手动输点名，按盘左输入点名的逆顺序，自动输入点名
             //可能会出现照错点的情况，需要进行检查
             int size = list_order_name_RIGHT.size();
@@ -646,6 +640,7 @@ public class observe_now extends AppCompatActivity {
                 focus_name = list_order_name_RIGHT.get(size - 1);
                 points_name[1] = focus_name;
                 editText_focus_name.setText(focus_name);
+                makeToast(list_sub_focus.toString());
                 list_order_name_RIGHT.remove(size - 1);
             }
         }
@@ -711,7 +706,11 @@ public class observe_now extends AppCompatActivity {
 
             list_Obdata.remove(list_Obdata.size() - 1);
 
-            if(face.equals("RIGHT")) {
+            list_focus_points.remove(list_focus_points.size()-1);
+            if (face.equals("LEFT")){
+                list_sub_focus.remove(list_sub_focus.size()-1);
+            }
+            if (face.equals("RIGHT")) {
                 //保证盘右观测时自动填入的点名不出错
                 int size_RIGHT = list_order_name_RIGHT.size();
                 list_order_name_RIGHT.add(list_sub_focus.get(size_RIGHT));
