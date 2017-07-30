@@ -120,6 +120,6 @@ public class setting_weather extends AppCompatActivity {
     }
 
     public void makeToast(String text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 }

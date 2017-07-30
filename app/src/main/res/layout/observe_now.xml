@@ -36,19 +36,19 @@
             android:textColor="@android:color/background_light"
             android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/editText_zhaozhuncha"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/textView26"
-            android:layout_toRightOf="@+id/textView26"
-            android:background="@drawable/textview_border"
-            android:ems="10"
-            android:gravity="center"
-            android:text="01"
-            android:textColor="@android:color/background_light"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/editText_zhaozhuncha"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/textView26"
+                android:layout_toRightOf="@+id/textView26"
+                android:background="@drawable/textview_border"
+                android:ems="10"
+                android:gravity="center"
+                android:text="O"
+                android:textColor="@android:color/background_light"
+                android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textView19"
@@ -125,7 +125,7 @@
             android:background="@drawable/textview_border"
             android:ems="10"
             android:gravity="center"
-            android:text="02"
+            android:text="A"
             android:textColor="@android:color/background_light"
             android:textSize="16sp" />
 

@@ -155,10 +155,10 @@ public class NetUtil {
             if (result == 0) {
                 this.isRoot = true;
                 Log.i("IP", "Root成功");
-                Toast.makeText(context, "Root成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Root成功", Toast.LENGTH_LONG).show();
             } else {
                 Log.i("IP", "Root失败");
-                Toast.makeText(context, "Root失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Root失败", Toast.LENGTH_LONG).show();
             }
 
 //            //输出结果

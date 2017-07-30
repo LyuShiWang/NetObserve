@@ -125,7 +125,7 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
                 if (msg.what == 1)
                     progressdialog.dismiss();
                 if (msg.what == 2)
-                    Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -342,6 +342,6 @@ public class ConnectRobot extends AppCompatActivity implements OnItemClickListen
     };
 
     public void makeToast(String text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 }
