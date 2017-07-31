@@ -264,12 +264,12 @@ public class observe_now extends AppCompatActivity {
                                 }
                             }).create().show();
                 } else {
+                    makeToast("正在观测......");
                     if (!BluetoothAdap.isEnabled()) {
                         AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
                         AD_check_BT.setMessage("未打开蓝牙！请重试").create().show();
                     } else {
                         String[] strings_Total_station = null;
-                        makeToast("正在观测......");
                         try {
                             //数据的结构：第2、3、4分别为水平角、竖直角和距离，单位为弧度、弧度、米
                             strings_Total_station = classmeasFun.VB_BAP_MeasDistAng();
@@ -296,9 +296,9 @@ public class observe_now extends AppCompatActivity {
                                             i_focus_points += 1;
 //                                        list_sub_focus.add(focus_name);
                                             list_order_name_RIGHT.add(focus_name);
-                                            textView_tips.setText("第" + String.valueOf(i_focus_points) +
-                                                    "个点盘左观测成功！\n请观测下一个点");
                                         }
+                                        textView_tips.setText("第" + String.valueOf(i_focus_points) +
+                                                "个点盘左观测成功！\n请观测下一个点");
                                     } else {
                                         int size_RIGHT = list_order_name_RIGHT.size();
                                         if (size_RIGHT > 0) {
@@ -313,8 +313,8 @@ public class observe_now extends AppCompatActivity {
                                         list_focus_1_round.add(focus_name);
                                     }
                                 } else {
-                                    AlertDialog.Builder AD_error_edittext_focus = new AlertDialog.Builder(
-                                            observe_now.this);
+                                    AlertDialog.Builder AD_error_edittext_focus =
+                                            new AlertDialog.Builder(observe_now.this);
                                     AD_error_edittext_focus.setTitle("警告")
                                             .setMessage("未输入照准点名！请输入后再进行观测").create().show();
                                 }
@@ -346,6 +346,13 @@ public class observe_now extends AppCompatActivity {
                                         "请对准初始照准点，然后点击“观测”键");
                                 editText_focus_name.setText("");
                                 editText_focus_high.setText("");
+
+                                list_order_name_LEFT = list_focus_1_round.subList(0, i_focus_points - 1);
+                                list_order_name_RIGHT = list_focus_1_round.subList(0, i_focus_points - 1);
+
+                                makeToast("list_focus_1_round："+list_focus_1_round.toString()+
+                                "\nlist_order_name_LEFT："+list_order_name_LEFT.toString()+
+                                "\nlist_order_name_RIGHT："+list_order_name_RIGHT.toString());
                             }
                         }).create().show();
             } else {
@@ -579,7 +586,7 @@ public class observe_now extends AppCompatActivity {
 //    }
 
     public String[] get_points_name_set(String station_name) {
-        //用于处理照准点点名，主要是进行在盘右观测时的点名自动设置
+        //用于处理照准点点名，主要是进行在盘右观测时和第一测回之后的点名自动设置
         String[] points_name = new String[2];
         points_name[0] = station_name;
         String focus_name = null;
@@ -608,7 +615,7 @@ public class observe_now extends AppCompatActivity {
                 } else {
                     points_name[1] = "NULL";
                 }
-            } else {
+            } else {//i_cehuishu != 1
                 int size = list_order_name_LEFT.size();
                 if (size > 0) {
                     focus_name = list_order_name_LEFT.get(0);
@@ -619,8 +626,6 @@ public class observe_now extends AppCompatActivity {
             }
         }
         if (face.equals("RIGHT")) {
-//            AlertDialog.Builder AD_temp = new AlertDialog.Builder(observe_now.this);
-//            AD_temp.setMessage("list_sub_focus:" + list_sub_focus.toString()).create().show();
             //盘右观测，不需要手动输点名，按盘左输入点名的逆顺序，自动输入点名
             //可能会出现照错点的情况，需要进行检查
             int size = list_order_name_RIGHT.size();
@@ -692,9 +697,9 @@ public class observe_now extends AppCompatActivity {
             map.put("Name", list_focus_1_round.get(j));
             map.put("observe_number", i_cehuishu);
             map.put("face_position", "");
-            map.put("Hz", calculate_Hz.get(i_cehuishu-1)[j]);
-            map.put("V", calculate_V.get(i_cehuishu-1)[j]);
-            map.put("S", my_functions.baoliu_weishu(calculate_S.get(i_cehuishu-1)[j],3));
+            map.put("Hz", calculate_Hz.get(i_cehuishu - 1)[j]);
+            map.put("V", calculate_V.get(i_cehuishu - 1)[j]);
+            map.put("S", my_functions.baoliu_weishu(calculate_S.get(i_cehuishu - 1)[j], 3));
             list_listview.add(map);
         }
 
@@ -714,16 +719,27 @@ public class observe_now extends AppCompatActivity {
             list_Obdata.remove(list_Obdata.size() - 1);
 
             list_focus_points.remove(list_focus_points.size() - 1);
-            if (face.equals("LEFT")) {
-                i_focus_points -= 1;
-                list_order_name_RIGHT.remove(list_order_name_RIGHT.size() - 1);
+
+            if (i_cehuishu == 1) {
+                if (face.equals("LEFT")) {
+                    i_focus_points -= 1;
+                    list_order_name_RIGHT.remove(list_order_name_RIGHT.size() - 1);
+                } else {
+                    //保证盘右观测时自动填入的点名不出错
+                    int size_RIGHT = list_order_name_RIGHT.size();
+                    list_order_name_RIGHT.add(list_focus_1_round.get(i_focus_points + size_RIGHT - 1));
+                }
+                list_focus_1_round.remove(list_focus_1_round.size() - 1);
+            } else {// i_cehuishu != 1
+                if (face.equals("LEFT")){
+                    int size_LEFT=list_order_name_LEFT.size();
+                    list_order_name_LEFT.add(0,list_focus_1_round.get(i_focus_points-size_LEFT-1));
+                }else{// face.equals("RIGHT")
+                    int size_RIGHT=list_order_name_RIGHT.size();
+                    list_order_name_RIGHT.add(list_focus_1_round.get(size_RIGHT));
+                }
             }
-            if (face.equals("RIGHT")) {
-                //保证盘右观测时自动填入的点名不出错
-                int size_RIGHT = list_order_name_RIGHT.size();
-                list_order_name_RIGHT.add(list_focus_1_round.get(i_focus_points + size_RIGHT - 1));
-            }
-            list_focus_1_round.remove(list_focus_1_round.size() - 1);
+
             textView_tips.setText("撤回成功！请再次观测该点！");
         } else {
             AlertDialog.Builder AD_undo_error = new AlertDialog.Builder(observe_now.this);
