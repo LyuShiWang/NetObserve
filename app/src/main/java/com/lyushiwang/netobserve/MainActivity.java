@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    final File ProjectNow = new File(my_functions.get_main_file_path(), "ProjectNow.name");
+                    final File ProjectNow = my_functions.get_ProjectNow();
                     BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
                     String ProjectName_now = bf.readLine();
                     if (ProjectName_now != null) {
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    final File ProjectNow = new File(my_functions.get_main_file_path(), "ProjectNow.name");
+                    final File ProjectNow = my_functions.get_ProjectNow();
                     BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
                     String ProjectName_now = bf.readLine();
                     if (ProjectName_now != null) {
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    final File ProjectNow = new File(my_functions.get_main_file_path(), "ProjectNow.name");
+                    final File ProjectNow = my_functions.get_ProjectNow();
                     BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
                     String ProjectName_now = bf.readLine();
                     if (ProjectName_now != null) {

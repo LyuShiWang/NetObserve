@@ -75,7 +75,7 @@ public class project_manage extends AppCompatActivity {
         dakaigongcheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final File ProjectNow = new File(my_functions.get_main_file_path(), "ProjectNow.name");
+                final File ProjectNow = my_functions.get_ProjectNow();
                 if (!ProjectNow.exists()) {
                     try {
                         ProjectNow.createNewFile();

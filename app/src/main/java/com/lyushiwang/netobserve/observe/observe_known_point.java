@@ -173,7 +173,8 @@ public class observe_known_point extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String ProjectName_now = get_ProjectNow_name();
-                File file_known_points = new File(my_functions.get_main_file_path() + "/" + ProjectName_now, "known points.txt");
+                File file_known_points = new File(my_functions.get_main_file_path() + "/"
+                        + ProjectName_now, "known points.txt");
                 file_known_points.delete();
                 try {
                     file_known_points.createNewFile();

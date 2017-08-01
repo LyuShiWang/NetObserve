@@ -100,17 +100,17 @@ public class observe_now extends AppCompatActivity {
     HashMap<String, Object> map;
     private List<Map<String, Object>> list_listview = new ArrayList<Map<String, Object>>();
     private observe_now.MyAdapter listview_adapter;
-    private List<Map<String, Object>> list_listview_calculate = new ArrayList<Map<String, Object>>();
+
     private File file_data = new File(my_functions.get_main_file_path(), "read_data.txt");
+    private String ProjectName_now;
+    private File file_in2;
 
     private List<String> list_station_points = new ArrayList<String>();
     private List<String> list_focus_points = new ArrayList<String>();
-    private List<String> list_sub_focus = new ArrayList<String>();
     private List<String> list_focus_1_round = new ArrayList<String>();
     private List<String> list_order_name_LEFT = new ArrayList<String>();
     private List<String> list_order_name_RIGHT = new ArrayList<String>();
 
-    //    private List<Observe_data> list_data_read = new ArrayList<Observe_data>();
     private List<Observe_data> list_Obdata = new ArrayList<Observe_data>();
     //这个list_Obdata只储存一个测站的观测数据。该测站的数据合格后，写入txt文件中，并清空该List
 
@@ -143,8 +143,6 @@ public class observe_now extends AppCompatActivity {
     private String face;
     private int i_cehuishu;
     private int i_focus_points;
-
-    private boolean check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,20 +181,17 @@ public class observe_now extends AppCompatActivity {
         button_next_point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (check) {
-                    editText_station_name.setText("");
-                    editText_station_hight.setText("");
-                    editText_focus_name.setText("");
-                    editText_focus_high.setText("");
+                editText_station_name.setText("");
+                editText_station_hight.setText("");
+                editText_focus_name.setText("");
+                editText_focus_high.setText("");
 
-                    i_cehuishu = 1;//到下一个测站点去测，测回数要进行初始化
-                    i_focus_points = 0;
+                i_cehuishu = 1;//到下一个测站点去测，测回数要进行初始化
+                i_focus_points = 0;
 
-                    list_focus_points.clear();
-//                    list_sub_focus.clear();
-                    list_focus_1_round.clear();
-                    list_Obdata.clear();
-                }
+                list_focus_points.clear();
+                list_focus_1_round.clear();
+                list_Obdata.clear();
             }
         });
 
@@ -225,22 +220,14 @@ public class observe_now extends AppCompatActivity {
         imageButton_houtui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-//                //展示list_Obdata
-//                String text = "";
-//                for (Observe_data Obdata_temp : list_Obdata) {
-//                    String text_Obdata = "";
-//                    text_Obdata += Obdata_temp.getStationName() + ",";
-//                    text_Obdata += String.valueOf(Obdata_temp.getCehuishu()) + ",";
-//                    text_Obdata += Obdata_temp.getFace() + ",";
-//                    text_Obdata += Obdata_temp.getFocusName() + ",";
-//                    text_Obdata += Obdata_temp.getHz_String() + ",";
-//                    text_Obdata += Obdata_temp.getV_String() + ",";
-//                    text_Obdata += Obdata_temp.getS_String();
-//                    text += text_Obdata + "\n";
-//                }
-//                AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_now.this);
-//                AD_error.setTitle("警告，数据超限！").setPositiveButton("确定", null);
+                AlertDialog.Builder AD_finish = new AlertDialog.Builder(observe_now.this);
+                AD_finish.setMessage("是否确定退出观测？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).setNegativeButton("取消", null).create().show();
             }
         });
     }
@@ -320,10 +307,6 @@ public class observe_now extends AppCompatActivity {
                                     AD_error_edittext_focus.setTitle("警告")
                                             .setMessage("未输入照准点名！请输入后再进行观测").create().show();
                                 }
-
-                                makeToast("list_focus_1_round：" + list_focus_1_round.toString() +
-                                        "\nlist_order_name_LEFT：" + list_order_name_LEFT.toString() +
-                                        "\nlist_order_name_RIGHT：" + list_order_name_RIGHT.toString());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -353,16 +336,13 @@ public class observe_now extends AppCompatActivity {
                                 editText_focus_high.setText("");
 
                                 list_order_name_LEFT.clear();
-                                list_order_name_RIGHT .clear();
-                                for (int i=0;i<i_focus_points;i++){
+                                list_order_name_RIGHT.clear();
+                                for (int i = 0; i < i_focus_points; i++) {
                                     list_order_name_LEFT.add(list_focus_1_round.get(i));
                                     list_order_name_RIGHT.add(list_focus_1_round.get(i));
                                 }
                                 //慎用List类的.subList方法
 
-                                makeToast("list_focus_1_round：" + list_focus_1_round.toString() +
-                                        "\nlist_order_name_LEFT：" + list_order_name_LEFT.toString() +
-                                        "\nlist_order_name_RIGHT：" + list_order_name_RIGHT.toString());
                             }
                         }).create().show();
             } else {
@@ -561,11 +541,19 @@ public class observe_now extends AppCompatActivity {
     private void init() {
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
         bindContactService();
-        check = true;
         i_cehuishu = 1;
         i_focus_points = 0;
 
         read_tolerance();
+        try {
+            final File ProjectNow = my_functions.get_ProjectNow();
+            BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
+            ProjectName_now = bf.readLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+            makeToast("Error：无法读取ProjectNow文件！");
+        }
+        file_in2 = new File(my_functions.get_main_file_path(), ProjectName_now + ".in2");
 
         textView_tips.setText("请输入测站点和初始照准点的信息，然后点击“观测”键");
     }
