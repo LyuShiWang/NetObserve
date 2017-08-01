@@ -295,6 +295,8 @@ public class observe_now extends AppCompatActivity {
                                         if (i_cehuishu == 1) {
                                             i_focus_points += 1;
 //                                        list_sub_focus.add(focus_name);
+
+                                            list_order_name_LEFT.add(focus_name);
                                             list_order_name_RIGHT.add(focus_name);
                                         }
                                         textView_tips.setText("第" + String.valueOf(i_focus_points) +
@@ -310,7 +312,7 @@ public class observe_now extends AppCompatActivity {
                                         }
                                     }
                                     if (i_cehuishu == 1) {
-                                        list_focus_1_round.add(focus_name);
+                                        list_focus_1_round.add(points_name[1]);
                                     }
                                 } else {
                                     AlertDialog.Builder AD_error_edittext_focus =
@@ -318,13 +320,16 @@ public class observe_now extends AppCompatActivity {
                                     AD_error_edittext_focus.setTitle("警告")
                                             .setMessage("未输入照准点名！请输入后再进行观测").create().show();
                                 }
+
+                                makeToast("list_focus_1_round：" + list_focus_1_round.toString() +
+                                        "\nlist_order_name_LEFT：" + list_order_name_LEFT.toString() +
+                                        "\nlist_order_name_RIGHT：" + list_order_name_RIGHT.toString());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                             AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
                             AD_check_measfun.setMessage("未连接到蓝牙模块！请重试").create().show();
                         }
-
                     }
                 }
             }
@@ -347,12 +352,17 @@ public class observe_now extends AppCompatActivity {
                                 editText_focus_name.setText("");
                                 editText_focus_high.setText("");
 
-                                list_order_name_LEFT = list_focus_1_round.subList(0, i_focus_points - 1);
-                                list_order_name_RIGHT = list_focus_1_round.subList(0, i_focus_points - 1);
+                                list_order_name_LEFT.clear();
+                                list_order_name_RIGHT .clear();
+                                for (int i=0;i<i_focus_points;i++){
+                                    list_order_name_LEFT.add(list_focus_1_round.get(i));
+                                    list_order_name_RIGHT.add(list_focus_1_round.get(i));
+                                }
+                                //慎用List类的.subList方法
 
-                                makeToast("list_focus_1_round："+list_focus_1_round.toString()+
-                                "\nlist_order_name_LEFT："+list_order_name_LEFT.toString()+
-                                "\nlist_order_name_RIGHT："+list_order_name_RIGHT.toString());
+                                makeToast("list_focus_1_round：" + list_focus_1_round.toString() +
+                                        "\nlist_order_name_LEFT：" + list_order_name_LEFT.toString() +
+                                        "\nlist_order_name_RIGHT：" + list_order_name_RIGHT.toString());
                             }
                         }).create().show();
             } else {
@@ -731,11 +741,11 @@ public class observe_now extends AppCompatActivity {
                 }
                 list_focus_1_round.remove(list_focus_1_round.size() - 1);
             } else {// i_cehuishu != 1
-                if (face.equals("LEFT")){
-                    int size_LEFT=list_order_name_LEFT.size();
-                    list_order_name_LEFT.add(0,list_focus_1_round.get(i_focus_points-size_LEFT-1));
-                }else{// face.equals("RIGHT")
-                    int size_RIGHT=list_order_name_RIGHT.size();
+                if (face.equals("LEFT")) {
+                    int size_LEFT = list_order_name_LEFT.size();
+                    list_order_name_LEFT.add(0, list_focus_1_round.get(i_focus_points - size_LEFT - 1));
+                } else {// face.equals("RIGHT")
+                    int size_RIGHT = list_order_name_RIGHT.size();
                     list_order_name_RIGHT.add(list_focus_1_round.get(size_RIGHT));
                 }
             }
