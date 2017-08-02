@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public class setting_weather extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
 
     private EditText editText_air_pressure;
     private EditText editText_dry_tempe;
@@ -58,7 +58,7 @@ public class setting_weather extends AppCompatActivity {
             public void onClick(View v) {
                 List<String> List_weather = get_and_check_text();
                 if (List_weather != null) {
-                    File Weather_Parameters = new File(my_functions.get_main_file_path(), "Weather Parameters.ini");//气象参数文件
+                    File Weather_Parameters = new File(my_func.get_main_file_path(), "Weather Parameters.ini");//气象参数文件
                     Weather_Parameters.delete();
                     try {
                         Weather_Parameters.createNewFile();

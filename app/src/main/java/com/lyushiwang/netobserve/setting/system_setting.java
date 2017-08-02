@@ -13,7 +13,7 @@ import android.view.View;
 import android.content.Context;
 
 import com.lyushiwang.netobserve.R;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,7 +21,7 @@ import java.io.FileWriter;
 import java.lang.String;
 
 public class system_setting extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
     private Context mContext;
 
     private TextView dangqiangongcheng;
@@ -58,7 +58,7 @@ public class system_setting extends AppCompatActivity {
     }
 
     protected void create_setting_files() {
-        File Filepath = my_functions.get_main_file_path();
+        File Filepath = my_func.get_main_file_path();
 
         File Station_Settings = new File(Filepath, "Station Settings.ini");//测站设置文件
         if (!Station_Settings.exists()) {

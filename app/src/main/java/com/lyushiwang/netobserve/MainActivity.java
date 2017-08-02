@@ -14,9 +14,8 @@ import android.view.View;
 import android.content.Context;
 
 import com.lyushiwang.netobserve.connect.ConnectRobot;
-import com.lyushiwang.netobserve.observe.observe_now;
 import com.tools.ClassMeasFunction;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 import com.lyushiwang.netobserve.manage.project_manage;
 import com.lyushiwang.netobserve.observe.observe_manage;
 import com.lyushiwang.netobserve.setting.system_setting;
@@ -25,11 +24,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
 import java.lang.String;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
     private Context mContext;
     private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
 
@@ -121,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    final File ProjectNow = my_functions.get_ProjectNow();
+                    final File ProjectNow = my_func.get_ProjectNow();
                     BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
                     String ProjectName_now = bf.readLine();
                     if (ProjectName_now != null) {
@@ -160,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    final File ProjectNow = my_functions.get_ProjectNow();
+                    final File ProjectNow = my_func.get_ProjectNow();
                     BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
                     String ProjectName_now = bf.readLine();
                     if (ProjectName_now != null) {
@@ -197,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    final File ProjectNow = my_functions.get_ProjectNow();
+                    final File ProjectNow = my_func.get_ProjectNow();
                     BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
                     String ProjectName_now = bf.readLine();
                     if (ProjectName_now != null) {

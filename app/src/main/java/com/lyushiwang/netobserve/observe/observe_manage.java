@@ -1,18 +1,25 @@
 package com.lyushiwang.netobserve.observe;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 
 import com.lyushiwang.netobserve.R;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.String;
 
 /**
@@ -20,7 +27,9 @@ import java.lang.String;
  */
 
 public class observe_manage extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
+
+    private String ProjectName_now;
 
     private TextView dangqiangongcheng;
     private Button button_known_point;
@@ -37,8 +46,10 @@ public class observe_manage extends AppCompatActivity {
         define_palettes();
 
         Intent intent1_4_1 = getIntent();
-        String ProjectName_now = intent1_4_1.getStringExtra("ProjectName_now");//读取当前工程名
+        ProjectName_now = intent1_4_1.getStringExtra("ProjectName_now");//读取当前工程名
         dangqiangongcheng.setText("当前工程：" + ProjectName_now);
+
+        get_total_station_tolerance();
         do_click();
     }
 
@@ -55,7 +66,7 @@ public class observe_manage extends AppCompatActivity {
         button_known_point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file_known_points = new File(my_functions.get_main_file_path(), "known points.txt");
+                File file_known_points = new File(my_func.get_main_file_path(), "known points.txt");
                 if (!file_known_points.exists()) {
                     try {
                         file_known_points.createNewFile();
@@ -84,6 +95,48 @@ public class observe_manage extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void get_total_station_tolerance() {
+        //得到全站仪的方向中误差、测边固定误差、测边比例误差
+        final File file_total_station_tolerance = new File(my_func.get_main_file_path() + "/"
+                + ProjectName_now, "total station tolerance.ini");
+
+        //提示框
+        LayoutInflater factory = LayoutInflater.from(observe_manage.this);
+        //这里必须是final的
+        final View view_instra_tolerance = factory.inflate(R.layout.simple_alertdialog_edittext, null);
+        //获得输入框对象
+        final EditText editText_tolerance_angle = (EditText) view_instra_tolerance.findViewById(R.id.editText_tolerance_angle);
+        final EditText editText_fixed_tolerance = (EditText) view_instra_tolerance.findViewById(R.id.editText_fixed_tolerance);
+        final EditText editText_ratio_tolerance = (EditText) view_instra_tolerance.findViewById(R.id.editText_ratio_tolerance);
+
+        new AlertDialog.Builder(observe_manage.this)
+                .setTitle("请输入全站仪限差参数")//提示框标题
+                .setView(view_instra_tolerance)
+                .setPositiveButton("确定", new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String tolerance_angle = editText_tolerance_angle.getText().toString();
+                        String fixed_tolerance = editText_fixed_tolerance.getText().toString();
+                        String ratio_tolerance = editText_ratio_tolerance.getText().toString();
+                        String text = tolerance_angle + "\n" + fixed_tolerance + "\n" + ratio_tolerance;
+                        try {
+                            if (file_total_station_tolerance.exists()) {
+                                file_total_station_tolerance.delete();
+                            }
+                            file_total_station_tolerance.createNewFile();
+                            BufferedWriter bw = new BufferedWriter(
+                                    new FileWriter(file_total_station_tolerance, true));
+                            bw.flush();
+                            bw.write(text);
+                            bw.flush();
+                            bw.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).setNegativeButton("取消", null).create().show();
     }
 
     public void makeToast(String text) {

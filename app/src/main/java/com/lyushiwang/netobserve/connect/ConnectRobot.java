@@ -1,18 +1,14 @@
 package com.lyushiwang.netobserve.connect;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
 import com.lyushiwang.netobserve.R;
 import com.tools.ClassMeasFunction;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
 import android.content.ComponentName;
 import android.content.ServiceConnection;
@@ -43,7 +39,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -54,7 +49,7 @@ import android.widget.Toast;
  */
 
 public class ConnectRobot extends AppCompatActivity implements OnItemClickListener {
-    private My_Functions myFunctions = new My_Functions();
+    private My_Func myFunctions = new My_Func();
 
     private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
     private ClassMeasFunction classMeasFunction = new ClassMeasFunction();

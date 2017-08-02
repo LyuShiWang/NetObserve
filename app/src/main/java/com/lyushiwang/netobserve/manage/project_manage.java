@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class project_manage extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
     private Context mContext;
     private Button xinjiangongcheng, dakaigongcheng, guanbigongcheng, lingcungongcheng, shanchugongcheng, zuijinshiyonggongcheng;
     private ImageButton imageButton_houtui;
@@ -75,7 +75,7 @@ public class project_manage extends AppCompatActivity {
         dakaigongcheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final File ProjectNow = my_functions.get_ProjectNow();
+                final File ProjectNow = my_func.get_ProjectNow();
                 if (!ProjectNow.exists()) {
                     try {
                         ProjectNow.createNewFile();
@@ -86,7 +86,7 @@ public class project_manage extends AppCompatActivity {
                 }//该文件用于储存当前工程名
 
                 //导入已有的所有工程的名字
-                final File ProjectList = my_functions.get_ProjectList();
+                final File ProjectList = my_func.get_ProjectList();
                 final String[] List = Input_All_Project(ProjectList);//获取所有工程文件名的函数
 
                 //弹出窗口
@@ -120,8 +120,8 @@ public class project_manage extends AppCompatActivity {
         guanbigongcheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File ProjectNow = my_functions.get_ProjectNow();
-                String ProjectName_now = my_functions.read_ProjectNow_Name(ProjectNow);//获取当前文件名的函数
+                File ProjectNow = my_func.get_ProjectNow();
+                String ProjectName_now = my_func.read_ProjectNow_Name(ProjectNow);//获取当前文件名的函数
                 if (ProjectName_now != null) {
                     if (ProjectNow.exists()) {
                         ProjectNow.delete();
@@ -152,7 +152,7 @@ public class project_manage extends AppCompatActivity {
         shanchugongcheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final File ProjectList = my_functions.get_ProjectList();
+                final File ProjectList = my_func.get_ProjectList();
                 final String[] List = Input_All_Project(ProjectList);//获取所有工程文件名的函数
 
                 if (List.length != 0) {
@@ -163,9 +163,9 @@ public class project_manage extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     final String ProjectName = List[which];
                                     //要删除的工程必须先关闭
-                                    String Name_now = my_functions.read_ProjectNow_Name(my_functions.get_ProjectNow());
+                                    String Name_now = my_func.read_ProjectNow_Name(my_func.get_ProjectNow());
                                     if (Name_now == ProjectName) {
-                                        Delete_Project(my_functions.get_ProjectList(), ProjectName, which);
+                                        Delete_Project(my_func.get_ProjectList(), ProjectName, which);
                                         makeToast("工程" + ProjectName + "已删除！");
                                     } else {
                                         makeToast("该工程还未关闭！无法删除！");

@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public class setting_common extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
 
     private EditText editText_liangcicha_horizontal;
     private EditText editText_bancehui;
@@ -70,7 +70,7 @@ public class setting_common extends AppCompatActivity {
                 {
                     List<String> List_settings_common = get_and_check_text();
                     if (List_settings_common != null) {
-                        File Filepath = my_functions.get_main_file_path();
+                        File Filepath = my_func.get_main_file_path();
                         File Common_Settings = new File(Filepath, "Common Settings.ini");//常用参数文件
                         Common_Settings.delete();
                         try {

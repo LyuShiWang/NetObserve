@@ -26,12 +26,15 @@ import android.widget.Toast;
 import com.lyushiwang.netobserve.R;
 import com.tools.ClassMeasFunction;
 import com.tools.ListView_observe_now;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 import com.tools.Observe_data;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,7 +48,7 @@ import java.util.TimerTask;
  */
 
 public class observe_now extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
 
     private ClassMeasFunction classmeasFun;//GeoCom
     private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
@@ -101,8 +104,9 @@ public class observe_now extends AppCompatActivity {
     private List<Map<String, Object>> list_listview = new ArrayList<Map<String, Object>>();
     private observe_now.MyAdapter listview_adapter;
 
-    private File file_data = new File(my_functions.get_main_file_path(), "read_data.txt");
+    private File file_data = new File(my_func.get_main_file_path(), "read_data.txt");
     private String ProjectName_now;
+    private String station_name;
     private File file_in2;
 
     private List<String> list_station_points = new ArrayList<String>();
@@ -178,22 +182,7 @@ public class observe_now extends AppCompatActivity {
 
         button_next_cehui.setOnClickListener(listener_next_cehui);
 
-        button_next_point.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editText_station_name.setText("");
-                editText_station_hight.setText("");
-                editText_focus_name.setText("");
-                editText_focus_high.setText("");
-
-                i_cehuishu = 1;//到下一个测站点去测，测回数要进行初始化
-                i_focus_points = 0;
-
-                list_focus_points.clear();
-                list_focus_1_round.clear();
-                list_Obdata.clear();
-            }
-        });
+        button_next_point.setOnClickListener(listener_next_point);
 
         button_undo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,7 +223,8 @@ public class observe_now extends AppCompatActivity {
 
     Button.OnClickListener listener_observe = new Button.OnClickListener() {
         public void onClick(View v) {
-            final String station_name = editText_station_name.getText().toString();
+            textView_tips.setText("正在观测......");
+            station_name = editText_station_name.getText().toString();
             String focus_name = editText_focus_name.getText().toString();
             if (station_name.equals("")) {
                 textView_tips.setText("请输入测站点名！");
@@ -251,7 +241,6 @@ public class observe_now extends AppCompatActivity {
                                 }
                             }).create().show();
                 } else {
-                    makeToast("正在观测......");
                     if (!BluetoothAdap.isEnabled()) {
                         AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
                         AD_check_BT.setMessage("未打开蓝牙！请重试").create().show();
@@ -276,18 +265,20 @@ public class observe_now extends AppCompatActivity {
                                 if (!points_name[1].equals("NULL")) {
                                     //存储数据，及屏幕显示
                                     put_and_display(i_cehuishu, points_name, strings_Total_station);
-
                                     if (face.equals("LEFT")) {
                                         //计算一共本测站一共观测了多少个目标点
                                         if (i_cehuishu == 1) {
                                             i_focus_points += 1;
-//                                        list_sub_focus.add(focus_name);
-
                                             list_order_name_LEFT.add(focus_name);
                                             list_order_name_RIGHT.add(focus_name);
+                                            textView_tips.setText("第" + String.valueOf(i_focus_points) +
+                                                    "个点盘左观测成功！\n请观测下一个点");
+                                        } else {
+                                            textView_tips.setText("第"
+                                                    + String.valueOf(i_focus_points - list_order_name_LEFT.size())
+                                                    + "个点盘左观测成功！\n请观测下一个点");
                                         }
-                                        textView_tips.setText("第" + String.valueOf(i_focus_points) +
-                                                "个点盘左观测成功！\n请观测下一个点");
+
                                     } else {
                                         int size_RIGHT = list_order_name_RIGHT.size();
                                         if (size_RIGHT > 0) {
@@ -342,7 +333,6 @@ public class observe_now extends AppCompatActivity {
                                     list_order_name_RIGHT.add(list_focus_1_round.get(i));
                                 }
                                 //慎用List类的.subList方法
-
                             }
                         }).create().show();
             } else {
@@ -359,6 +349,26 @@ public class observe_now extends AppCompatActivity {
                     AlertDialog.Builder AD_error_zhibiaocha = new AlertDialog.Builder(observe_now.this);
                     AD_error_zhibiaocha.setMessage("本测回竖直角指标差超限！\n请重新观测！").create().show();
                 }
+            }
+        }
+    };
+
+    Button.OnClickListener listener_next_point = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            List<Integer> list_error_1_round = check_data_round_end(list_Obdata);
+            if (list_error_1_round.size() == 0) {
+                AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
+                AD_check_measfun.setMessage("本测站数据合格！\n是否进入下一测站？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                join_listview_data();
+                                next_station();
+                            }
+                        }).create().show();
+            } else {
+                textView_tips.setText("本测站数据超限！请及时处理");
             }
         }
     };
@@ -544,16 +554,8 @@ public class observe_now extends AppCompatActivity {
         i_cehuishu = 1;
         i_focus_points = 0;
 
-        read_tolerance();
-        try {
-            final File ProjectNow = my_functions.get_ProjectNow();
-            BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
-            ProjectName_now = bf.readLine();
-        } catch (Exception e) {
-            e.printStackTrace();
-            makeToast("Error：无法读取ProjectNow文件！");
-        }
-        file_in2 = new File(my_functions.get_main_file_path(), ProjectName_now + ".in2");
+        read_observe_tolerance();
+        get_in2_and_write_total_torelance();
 
         textView_tips.setText("请输入测站点和初始照准点的信息，然后点击“观测”键");
     }
@@ -645,9 +647,9 @@ public class observe_now extends AppCompatActivity {
         map.put("Name", points_name[1]);
         map.put("observe_number", i_cehuishu);
         map.put("face_position", face_position(face));
-        map.put("Hz", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[1])));
-        map.put("V", my_functions.rad2ang_show(Double.valueOf(strings_Total_station[2])));
-        map.put("S", my_functions.baoliu_weishu(strings_Total_station[3], 3));
+        map.put("Hz", my_func.rad2ang_show(Double.valueOf(strings_Total_station[1])));
+        map.put("V", my_func.rad2ang_show(Double.valueOf(strings_Total_station[2])));
+        map.put("S", my_func.baoliu_weishu(strings_Total_station[3], 3));
         list_listview.add(map);
         listview_adapter = new MyAdapter(observe_now.this, list_listview);
         listview.setAdapter(listview_adapter);
@@ -695,9 +697,9 @@ public class observe_now extends AppCompatActivity {
             map.put("Name", list_focus_1_round.get(j));
             map.put("observe_number", i_cehuishu);
             map.put("face_position", "");
-            map.put("Hz", calculate_Hz.get(i_cehuishu - 1)[j]);
-            map.put("V", calculate_V.get(i_cehuishu - 1)[j]);
-            map.put("S", my_functions.baoliu_weishu(calculate_S.get(i_cehuishu - 1)[j], 3));
+            map.put("Hz", my_func.rad2ang_show(calculate_Hz.get(i_cehuishu - 1)[j]));
+            map.put("V", my_func.rad2ang_show(calculate_V.get(i_cehuishu - 1)[j]));
+            map.put("S", my_func.baoliu_weishu(calculate_S.get(i_cehuishu - 1)[j], 3));
             list_listview.add(map);
         }
 
@@ -784,7 +786,7 @@ public class observe_now extends AppCompatActivity {
 //            //检查盘左半测回归零差
 //            Double Hz_0_LEFT = List_data.get(first).getHz();
 //            Double Hz_end_LEFT = List_data.get(sencond).getHz();
-//            Double guilingcha = my_functions.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
+//            Double guilingcha = my_func.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
 //
 //            if (guilingcha > hz_toler_guiling) {
 //                //该半测回归零差超限
@@ -835,7 +837,7 @@ public class observe_now extends AppCompatActivity {
 //            //检查盘右半测回归零差
 //            Double Hz_0_LEFT = List_data.get(third).getHz();
 //            Double Hz_end_LEFT = List_data.get(forth).getHz();//单位：弧度
-//            Double guilingcha = my_functions.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
+//            Double guilingcha = my_func.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
 //            if (guilingcha > hz_toler_guiling) {
 //                //该半测回归零差超限
 //                list_error.add(1);
@@ -853,7 +855,7 @@ public class observe_now extends AppCompatActivity {
             } else {
                 two_C = Hz_2C_1 - (Hz_2C_4 + Math.PI);//单位：弧度
             }
-            two_C = my_functions.rad2ang(two_C) * 60 * 60;//单位：秒 ″
+            two_C = my_func.rad2ang(two_C) * 60 * 60;//单位：秒 ″
             Hz_2C.add(two_C);//单位：秒 ″
         }
         Double delta_2C = Collections.max(Hz_2C) - Collections.min(Hz_2C);//单位：秒 ″
@@ -869,7 +871,7 @@ public class observe_now extends AppCompatActivity {
             Double V_zhibiaocha_4 = List_data.get(forth - i).getV();//单位：弧度
             Double zhibiaocha;
             zhibiaocha = (V_zhibiaocha_1 + V_zhibiaocha_4 - 2 * Math.PI) / (double) 2;//单位：弧度
-            zhibiaocha = my_functions.rad2ang(zhibiaocha) * 60 * 60;//单位：秒 ″
+            zhibiaocha = my_func.rad2ang(zhibiaocha) * 60 * 60;//单位：秒 ″
             V_zhibiaocha.add(zhibiaocha);
         }
         Double delta_zhibiaocha = Collections.max(V_zhibiaocha) - Collections.min(V_zhibiaocha);
@@ -881,7 +883,7 @@ public class observe_now extends AppCompatActivity {
         if (list_error.size() == 0) {
             //计算本测回各方向Hz值
             Double[] Hz_set = new Double[i_focus_points];
-            Hz_set[0] = my_functions.rad2ang_show(List_data.get(first).getHz());//度.分秒形式
+            Hz_set[0] = List_data.get(first).getHz();//单位：弧度
 
             Double Hz_LEFT_0 = List_data.get(first).getHz();
             Double Hz_RIGHT_0 = List_data.get(forth).getHz();
@@ -889,10 +891,16 @@ public class observe_now extends AppCompatActivity {
                 Double Hz_LEFT = List_data.get(first + i).getHz();
                 Double Hz_RIGHT = List_data.get(forth - i).getHz();//单位：弧度
 
-                Double Hz_focus = (Hz_LEFT - Hz_LEFT_0 + Hz_RIGHT - Hz_RIGHT_0) / (double) 2;
-                Hz_set[i] = my_functions.rad2ang_show(Hz_focus);
+                Double Hz_focus = (Hz_LEFT - Hz_LEFT_0 + Hz_RIGHT - Hz_RIGHT_0) / (double) 2;//单位：弧度
+                if (Hz_focus < 0) {
+                    Hz_focus += 2 * Math.PI;
+                }
+                if (Hz_focus > 2 * Math.PI) {
+                    Hz_focus -= 2 * Math.PI;
+                }
+                Hz_set[i] = Hz_focus;
             }
-            calculate_Hz.add(Hz_set);
+            calculate_Hz.add(Hz_set);//单位：弧度
 
             //计算本测回各方向V值
             Double[] V_set = new Double[i_focus_points];
@@ -900,10 +908,10 @@ public class observe_now extends AppCompatActivity {
                 Double V_LEFT = List_data.get(first + i).getV();
                 Double V_RIGHT = List_data.get(forth - i).getV();//单位：弧度
 
-                Double V_focus = (V_RIGHT - V_LEFT - Math.PI) / (double) 2;
-                V_set[i] = my_functions.rad2ang_show(V_focus);
+                Double V_focus = (V_RIGHT - V_LEFT - Math.PI) / (double) 2;//单位：弧度
+                V_set[i] = V_focus;
             }
-            calculate_V.add(V_set);
+            calculate_V.add(V_set);//单位：弧度
 
             //计算本测回各方向S值
             Double[] S_set = new Double[i_focus_points];
@@ -932,7 +940,7 @@ public class observe_now extends AppCompatActivity {
                 Hz_gecehui.add(calculate_Hz.get(j)[i]);
             }
             Double delta_Hz = Collections.max(Hz_gecehui) - Collections.min(Hz_gecehui);//单位：弧度
-            delta_Hz = my_functions.rad2ang_show(delta_Hz);//单位：秒 ″
+            delta_Hz = my_func.rad2ang_show(delta_Hz);//单位：秒 ″
             if (delta_Hz > hz_toler_gecehui) {
                 error_set[0] = "Hz";
                 error_set[1] = list_focus_1_round.get(i);
@@ -948,7 +956,7 @@ public class observe_now extends AppCompatActivity {
                 V_gecehui.add(calculate_V.get(j)[i]);
             }
             Double delta_V = Collections.max(V_gecehui) - Collections.min(V_gecehui);//单位：弧度
-            delta_V = my_functions.rad2ang_show(delta_V) * 100 * 100;//单位：秒 ″
+            delta_V = my_func.rad2ang_show(delta_V) * 100 * 100;//单位：秒 ″
             if (delta_V > v_toler_gecehui) {
                 error_set[0] = "V";
                 error_set[1] = list_focus_1_round.get(i);
@@ -971,13 +979,61 @@ public class observe_now extends AppCompatActivity {
                 list_error_fangxiang.add(error_set);
             }
         }
-
         return list_error_fangxiang;
     }
 
-    public void read_tolerance() {
+    public void next_station() {
+        //将数据写入到文件中
+        List<String> list_in2_text = new ArrayList<String>();
+        list_in2_text.add(station_name);
+        Double[] mean_Hz = new Double[i_focus_points];
+        Double[] mean_V = new Double[i_focus_points];
+        Double[] mean_S = new Double[i_focus_points];
+
+        for (int i = 0; i < i_focus_points; i++) {
+            Double sum_Hz = 0.0;
+            Double sum_V = 0.0;
+            Double sum_S = 0.0;
+            for (int j = 0; j < i_cehuishu; j++) {
+                sum_Hz += calculate_Hz.get(j)[i];
+                sum_V += calculate_Hz.get(j)[i];
+                sum_S += calculate_S.get(j)[i];
+            }
+            mean_Hz[i] = sum_Hz / (double) i_cehuishu;
+            mean_V[i] = sum_V / (double) i_cehuishu;
+            mean_S[i] = sum_S / (double) i_cehuishu;
+
+            String focus_point_name = list_focus_1_round.get(i);
+            list_in2_text.add(focus_point_name + ",L," + my_func.rad2ang_show(mean_Hz[i]));
+            list_in2_text.add(focus_point_name + ",S," + mean_S[i]);
+        }
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
+            for (String item : list_in2_text) {
+                bw.flush();
+                bw.write(item + "\n");
+                bw.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        editText_station_name.setText("");
+        editText_station_hight.setText("");
+        editText_focus_name.setText("");
+        editText_focus_high.setText("");
+
+        i_cehuishu = 1;//到下一个测站点去测，测回数要进行初始化
+        i_focus_points = 0;
+        list_focus_points.clear();
+        list_focus_1_round.clear();
+        list_Obdata.clear();
+    }
+
+    public void read_observe_tolerance() {
         //读取观测限差文件
-        File Tolerance_Settings = new File(my_functions.get_main_file_path(), "Tolerance Settings.ini");
+        File Tolerance_Settings = new File(my_func.get_main_file_path(), "Tolerance Settings.ini");
         List<String> List_tolerance = new ArrayList<String>();
         String line = "";
         try {
@@ -1004,5 +1060,58 @@ public class observe_now extends AppCompatActivity {
         //3、距离限差，单位：毫米mm
         s_toler_zhaozhun = Integer.valueOf(List_tolerance.get(7));
         s_toler_gecehui = Integer.valueOf(List_tolerance.get(8));//距离同方向各测回互差
+    }
+
+    public void get_in2_and_write_total_torelance() {
+        try {
+            final File ProjectNow = my_func.get_ProjectNow();
+            BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
+            ProjectName_now = bf.readLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+            makeToast("Error：无法读取ProjectNow文件！");
+        }
+        file_in2 = new File(my_func.get_main_file_path() + "/"
+                + ProjectName_now, ProjectName_now + ".in2");
+        if (file_in2.exists()) {
+            file_in2.delete();
+            try {
+                file_in2.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //写入全站仪误差参数
+        File file_total_station_tolerance = new File(my_func.get_main_file_path() + "/"
+                + ProjectName_now, "total station tolerance.ini");
+        File file_known_points = new File(my_func.get_main_file_path() + "/"
+                + ProjectName_now, "known points.txt");
+        try {
+            BufferedReader br1 = new BufferedReader(new FileReader(file_total_station_tolerance));
+            BufferedReader br2 = new BufferedReader(new FileReader(file_known_points));
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
+            String readline = "";
+            String write_text = "";
+            while ((readline = br1.readLine()) != null) {
+                write_text += readline + ",";
+            }
+            bw.flush();
+            bw.write(write_text.substring(0, write_text.length() - 1) + "\n");
+            bw.flush();
+
+            while ((readline = br2.readLine()) != null) {
+                bw.flush();
+                bw.write(readline + "\n");
+                bw.flush();
+            }
+
+            bw.close();
+            br1.close();
+            br2.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

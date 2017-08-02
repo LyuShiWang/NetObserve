@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,7 +34,7 @@ import java.util.Map;
  */
 
 public class observe_known_point extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
 
     private EditText editText_point_name;
     private EditText editText_point_X;
@@ -173,7 +173,7 @@ public class observe_known_point extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String ProjectName_now = get_ProjectNow_name();
-                File file_known_points = new File(my_functions.get_main_file_path() + "/"
+                File file_known_points = new File(my_func.get_main_file_path() + "/"
                         + ProjectName_now, "known points.txt");
                 file_known_points.delete();
                 try {
@@ -215,7 +215,7 @@ public class observe_known_point extends AppCompatActivity {
 
     public String get_ProjectNow_name() {
         String ProjectName_now = new String();
-        File file_ProjectNow = my_functions.get_ProjectNow();
+        File file_ProjectNow = my_func.get_ProjectNow();
         try {
             BufferedReader bf = new BufferedReader(new FileReader(file_ProjectNow));
             ProjectName_now = bf.readLine();

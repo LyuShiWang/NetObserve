@@ -3,9 +3,6 @@ package com.lyushiwang.netobserve;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Process;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,20 +10,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.tools.My_Functions;
+import com.tools.My_Func;
 import com.tools.NetTool;
-import com.tools.NetUtil;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +30,7 @@ import java.util.List;
  */
 
 public class UploadData extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
     private NetTool netTool = new NetTool(UploadData.this);
 
     private ListView listView_project;
@@ -50,7 +44,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
     private int j;
     private int IP_connect;
 
-    private File file_in2 = new File(my_functions.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
+    private File file_in2 = new File(my_func.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
 
 
     @Override
@@ -72,7 +66,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
 
     protected void init() {
         listView_project = (ListView) findViewById(R.id.listview_project);
-        File ProjectList = my_functions.get_ProjectList();
+        File ProjectList = my_func.get_ProjectList();
         try {
             BufferedReader br = new BufferedReader(new FileReader(ProjectList));
             String readline = "";
@@ -105,7 +99,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
     }
 
     public void uploadproject(String ProjectName) {
-        file_in2 = new File(my_functions.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
+        file_in2 = new File(my_func.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
         if (file_in2.exists()) {
             //将该in2文件上传即可
             connect_PC();

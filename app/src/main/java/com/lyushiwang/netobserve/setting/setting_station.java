@@ -14,7 +14,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 
 public class setting_station extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
     private Context mContext;
 
     private EditText editText_observe_number;
@@ -78,7 +78,7 @@ public class setting_station extends AppCompatActivity {
             public void onClick(View v) {
                 List<String> List_station_settings = get_and_check_text();
                 if (List_station_settings != null) {
-                    File Filepath = my_functions.get_main_file_path();
+                    File Filepath = my_func.get_main_file_path();
                     File Station_Settings = new File(Filepath, "Station Settings.ini");//测站设置文件
                     Station_Settings.delete();
                     try {

@@ -14,8 +14,8 @@ import java.util.List;
  * Created by win10 on 2017/4/18.
  */
 
-public class My_Functions {
-    public My_Functions() {
+public class My_Func {
+    public My_Func() {
 
     }
 

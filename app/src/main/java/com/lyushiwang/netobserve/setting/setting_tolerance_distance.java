@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 
 public class setting_tolerance_distance extends AppCompatActivity {
-    private My_Functions my_functions=new My_Functions();
+    private My_Func my_func=new My_Func();
 
     private EditText editText_dushucha;
     private EditText editText_cehuicha;
@@ -57,7 +57,7 @@ public class setting_tolerance_distance extends AppCompatActivity {
             public void onClick(View v) {
                 List<String> List_tolerance_distance = get_and_check_text();
                 if (List_tolerance_distance != null) {
-                    File Tolerance_Settings = new File(my_functions.get_main_file_path(), "Tolerance Settings.ini");//观测限差文件
+                    File Tolerance_Settings = new File(my_func.get_main_file_path(), "Tolerance Settings.ini");//观测限差文件
                     //将旧数据更改为新数据
                     List<String> List_new = distance_tolerance_change(Tolerance_Settings, List_tolerance_distance);
 

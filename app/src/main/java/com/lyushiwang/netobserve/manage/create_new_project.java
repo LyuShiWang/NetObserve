@@ -11,7 +11,7 @@ import android.widget.Toast;
 import android.widget.ImageButton;
 
 import com.lyushiwang.netobserve.R;
-import com.tools.My_Functions;
+import com.tools.My_Func;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -19,7 +19,7 @@ import java.lang.String;
 import java.io.File;
 
 public class create_new_project extends AppCompatActivity {
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
     private Context mContext;
 
     private EditText ET_gongchengming;
@@ -60,7 +60,7 @@ public class create_new_project extends AppCompatActivity {
             public void onClick(View v) {
                 //将当前的工程名写入ProjectList文件中
                 ProjectName = ET_gongchengming.getText().toString();
-                final File ProjectList = my_functions.get_ProjectList();
+                final File ProjectList = my_func.get_ProjectList();
                 try {
                     //true意思是，是否以append的方式写入
                     BufferedWriter bw = new BufferedWriter(new FileWriter(ProjectList, true));
@@ -90,7 +90,7 @@ public class create_new_project extends AppCompatActivity {
         try {
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 //保存到外部储存的该应用的文件夹内
-                File ProjectLocation = new File(my_functions.get_main_file_path(), ProjectName);
+                File ProjectLocation = new File(my_func.get_main_file_path(), ProjectName);
                 if (!ProjectLocation.exists()) {
                     ProjectLocation.mkdir();
                     create_observe_files(ProjectLocation);//在该工程文件夹内创建必需的测量文件

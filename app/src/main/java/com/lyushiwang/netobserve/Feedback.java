@@ -3,34 +3,26 @@ package com.lyushiwang.netobserve;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tools.My_Functions;
+import com.tools.My_Func;
 import com.tools.NetTool;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +36,7 @@ public class Feedback extends AppCompatActivity {
     private Button button_get_result;
     private TextView textView_show_result;
 
-    private My_Functions my_functions = new My_Functions();
+    private My_Func my_func = new My_Func();
     private NetTool netTool = new NetTool(Feedback.this);
 
     private ListView listView_project;
@@ -124,7 +116,7 @@ public class Feedback extends AppCompatActivity {
                     }
 //                    makeToast("接收反馈成功");
 
-                    File ProjectLocation = new File(my_functions.get_main_file_path(), ProjectName_now);
+                    File ProjectLocation = new File(my_func.get_main_file_path(), ProjectName_now);
                     File file_rt2 = new File(ProjectLocation, ProjectName_now + ".rt2");
                     if (!file_rt2.exists()) {
                         try {
