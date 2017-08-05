@@ -104,10 +104,11 @@ public class observe_now extends AppCompatActivity {
     private List<Map<String, Object>> list_listview = new ArrayList<Map<String, Object>>();
     private observe_now.MyAdapter listview_adapter;
 
-    private File file_data = new File(my_func.get_main_file_path(), "read_data.txt");
+    //    private File file_data = new File(my_func.get_main_file_path(), "read_data.txt");
     private String ProjectName_now;
     private String station_name;
     private File file_in2;
+    private File file_ob_data;
 
     private List<String> list_station_points = new ArrayList<String>();
     private List<String> list_focus_points = new ArrayList<String>();
@@ -245,10 +246,9 @@ public class observe_now extends AppCompatActivity {
                         AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
                         AD_check_BT.setMessage("未打开蓝牙！请重试").create().show();
                     } else {
-                        String[] strings_Total_station = null;
                         try {
                             //数据的结构：第2、3、4分别为水平角、竖直角和距离，单位为弧度、弧度、米
-                            strings_Total_station = classmeasFun.VB_BAP_MeasDistAng();
+                            String[] strings_Total_station = classmeasFun.VB_BAP_MeasDistAng();
                             if (!check_observe_data(strings_Total_station)) {
                                 AlertDialog.Builder AD_observe_error = new AlertDialog.Builder(observe_now.this);
                                 AD_observe_error.setMessage("数据异常！请重新照准目标棱镜！").create().show();
@@ -264,7 +264,7 @@ public class observe_now extends AppCompatActivity {
                                 String[] points_name = get_points_name_set(station_name);
                                 if (!points_name[1].equals("NULL")) {
                                     //存储数据，及屏幕显示
-                                    put_and_display(i_cehuishu, points_name, strings_Total_station);
+                                    put_and_display_and_save(i_cehuishu, points_name, strings_Total_station);
                                     if (face.equals("LEFT")) {
                                         //计算一共本测站一共观测了多少个目标点
                                         if (i_cehuishu == 1) {
@@ -319,7 +319,7 @@ public class observe_now extends AppCompatActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                join_listview_data();
+//                                join_listview_data();
                                 i_cehuishu += 1;
                                 textView_tips.setText("已进入第" + String.valueOf(i_cehuishu) + "测回！\n" +
                                         "请对准初始照准点，然后点击“观测”键");
@@ -363,7 +363,10 @@ public class observe_now extends AppCompatActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                join_listview_data();
+                                list_listview.clear();
+                                listview_adapter = new MyAdapter(observe_now.this, list_listview);
+                                listview.setAdapter(listview_adapter);
+                                listview_adapter.notifyDataSetChanged();
                                 next_station();
                             }
                         }).create().show();
@@ -557,6 +560,18 @@ public class observe_now extends AppCompatActivity {
         read_observe_tolerance();
         get_in2_and_write_total_torelance();
 
+        file_ob_data = new File(my_func.get_main_file_path() + "/" + ProjectName_now
+                , ProjectName_now + ".ob");
+        try {
+            if (!file_ob_data.exists()) {
+                file_ob_data.createNewFile();
+            } else {
+                BufferedReader br = new BufferedReader(new FileReader(file_ob_data));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         textView_tips.setText("请输入测站点和初始照准点的信息，然后点击“观测”键");
     }
 
@@ -639,8 +654,20 @@ public class observe_now extends AppCompatActivity {
         return points_name;
     }
 
-    public void put_and_display(int i_cehuishu, String[] points_name, String[] strings_Total_station) {
-        list_Obdata.add(put_data_into_Obdata(i_cehuishu, face, points_name, strings_Total_station));
+    public void put_and_display_and_save(
+            int i_cehuishu, String[] points_name, String[] strings_Total_station) {
+        Observe_data observe_data = put_data_into_Obdata(i_cehuishu, face, points_name, strings_Total_station);
+        list_Obdata.add(observe_data);
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file_ob_data, true));
+            bw.flush();
+            bw.write(observe_data.toFileString() + "\n");
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //显示在手机屏幕上
         map = new HashMap<String, Object>();
@@ -656,7 +683,9 @@ public class observe_now extends AppCompatActivity {
         listview_adapter.notifyDataSetChanged();
 
         if (face.equals("LEFT")) {
-            editText_focus_name.setText("");
+            if (i_cehuishu == 1) {
+                editText_focus_name.setText("");
+            }
         }
     }
 
@@ -677,10 +706,10 @@ public class observe_now extends AppCompatActivity {
 
     public String face_position(String face) {
         String face_pos = "";
-        if (face == "LEFT") {
+        if (face.equals("LEFT")) {
             face_pos = "盘左";
         }
-        if (face == "RIGHT") {
+        if (face.equals("RIGHT")) {
             face_pos = "盘右";
         }
         return face_pos;
@@ -983,7 +1012,7 @@ public class observe_now extends AppCompatActivity {
     }
 
     public void next_station() {
-        //将数据写入到文件中
+        //将数据写入到.in2文件中
         List<String> list_in2_text = new ArrayList<String>();
         list_in2_text.add(station_name);
         Double[] mean_Hz = new Double[i_focus_points];
@@ -1019,6 +1048,15 @@ public class observe_now extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        //清空file_ob_data
+        try {
+            file_ob_data.delete();
+            file_ob_data.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //初始化
         editText_station_name.setText("");
         editText_station_hight.setText("");
         editText_focus_name.setText("");
