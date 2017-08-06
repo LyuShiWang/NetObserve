@@ -155,7 +155,6 @@ public class observe_now extends AppCompatActivity {
         setContentView(R.layout.observe_now);
 
         define_palettes();
-
         init();
         do_click();
     }
@@ -557,20 +556,9 @@ public class observe_now extends AppCompatActivity {
         i_cehuishu = 1;
         i_focus_points = 0;
 
-        read_observe_tolerance();
-        get_in2_and_write_total_torelance();
-
-        file_ob_data = new File(my_func.get_main_file_path() + "/" + ProjectName_now
-                , ProjectName_now + ".ob");
-        try {
-            if (!file_ob_data.exists()) {
-                file_ob_data.createNewFile();
-            } else {
-                BufferedReader br = new BufferedReader(new FileReader(file_ob_data));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        read_observe_tolerance();//读取观测限差文件
+        get_in2_and_write_total_torelance();//获取.in2文件，写入全站仪参数和已知点坐标
+        handle_file_ob();//获取.ob文件，进行一定的处理
 
         textView_tips.setText("请输入测站点和初始照准点的信息，然后点击“观测”键");
     }
@@ -769,10 +757,37 @@ public class observe_now extends AppCompatActivity {
                 }
             }
 
+            //从观测文件.ob中撤销
+            undo_file_ob();
+
             textView_tips.setText("撤回成功！请再次观测该点！");
         } else {
             AlertDialog.Builder AD_undo_error = new AlertDialog.Builder(observe_now.this);
             AD_undo_error.setMessage("没有可以撤销的数据！").create().show();
+        }
+    }
+
+    public void undo_file_ob() {
+        try {
+            List<String> list_file_ob = new ArrayList<String>();
+
+            BufferedReader br = new BufferedReader(new FileReader(file_ob_data));
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                list_file_ob.add(line);
+            }
+
+            list_file_ob.remove(list_file_ob.size() - 1);
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file_ob_data, true));
+            for (String item : list_file_ob) {
+                bw.flush();
+                bw.write(item + "\n");
+                bw.flush();
+            }
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -1149,6 +1164,48 @@ public class observe_now extends AppCompatActivity {
             br1.close();
             br2.close();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handle_file_ob() {
+        file_ob_data = new File(my_func.get_main_file_path() + "/" + ProjectName_now
+                , ProjectName_now + ".ob");
+        try {
+            if (!file_ob_data.exists()) {
+                file_ob_data.createNewFile();
+            } else {
+                BufferedReader br = new BufferedReader(new FileReader(file_ob_data));
+                String line = "";
+                while ((line = br.readLine()) != null) {
+                    String[] items = line.split(",");
+                    i_cehuishu = Integer.valueOf(items[0]).intValue();
+                    face = items[1];
+                    String[] points_name = {items[2], items[3]};
+                    String[] strings_Total_station = {"0", items[4], items[5], items[6]};
+
+                    Observe_data observe_data = put_data_into_Obdata(
+                            i_cehuishu, face, points_name, strings_Total_station);
+                    list_Obdata.add(observe_data);
+
+                    //显示在手机屏幕上
+                    map = new HashMap<String, Object>();
+                    map.put("Name", points_name[1]);
+                    map.put("observe_number", i_cehuishu);
+                    map.put("face_position", face_position(face));
+                    map.put("Hz", my_func.rad2ang_show(Double.valueOf(strings_Total_station[1])));
+                    map.put("V", my_func.rad2ang_show(Double.valueOf(strings_Total_station[2])));
+                    map.put("S", my_func.baoliu_weishu(strings_Total_station[3], 3));
+                    list_listview.add(map);
+                }
+                listview_adapter = new MyAdapter(observe_now.this, list_listview);
+                listview.setAdapter(listview_adapter);
+                listview_adapter.notifyDataSetChanged();
+
+                AlertDialog.Builder AD_file_ob = new AlertDialog.Builder(observe_now.this);
+                AD_file_ob.setMessage("读取已观测数据成功！").setPositiveButton("确定", null).create().show();
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
