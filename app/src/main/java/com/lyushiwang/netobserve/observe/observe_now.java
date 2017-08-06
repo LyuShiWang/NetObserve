@@ -244,6 +244,7 @@ public class observe_now extends AppCompatActivity {
                     if (!BluetoothAdap.isEnabled()) {
                         AlertDialog.Builder AD_check_BT = new AlertDialog.Builder(observe_now.this);
                         AD_check_BT.setMessage("未打开蓝牙！请重试").create().show();
+                        textView_tips.setText("请打开蓝牙");
                     } else {
                         try {
                             //数据的结构：第2、3、4分别为水平角、竖直角和距离，单位为弧度、弧度、米
@@ -251,20 +252,21 @@ public class observe_now extends AppCompatActivity {
                             if (!check_observe_data(strings_Total_station)) {
                                 AlertDialog.Builder AD_observe_error = new AlertDialog.Builder(observe_now.this);
                                 AD_observe_error.setMessage("数据异常！请重新照准目标棱镜！").create().show();
+                                textView_tips.setText("请重新照准目标棱镜");
                             } else {
                                 Double V_face = Double.valueOf(strings_Total_station[2]);
                                 if (V_face < Math.PI) {
-                                    face = "LEFT";
+                                    face = "L";
                                 }
                                 if (V_face > Math.PI) {
-                                    face = "RIGHT";
+                                    face = "R";
                                 }
 
                                 String[] points_name = get_points_name_set(station_name);
                                 if (!points_name[1].equals("NULL")) {
                                     //存储数据，及屏幕显示
                                     put_and_display_and_save(i_cehuishu, points_name, strings_Total_station);
-                                    if (face.equals("LEFT")) {
+                                    if (face.equals("L")) {
                                         //计算一共本测站一共观测了多少个目标点
                                         if (i_cehuishu == 1) {
                                             i_focus_points += 1;
@@ -296,12 +298,14 @@ public class observe_now extends AppCompatActivity {
                                             new AlertDialog.Builder(observe_now.this);
                                     AD_error_edittext_focus.setTitle("警告")
                                             .setMessage("未输入照准点名！请输入后再进行观测").create().show();
+                                    textView_tips.setText("请输入照准点名");
                                 }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                             AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
                             AD_check_measfun.setMessage("未连接到蓝牙模块！请重试").create().show();
+                            textView_tips.setText("请检查是否连接到蓝牙模块");
                         }
                     }
                 }
@@ -594,7 +598,7 @@ public class observe_now extends AppCompatActivity {
         points_name[0] = station_name;
         String focus_name = null;
 
-        if (face.equals("LEFT")) {
+        if (face.equals("L")) {
             //盘左观测，如果是第一测回，则记录点名
             //没有填写点名则自动报错
             //如果不是第一测回，则自动填写点名
@@ -628,7 +632,7 @@ public class observe_now extends AppCompatActivity {
                 }
             }
         }
-        if (face.equals("RIGHT")) {
+        if (face.equals("R")) {
             //盘右观测，不需要手动输点名，按盘左输入点名的逆顺序，自动输入点名
             //可能会出现照错点的情况，需要进行检查
             int size = list_order_name_RIGHT.size();
@@ -670,7 +674,7 @@ public class observe_now extends AppCompatActivity {
         listview.setAdapter(listview_adapter);
         listview_adapter.notifyDataSetChanged();
 
-        if (face.equals("LEFT")) {
+        if (face.equals("L")) {
             if (i_cehuishu == 1) {
                 editText_focus_name.setText("");
             }
@@ -694,10 +698,10 @@ public class observe_now extends AppCompatActivity {
 
     public String face_position(String face) {
         String face_pos = "";
-        if (face.equals("LEFT")) {
+        if (face.equals("L")) {
             face_pos = "盘左";
         }
-        if (face.equals("RIGHT")) {
+        if (face.equals("R")) {
             face_pos = "盘右";
         }
         return face_pos;
@@ -738,7 +742,7 @@ public class observe_now extends AppCompatActivity {
             list_focus_points.remove(list_focus_points.size() - 1);
 
             if (i_cehuishu == 1) {
-                if (face.equals("LEFT")) {
+                if (face.equals("L")) {
                     i_focus_points -= 1;
                     list_order_name_RIGHT.remove(list_order_name_RIGHT.size() - 1);
                 } else {
@@ -748,10 +752,10 @@ public class observe_now extends AppCompatActivity {
                 }
                 list_focus_1_round.remove(list_focus_1_round.size() - 1);
             } else {// i_cehuishu != 1
-                if (face.equals("LEFT")) {
+                if (face.equals("L")) {
                     int size_LEFT = list_order_name_LEFT.size();
                     list_order_name_LEFT.add(0, list_focus_1_round.get(i_focus_points - size_LEFT - 1));
-                } else {// face.equals("RIGHT")
+                } else {// face.equals("R")
                     int size_RIGHT = list_order_name_RIGHT.size();
                     list_order_name_RIGHT.add(list_focus_1_round.get(size_RIGHT));
                 }
@@ -1175,38 +1179,60 @@ public class observe_now extends AppCompatActivity {
             if (!file_ob_data.exists()) {
                 file_ob_data.createNewFile();
             } else {
-                BufferedReader br = new BufferedReader(new FileReader(file_ob_data));
-                String line = "";
-                while ((line = br.readLine()) != null) {
-                    String[] items = line.split(",");
-                    i_cehuishu = Integer.valueOf(items[0]).intValue();
-                    face = items[1];
-                    String[] points_name = {items[2], items[3]};
-                    String[] strings_Total_station = {"0", items[4], items[5], items[6]};
+                if (file_ob_data.length() > 0) {
+                    BufferedReader br = new BufferedReader(new FileReader(file_ob_data));
+                    String line = "";
+                    while ((line = br.readLine()) != null) {
+                        String[] items = line.split(",");
+                        i_cehuishu = Integer.parseInt(items[0]);
+                        face = items[1];
+                        String[] points_name = {items[2], items[3]};
+                        String[] strings_Total_station = {"", items[4], items[5], items[6]};
 
-                    Observe_data observe_data = put_data_into_Obdata(
-                            i_cehuishu, face, points_name, strings_Total_station);
-                    list_Obdata.add(observe_data);
+                        Observe_data observe_data = put_data_into_Obdata(
+                                i_cehuishu, face, points_name, strings_Total_station);
+                        list_focus_points.add(points_name[0]);
+                        list_Obdata.add(observe_data);
 
-                    //显示在手机屏幕上
-                    map = new HashMap<String, Object>();
-                    map.put("Name", points_name[1]);
-                    map.put("observe_number", i_cehuishu);
-                    map.put("face_position", face_position(face));
-                    map.put("Hz", my_func.rad2ang_show(Double.valueOf(strings_Total_station[1])));
-                    map.put("V", my_func.rad2ang_show(Double.valueOf(strings_Total_station[2])));
-                    map.put("S", my_func.baoliu_weishu(strings_Total_station[3], 3));
-                    list_listview.add(map);
+                        //显示在手机屏幕上
+                        map = new HashMap<String, Object>();
+                        map.put("Name", points_name[1]);
+                        map.put("observe_number", i_cehuishu);
+                        map.put("face_position", face_position(face));
+                        map.put("Hz", my_func.rad2ang_show(Double.valueOf(strings_Total_station[1])));
+                        map.put("V", my_func.rad2ang_show(Double.valueOf(strings_Total_station[2])));
+                        map.put("S", my_func.baoliu_weishu(strings_Total_station[3], 3));
+                        list_listview.add(map);
+                    }
+                    listview_adapter = new MyAdapter(observe_now.this, list_listview);
+                    listview.setAdapter(listview_adapter);
+                    listview_adapter.notifyDataSetChanged();
+
+                    AlertDialog.Builder AD_file_ob = new AlertDialog.Builder(observe_now.this);
+                    AD_file_ob.setMessage("读取已观测数据成功！").setPositiveButton("确定", null).create().show();
                 }
-                listview_adapter = new MyAdapter(observe_now.this, list_listview);
-                listview.setAdapter(listview_adapter);
-                listview_adapter.notifyDataSetChanged();
-
-                AlertDialog.Builder AD_file_ob = new AlertDialog.Builder(observe_now.this);
-                AD_file_ob.setMessage("读取已观测数据成功！").setPositiveButton("确定", null).create().show();
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if (list_Obdata.size() != 0) {
+            i_cehuishu=list_Obdata.get(list_Obdata.size()-1).getCehuishu();
+
+            for (int i = 1; i < list_Obdata.size(); i++) {
+                int cehuishu = list_Obdata.get(i).getCehuishu();
+                list_focus_points.add(list_Obdata.get(i).getFocusName());
+
+                if (cehuishu != list_Obdata.get(0).getCehuishu()) {
+                    i_focus_points = i;
+                    break;
+                }
+            }
+
+            station_name = list_Obdata.get(list_Obdata.size() - 1).getStationName();
+            editText_station_name.setText(station_name);
+
+
         }
     }
 }

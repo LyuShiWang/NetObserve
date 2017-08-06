@@ -116,7 +116,8 @@ public class Observe_data {
         String file_string = "";
         file_string += String.valueOf(Cehuishu) + "," + Face + ",";
         file_string += Station_Name + "," + Focus_Name + ",";
-        file_string += String.valueOf(Hz) + "," + String.valueOf(V) + "," + String.valueOf(my_func.baoliu_weishu(S, 4));
+        file_string += String.valueOf(Hz) + "," + String.valueOf(V) + ","
+                + String.valueOf(my_func.baoliu_weishu(S, 5));
 
         return file_string;
     }
