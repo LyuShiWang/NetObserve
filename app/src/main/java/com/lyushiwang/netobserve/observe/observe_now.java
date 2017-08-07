@@ -1217,15 +1217,17 @@ public class observe_now extends AppCompatActivity {
         }
 
         if (list_Obdata.size() != 0) {
-            i_cehuishu=list_Obdata.get(list_Obdata.size()-1).getCehuishu();
+            i_cehuishu = list_Obdata.get(list_Obdata.size() - 1).getCehuishu();
 
-            for (int i = 1; i < list_Obdata.size(); i++) {
-                int cehuishu = list_Obdata.get(i).getCehuishu();
-                list_focus_points.add(list_Obdata.get(i).getFocusName());
+            if (i_cehuishu != 1) {
+                for (int i = 1; i < list_Obdata.size(); i++) {
+                    int cehuishu = list_Obdata.get(i).getCehuishu();
+                    list_focus_1_round.add(list_Obdata.get(i).getFocusName());
 
-                if (cehuishu != list_Obdata.get(0).getCehuishu()) {
-                    i_focus_points = i;
-                    break;
+                    if (cehuishu != 1) {
+                        i_focus_points = i;
+                        break;
+                    }
                 }
             }
 
