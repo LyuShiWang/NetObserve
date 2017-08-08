@@ -276,9 +276,13 @@ public class observe_now extends AppCompatActivity {
                                             textView_tips.setText("第" + String.valueOf(i_focus_points) +
                                                     "个点盘左观测成功！\n请观测下一个点");
                                         } else {
-                                            textView_tips.setText("第"
-                                                    + String.valueOf(i_focus_points - list_order_name_LEFT.size())
-                                                    + "个点盘左观测成功！\n请观测下一个点");
+                                            if (list_order_name_LEFT.size() == 0) {
+                                                textView_tips.setText("盘左观测完成！\n请开始盘右观测");
+                                            } else {
+                                                textView_tips.setText("第"
+                                                        + String.valueOf(i_focus_points - list_order_name_LEFT.size())
+                                                        + "个点盘左观测成功！\n请观测下一个点");
+                                            }
                                         }
 
                                     } else {
@@ -392,113 +396,6 @@ public class observe_now extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 
-//    public void read_read_data_txt() {
-//        String focus_name=editText_focus_name.getText().toString();
-//        try {
-//            BufferedReader bf = new BufferedReader(new FileReader(file_data));
-//
-//            Observe_data ob1_back_faceL = new Observe_data(focus_name,
-//                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_data_read.add(ob1_back_faceL);
-//            map = new HashMap<String, Object>();
-//            map.put("Name", focus_name);
-//            map.put("observe_number", "1");
-//            map.put("face_position", "盘左");
-//            map.put("Hz", ob1_back_faceL.getHz_String());//第1行
-//            map.put("V", ob1_back_faceL.getV_String());//第2行
-//            map.put("S", ob1_back_faceL.getS_String());//第3行
-//            list_listview.add(map);
-//
-//            Observe_data ob1_front_faceL = new Observe_data(front_name,
-//                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_data_read.add(ob1_front_faceL);
-//            map = new HashMap<String, Object>();
-//            map.put("Name", front_name);
-//            map.put("observe_number", "1");
-//            map.put("face_position", "盘左");
-//            map.put("Hz", ob1_front_faceL.getHz_String());//第4行
-//            map.put("V", ob1_front_faceL.getV_String());//第5行
-//            map.put("S", ob1_front_faceL.getS_String());//第6行
-//            list_listview.add(map);
-//
-//            Observe_data ob1_front_faceR = new Observe_data(front_name,
-//                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_data_read.add(ob1_front_faceR);
-//            map = new HashMap<String, Object>();
-//            map.put("Name", front_name);
-//            map.put("observe_number", "1");
-//            map.put("face_position", "盘右");
-//            map.put("Hz", ob1_front_faceR.getHz_String());//第7行
-//            map.put("V", ob1_front_faceR.getV_String());//第8行
-//            map.put("S", ob1_front_faceR.getS_String());//第9行
-//            list_listview.add(map);
-//
-//            Observe_data ob1_back_faceR = new Observe_data(back_name,
-//                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_data_read.add(ob1_back_faceR);
-//            map = new HashMap<String, Object>();
-//            map.put("Name", back_name);
-//            map.put("observe_number", "1");
-//            map.put("face_position", "盘右");
-//            map.put("Hz", ob1_back_faceR.getHz_String());//第10行
-//            map.put("V", ob1_back_faceR.getV_String());//第11行
-//            map.put("S", ob1_back_faceR.getS_String());//第12行
-//            list_listview.add(map);
-//
-//            Observe_data ob2_back_faceL = new Observe_data(back_name,
-//                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_data_read.add(ob2_back_faceL);
-//            map = new HashMap<String, Object>();
-//            map.put("Name", back_name);
-//            map.put("observe_number", "2");
-//            map.put("face_position", "盘左");
-//            map.put("Hz", ob2_back_faceL.getHz_String());//第13行
-//            map.put("V", ob2_back_faceL.getV_String());//第14行
-//            map.put("S", ob2_back_faceL.getS_String());//第15行
-//            list_listview.add(map);
-//
-//            Observe_data ob2_front_faceL = new Observe_data(front_name,
-//                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_data_read.add(ob2_front_faceL);
-//            map = new HashMap<String, Object>();
-//            map.put("Name", front_name);
-//            map.put("observe_number", "2");
-//            map.put("face_position", "盘左");
-//            map.put("Hz", ob2_front_faceL.getHz_String());//第16行
-//            map.put("V", ob2_front_faceL.getV_String());//第17行
-//            map.put("S", ob2_front_faceL.getS_String());//第18行
-//            list_listview.add(map);
-//
-//            Observe_data ob2_front_faceR = new Observe_data(front_name,
-//                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_data_read.add(ob2_front_faceR);
-//            map = new HashMap<String, Object>();
-//            map.put("Name", front_name);
-//            map.put("observe_number", "2");
-//            map.put("face_position", "盘右");
-//            map.put("Hz", ob2_front_faceR.getHz_String());//第19行
-//            map.put("V", ob2_front_faceR.getV_String());//第20行
-//            map.put("S", ob2_front_faceR.getS_String());//第21行
-//            list_listview.add(map);
-//
-//            Observe_data ob2_back_faceR = new Observe_data(back_name,
-//                    bf.readLine(), bf.readLine(), bf.readLine());
-//            list_data_read.add(ob2_back_faceR);
-//            map = new HashMap<String, Object>();
-//            map.put("Name", back_name);
-//            map.put("observe_number", "2");
-//            map.put("face_position", "盘右");
-//            map.put("Hz", ob2_back_faceR.getHz_String());//第22行
-//            map.put("V", ob2_back_faceR.getV_String());//第23行
-//            map.put("S", ob2_back_faceR.getS_String());//第24行
-//            list_listview.add(map);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            makeToast("read_data文件不存在！");
-//        }
-//    }
-
-
     //自定义adapter
     public class MyAdapter extends BaseAdapter {
         List<Map<String, Object>> list;
@@ -585,31 +482,6 @@ public class observe_now extends AppCompatActivity {
                     }
                 }).setNegativeButton("取消", null).create().show();
     }
-
-//    private void point_face_tip(int i_tip) {
-//        AlertDialog.Builder AD_tip = new AlertDialog.Builder(observe_now.this);
-//        String text_tip = "";
-//        switch (i_tip) {
-//            case 1:
-//                AD_tip.setMessage("请观测后视点，并设置为盘左").create().show();
-//                break;
-//            case 2:
-//                AD_tip.setMessage("请观测前视点，并设置为盘左").create().show();
-//                break;
-//            case 3:
-//                AD_tip.setMessage("请观测前视点，并设置为盘右").create().show();
-//                break;
-//            case 4:
-//                AD_tip.setMessage("请观测后视点，并设置为盘右").create().show();
-//                break;
-//            default:
-//                break;
-//        }
-//        if (i_tip > 4) {
-//            AD_tip.setMessage("请对本测回进行数据检查").create().show();
-//            AD_tip.setMessage("本测回已完成，请进行下一测回或下一测站").create().show();
-//        }
-//    }
 
     public String[] get_points_name_set(String station_name) {
         //用于处理照准点点名，主要是进行在盘右观测时和第一测回之后的点名自动设置
@@ -800,6 +672,8 @@ public class observe_now extends AppCompatActivity {
                 list_file_ob.add(line);
             }
 
+            file_ob_data.delete();
+            file_ob_data.createNewFile();
             list_file_ob.remove(list_file_ob.size() - 1);
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(file_ob_data, true));
@@ -1240,16 +1114,52 @@ public class observe_now extends AppCompatActivity {
             i_cehuishu = list_Obdata.get(list_Obdata.size() - 1).getCehuishu();
 
             if (i_cehuishu != 1) {
-                for (int i = 1; i < list_Obdata.size(); i++) {
+                for (int i = 0; i < list_Obdata.size(); i++) {
                     int cehuishu = list_Obdata.get(i).getCehuishu();
-                    list_focus_1_round.add(list_Obdata.get(i).getFocusName());
-
                     if (cehuishu != 1) {
-                        i_focus_points = i;
+                        i_focus_points = i / 2;
                         break;
+                    }
+                    list_focus_1_round.add(list_Obdata.get(i).getFocusName());
+                }
+                for (int i = 0; i < i_focus_points; i++) {
+                    list_order_name_LEFT.add(list_focus_1_round.get(i));
+                    list_order_name_RIGHT.add(list_focus_1_round.get(i));
+                }
+
+                String last_face = list_Obdata.get(list_Obdata.size() - 1).getFace();
+                if (last_face.equals("L")) {
+                    Integer line_LEFT = (i_cehuishu - 1) * i_focus_points * 2;
+                    for (int i = line_LEFT; i < list_focus_points.size(); i++) {
+                        list_order_name_LEFT.remove(list_focus_points.get(i));
+                    }
+                    if (list_order_name_LEFT.size() == 0) {
+                        textView_tips.setText("盘左观测完成！\n请开始盘右观测");
+                    } else {
+                        textView_tips.setText("第"
+                                + String.valueOf(i_focus_points - list_order_name_LEFT.size())
+                                + "个点盘左观测成功！\n请观测下一个点");
+                    }
+                } else {//last_face.equals("R")
+                    list_order_name_LEFT.clear();
+
+                    Integer line_RIGHT = (i_cehuishu - 1) * i_focus_points * 2 + i_focus_points;
+                    for (int j = line_RIGHT; j < list_focus_points.size(); j++) {
+                        list_order_name_RIGHT.remove(list_focus_points.get(j));
+                    }
+
+                    if (list_order_name_RIGHT.size() > 0) {
+                        textView_tips.setText("第" + String.valueOf(list_order_name_RIGHT.size() + 1) +
+                                "个点盘右观测成功！\n请观测下一个点");
+                    } else {
+                        textView_tips.setText("盘右观测完毕！\n" +
+                                "请选择进行下一测回，或下一测站");
                     }
                 }
             } else {//i_cehuishu == 1
+                for (int i = 0; i < list_Obdata.size(); i++) {
+                    list_focus_1_round.add(list_Obdata.get(i).getFocusName());
+                }
                 String last_face = list_Obdata.get(list_Obdata.size() - 1).getFace();
                 if (last_face.equals("L")) {
                     textView_tips.setText("请继续观测盘左第" + (list_Obdata.size() + 1) + "个点\n"
