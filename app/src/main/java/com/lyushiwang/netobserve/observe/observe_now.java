@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lyushiwang.netobserve.R;
+import com.lyushiwang.netobserve.connect.ConnectRobot;
 import com.tools.ClassMeasFunction;
 import com.tools.ListView_observe_now;
 import com.tools.My_Func;
@@ -304,7 +305,15 @@ public class observe_now extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                             AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
-                            AD_check_measfun.setMessage("未连接到蓝牙模块！请重试").create().show();
+                            AD_check_measfun.setMessage("未连接到蓝牙模块！请重试")
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent intent_to_bluedevices = new Intent();
+                                            intent_to_bluedevices.setClass(observe_now.this, ConnectRobot.class);
+                                            startActivity(intent_to_bluedevices);
+                                        }
+                                    }).create().show();
                             textView_tips.setText("请检查是否连接到蓝牙模块");
                         }
                     }
@@ -562,9 +571,19 @@ public class observe_now extends AppCompatActivity {
 
         read_observe_tolerance();//读取观测限差文件
         get_in2_and_write_total_torelance();//获取.in2文件，写入全站仪参数和已知点坐标
-        handle_file_ob();//获取.ob文件，进行一定的处理
-
         textView_tips.setText("请输入测站点和初始照准点的信息，然后点击“观测”键");
+
+        final AlertDialog.Builder AD_isHandle = new AlertDialog.Builder(observe_now.this);
+        AD_isHandle.setMessage("是否读取已有的观测数据？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        handle_file_ob();//获取.ob文件，进行一定的处理
+                        if (file_ob_data.length() == 0 || !file_ob_data.exists()) {
+                            textView_tips.setText("没有读取到已有的观测数据！请进行观测！");
+                        }
+                    }
+                }).setNegativeButton("取消", null).create().show();
     }
 
 //    private void point_face_tip(int i_tip) {
@@ -1191,7 +1210,7 @@ public class observe_now extends AppCompatActivity {
 
                         Observe_data observe_data = put_data_into_Obdata(
                                 i_cehuishu, face, points_name, strings_Total_station);
-                        list_focus_points.add(points_name[0]);
+                        list_focus_points.add(points_name[1]);
                         list_Obdata.add(observe_data);
 
                         //显示在手机屏幕上
@@ -1216,7 +1235,8 @@ public class observe_now extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (list_Obdata.size() != 0) {
+        if (list_Obdata.size() > 0) {
+            //重点是得到list_order_name_LEFT和list_order_name_RIGHT
             i_cehuishu = list_Obdata.get(list_Obdata.size() - 1).getCehuishu();
 
             if (i_cehuishu != 1) {
@@ -1229,12 +1249,46 @@ public class observe_now extends AppCompatActivity {
                         break;
                     }
                 }
+            } else {//i_cehuishu == 1
+                String last_face = list_Obdata.get(list_Obdata.size() - 1).getFace();
+                if (last_face.equals("L")) {
+                    textView_tips.setText("请继续观测盘左第" + (list_Obdata.size() + 1) + "个点\n"
+                            + "或开始进行盘右观测");
+                    editText_focus_name.setText("");
+                    editText_focus_name.setFocusable(true);
+                    editText_focus_name.requestFocus();//将光标移动到该edittext上
+
+                    list_order_name_LEFT = list_focus_points;
+                    list_order_name_RIGHT = list_focus_points;
+                } else {//last_face.equals("R")
+                    for (int i = 0; i < list_Obdata.size(); i++) {
+                        String face_temp = list_Obdata.get(i).getFace();
+                        String focus_point = list_Obdata.get(i).getFocusName();
+                        if (face_temp.equals("R")) {
+                            break;
+                        }
+                        i_focus_points += 1;
+                        list_order_name_LEFT.add(focus_point);
+                        list_order_name_RIGHT.add(focus_point);
+                    }
+                    for (int j = i_focus_points; j < list_Obdata.size(); j++) {
+                        String focus_point = list_Obdata.get(j).getFocusName();
+                        list_order_name_RIGHT.remove(focus_point);
+                    }
+
+                    int size_RIGHT = list_order_name_RIGHT.size();
+                    if (size_RIGHT > 0) {
+                        textView_tips.setText("第" + String.valueOf(size_RIGHT + 1) +
+                                "个点盘右观测成功！\n请观测下一个点");
+                    } else {
+                        textView_tips.setText("盘右观测完毕！\n" +
+                                "请选择进行下一测回，或下一测站");
+                    }
+                }
             }
 
             station_name = list_Obdata.get(list_Obdata.size() - 1).getStationName();
             editText_station_name.setText(station_name);
-
-
         }
     }
 }

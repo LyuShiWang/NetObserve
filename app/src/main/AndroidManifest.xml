@@ -6,16 +6,16 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--允许应用程序改变蓝牙状态-->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <!--允许应用程序改变网络状态-->
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <!--允许应用程序改变WIFI连接状态-->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!--允许应用程序访问WIFI网卡的网络信息-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!--允许应用程序完全使用网络-->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <!--允许访问网络状态-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -25,7 +25,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <service android:name="com.tools.ClassMeasFunction"/>
+        <service android:name="com.tools.ClassMeasFunction" />
 
         <activity android:name="com.lyushiwang.netobserve.MainActivity">
             <intent-filter>
@@ -37,29 +37,33 @@
 
         <activity android:name="com.lyushiwang.netobserve.manage.project_manage" />
         <activity android:name="com.lyushiwang.netobserve.manage.create_new_project" />
-        
+
         <activity android:name="com.lyushiwang.netobserve.setting.system_setting" />
         <activity android:name="com.lyushiwang.netobserve.setting.setting_station" />
-        <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_horizontal"/>
-        <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_vertical"/>
-        <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_distance"/>
-        <activity android:name="com.lyushiwang.netobserve.setting.setting_weather"/>
-        <activity android:name="com.lyushiwang.netobserve.setting.setting_common"
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_horizontal" />
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_vertical" />
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_distance" />
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_weather" />
+        <activity
+            android:name="com.lyushiwang.netobserve.setting.setting_common"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
-        <activity android:name="com.lyushiwang.netobserve.connect.ConnectRobot"/>
+        <activity android:name="com.lyushiwang.netobserve.connect.ConnectRobot" />
 
-        <activity android:name="com.lyushiwang.netobserve.observe.observe_manage"/>
-        <activity android:name="com.lyushiwang.netobserve.observe.observe_known_point"
+        <activity android:name="com.lyushiwang.netobserve.observe.observe_manage" />
+        <activity
+            android:name="com.lyushiwang.netobserve.observe.observe_known_point"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name="com.lyushiwang.netobserve.observe.observe_now"
-            android:windowSoftInputMode="adjustResize"/>
-            //android:windowSoftInputMode="adjustUnspecified|stateHidden"
-        <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_honrizontal"/>
-        <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_vertical"/>
+        <activity
+            android:name="com.lyushiwang.netobserve.observe.observe_now"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        //android:windowSoftInputMode="adjustResize"
 
-        <activity android:name="com.lyushiwang.netobserve.UploadData"/>
-        <activity android:name="com.lyushiwang.netobserve.Feedback"/>
+        <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_honrizontal" />
+        <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_vertical" />
+
+        <activity android:name="com.lyushiwang.netobserve.UploadData" />
+        <activity android:name="com.lyushiwang.netobserve.Feedback" />
     </application>
 
 </manifest>
