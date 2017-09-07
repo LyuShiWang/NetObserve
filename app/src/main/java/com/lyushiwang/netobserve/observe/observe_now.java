@@ -110,6 +110,9 @@ public class observe_now extends AppCompatActivity {
     private String station_name;
     private File file_in2;
     private File file_ob_data;
+    private File file_dist;
+    private File file_hza;
+    private File file_vca;
 
     private List<String> list_station_points = new ArrayList<String>();
     private List<String> list_focus_points = new ArrayList<String>();
@@ -924,7 +927,7 @@ public class observe_now extends AppCompatActivity {
     }
 
     public void next_station() {
-        //将数据写入到.in2文件中
+        //将数据写入到 文件中
         List<String> list_in2_text = new ArrayList<String>();
         list_in2_text.add(station_name);
         Double[] mean_Hz = new Double[i_focus_points];
@@ -944,6 +947,9 @@ public class observe_now extends AppCompatActivity {
             mean_V[i] = sum_V / (double) i_cehuishu;
             mean_S[i] = sum_S / (double) i_cehuishu;
 
+            //将这三个数据分别存入.dist .hza .vca文件中
+
+            //此处仅整理平面观测的数据
             String focus_point_name = list_focus_1_round.get(i);
             list_in2_text.add(focus_point_name + ",L," + my_func.rad2ang_show(mean_Hz[i]));
             list_in2_text.add(focus_point_name + ",S," + mean_S[i]);
@@ -1021,12 +1027,37 @@ public class observe_now extends AppCompatActivity {
             e.printStackTrace();
             makeToast("Error：无法读取ProjectNow文件！");
         }
-        file_in2 = new File(my_func.get_main_file_path() + "/"
-                + ProjectName_now, ProjectName_now + ".in2");
+
+        file_in2 = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".in2");
         if (file_in2.exists()) {
             file_in2.delete();
             try {
                 file_in2.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        file_hza = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".hza");
+        if (!file_hza.exists()) {
+            try {
+                file_hza.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        file_vca = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".vca");
+        if (!file_vca.exists()) {
+            try {
+                file_vca.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        file_dist = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".dist");
+        if (!file_dist.exists()) {
+            try {
+                file_dist.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -1066,8 +1097,7 @@ public class observe_now extends AppCompatActivity {
     }
 
     public void handle_file_ob() {
-        file_ob_data = new File(my_func.get_main_file_path() + "/" + ProjectName_now
-                , ProjectName_now + ".ob");
+        file_ob_data = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".ob");
         try {
             if (!file_ob_data.exists()) {
                 file_ob_data.createNewFile();
