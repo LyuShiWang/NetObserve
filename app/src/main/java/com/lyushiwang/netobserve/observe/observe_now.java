@@ -955,16 +955,16 @@ public class observe_now extends AppCompatActivity {
             list_in2_text.add(focus_point_name + ",S," + mean_S[i]);
         }
 
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
-            for (String item : list_in2_text) {
-                bw.flush();
-                bw.write(item + "\n");
-                bw.flush();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
+//            for (String item : list_in2_text) {
+//                bw.flush();
+//                bw.write(item + "\n");
+//                bw.flush();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         //清空file_ob_data
         try {
