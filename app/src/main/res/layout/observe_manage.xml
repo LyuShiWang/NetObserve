@@ -182,7 +182,7 @@
             android:editable="false"
             android:layout_toEndOf="@+id/imageView4"
             android:layout_toRightOf="@+id/imageView4"
-            android:text="高程观测数据整理"
+            android:text="三角高程观测数据整理"
             android:textColor="@android:color/background_light"
             android:textSize="25sp" />
 

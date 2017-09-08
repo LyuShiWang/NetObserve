@@ -91,27 +91,29 @@ public class observe_manage extends AppCompatActivity {
         button_sort_horizontal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder AD_file_in2=new AlertDialog.Builder(observe_manage.this);
+                AlertDialog.Builder AD_file_in2 = new AlertDialog.Builder(observe_manage.this);
                 AD_file_in2.setMessage("是否将观测数据进行水平方向上的整理，生成.in2文件？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                Intent intent_plane = new Intent(observe_manage.this, observe_sort_honrizontal.class);
+                                startActivity(intent_plane);
                             }
-                        }).setNegativeButton("取消",null).create().show();
+                        }).setNegativeButton("取消", null).create().show();
             }
         });
         button_sort_vertical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder AD_file_in1=new AlertDialog.Builder(observe_manage.this);
+                AlertDialog.Builder AD_file_in1 = new AlertDialog.Builder(observe_manage.this);
                 AD_file_in1.setMessage("是否将观测数据进行竖直方向上的整理，生成.in1文件？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                Intent intent_high = new Intent(observe_manage.this, observe_sort_vertical.class);
+                                startActivity(intent_high);
                             }
-                        }).setNegativeButton("取消",null).create().show();
+                        }).setNegativeButton("取消", null).create().show();
             }
         });
 

@@ -928,8 +928,10 @@ public class observe_now extends AppCompatActivity {
 
     public void next_station() {
         //将数据写入到 文件中
-        List<String> list_in2_text = new ArrayList<String>();
-        list_in2_text.add(station_name);
+        List<String> list_hza_text = new ArrayList<String>();
+        List<String> list_vca_text = new ArrayList<String>();
+        List<String> list_dist_text = new ArrayList<String>();
+//        list_in2_text.add(station_name);
         Double[] mean_Hz = new Double[i_focus_points];
         Double[] mean_V = new Double[i_focus_points];
         Double[] mean_S = new Double[i_focus_points];
@@ -940,31 +942,46 @@ public class observe_now extends AppCompatActivity {
             Double sum_S = 0.0;
             for (int j = 0; j < i_cehuishu; j++) {
                 sum_Hz += calculate_Hz.get(j)[i];
-                sum_V += calculate_Hz.get(j)[i];
+                sum_V += calculate_V.get(j)[i];
                 sum_S += calculate_S.get(j)[i];
             }
             mean_Hz[i] = sum_Hz / (double) i_cehuishu;
             mean_V[i] = sum_V / (double) i_cehuishu;
             mean_S[i] = sum_S / (double) i_cehuishu;
 
-            //将这三个数据分别存入.dist .hza .vca文件中
-
-            //此处仅整理平面观测的数据
             String focus_point_name = list_focus_1_round.get(i);
-            list_in2_text.add(focus_point_name + ",L," + my_func.rad2ang_show(mean_Hz[i]));
-            list_in2_text.add(focus_point_name + ",S," + mean_S[i]);
+            list_hza_text.add(station_name + focus_point_name + mean_Hz[i]);//单位：弧度
+            list_vca_text.add(station_name + focus_point_name + mean_V[i]);//单位：弧度
+            list_dist_text.add(station_name + focus_point_name + mean_S[i]);
+
+            //此处仅整理了平面观测的数据
+//            String focus_point_name = list_focus_1_round.get(i);
+//            list_in2_text.add(focus_point_name + ",L," + my_func.rad2ang_show(mean_Hz[i]));
+//            list_in2_text.add(focus_point_name + ",S," + mean_S[i]);
         }
 
-//        try {
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
-//            for (String item : list_in2_text) {
-//                bw.flush();
-//                bw.write(item + "\n");
-//                bw.flush();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            BufferedWriter bw_Hz = new BufferedWriter(new FileWriter(file_hza, true));
+            for (String item : list_hza_text) {
+                bw_Hz.flush();
+                bw_Hz.write(item + "\n");
+                bw_Hz.flush();
+            }
+            BufferedWriter bw_V = new BufferedWriter(new FileWriter(file_vca, true));
+            for (String item : list_vca_text) {
+                bw_V.flush();
+                bw_V.write(item + "\n");
+                bw_V.flush();
+            }
+            BufferedWriter bw_S = new BufferedWriter(new FileWriter(file_dist, true));
+            for (String item : list_dist_text) {
+                bw_S.flush();
+                bw_S.write(item + "\n");
+                bw_S.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //清空file_ob_data
         try {
