@@ -49,7 +49,7 @@ public class setting_weather extends AppCompatActivity {
         editText_weather_quality = (EditText) findViewById(R.id.editText_weather_quality);
         button_queding = (Button) findViewById(R.id.button_queding_setting);
         button_qingchu = (Button) findViewById(R.id.button_qingchu_common);
-        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtu);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
     protected void do_click() {

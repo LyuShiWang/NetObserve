@@ -950,9 +950,9 @@ public class observe_now extends AppCompatActivity {
             mean_S[i] = sum_S / (double) i_cehuishu;
 
             String focus_point_name = list_focus_1_round.get(i);
-            list_hza_text.add(station_name + focus_point_name + mean_Hz[i]);//单位：弧度
-            list_vca_text.add(station_name + focus_point_name + mean_V[i]);//单位：弧度
-            list_dist_text.add(station_name + focus_point_name + mean_S[i]);
+            list_hza_text.add(station_name + "," + focus_point_name + "," + mean_Hz[i]);//单位：弧度
+            list_vca_text.add(station_name + "," + focus_point_name + "," + mean_V[i]);//单位：弧度
+            list_dist_text.add(station_name + "," + focus_point_name + "," + mean_S[i]);
 
             //此处仅整理了平面观测的数据
 //            String focus_point_name = list_focus_1_round.get(i);

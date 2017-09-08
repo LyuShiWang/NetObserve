@@ -74,7 +74,7 @@ public class observe_known_point extends AppCompatActivity {
         button_delete = (Button) findViewById(R.id.button_delete);
         button_finish = (Button) findViewById(R.id.button_finish);
         listview = (ListView) findViewById(R.id.listview_observe_known);
-        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtu);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
     public List<String> get_and_check_text() {

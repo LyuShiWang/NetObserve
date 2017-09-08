@@ -209,7 +209,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/squre_border"
         android:orientation="vertical"
-        android:layout_above="@+id/imageButton_houtu">
+        android:layout_above="@+id/imageButton_houtui">
 
         <View
             android:layout_width="match_parent"
@@ -295,7 +295,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/imageButton_houtu"
+        android:id="@+id/imageButton_houtui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"
@@ -313,7 +313,7 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/linearLayout6"
         android:layout_alignRight="@+id/linearLayout6"
-        android:layout_alignTop="@+id/imageButton_houtu"
+        android:layout_alignTop="@+id/imageButton_houtui"
         android:background="@color/colorPrimary"
         android:text="完成" />
 

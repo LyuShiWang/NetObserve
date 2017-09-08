@@ -48,7 +48,7 @@ public class setting_tolerance_distance extends AppCompatActivity {
         editText_cehuicha=(EditText)findViewById(R.id.editText_cehuicha);
         button_queding=(Button)findViewById(R.id.button_queding_setting);
         button_qingchu=(Button)findViewById(R.id.button_qingchu_common);
-        imageButton_houtui=(ImageButton)findViewById(R.id.imageButton_houtu);
+        imageButton_houtui=(ImageButton)findViewById(R.id.imageButton_houtui);
     }
 
     protected void do_click(){

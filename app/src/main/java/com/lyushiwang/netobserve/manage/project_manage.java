@@ -58,7 +58,7 @@ public class project_manage extends AppCompatActivity {
         lingcungongcheng = (Button) findViewById(R.id.gongcheng_button4);
         shanchugongcheng = (Button) findViewById(R.id.gongcheng_button5);
         zuijinshiyonggongcheng = (Button) findViewById(R.id.gongcheng_button6);
-        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtu);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
     protected void do_click() {
