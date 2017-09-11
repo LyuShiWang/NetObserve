@@ -470,7 +470,7 @@ public class observe_now extends AppCompatActivity {
         i_focus_points = 0;
 
         read_observe_tolerance();//读取观测限差文件
-        get_in2_and_write_total_torelance();//获取.in2文件，写入全站仪参数和已知点坐标
+        get_file_Hz_V_S();// 获取.hza .vca .dist文件
         textView_tips.setText("请输入测站点和初始照准点的信息，然后点击“观测”键");
 
         final AlertDialog.Builder AD_isHandle = new AlertDialog.Builder(observe_now.this);
@@ -1035,7 +1035,7 @@ public class observe_now extends AppCompatActivity {
         s_toler_gecehui = Integer.valueOf(List_tolerance.get(8));//距离同方向各测回互差
     }
 
-    public void get_in2_and_write_total_torelance() {
+    public void get_file_Hz_V_S() {
         try {
             final File ProjectNow = my_func.get_ProjectNow();
             BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
@@ -1045,15 +1045,15 @@ public class observe_now extends AppCompatActivity {
             makeToast("Error：无法读取ProjectNow文件！");
         }
 
-        file_in2 = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".in2");
-        if (file_in2.exists()) {
-            file_in2.delete();
-            try {
-                file_in2.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        file_in2 = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".in2");
+//        if (file_in2.exists()) {
+//            file_in2.delete();
+//            try {
+//                file_in2.createNewFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         file_hza = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".hza");
         if (!file_hza.exists()) {
@@ -1081,36 +1081,36 @@ public class observe_now extends AppCompatActivity {
         }
 
         //写入全站仪误差参数
-        File file_total_station_tolerance = new File(my_func.get_main_file_path() + "/"
-                + ProjectName_now, "total station tolerance.ini");
-        File file_known_points = new File(my_func.get_main_file_path() + "/"
-                + ProjectName_now, "known points.txt");
-        try {
-            BufferedReader br1 = new BufferedReader(new FileReader(file_total_station_tolerance));
-            BufferedReader br2 = new BufferedReader(new FileReader(file_known_points));
-
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
-            String readline = "";
-            String write_text = "";
-            while ((readline = br1.readLine()) != null) {
-                write_text += readline + ",";
-            }
-            bw.flush();
-            bw.write(write_text.substring(0, write_text.length() - 1) + "\n");
-            bw.flush();
-
-            while ((readline = br2.readLine()) != null) {
-                bw.flush();
-                bw.write(readline + "\n");
-                bw.flush();
-            }
-
-            bw.close();
-            br1.close();
-            br2.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        File file_total_station_tolerance = new File(my_func.get_main_file_path() + "/"
+//                + ProjectName_now, "total station tolerance.ini");
+//        File file_known_points = new File(my_func.get_main_file_path() + "/"
+//                + ProjectName_now, "known points.txt");
+//        try {
+//            BufferedReader br1 = new BufferedReader(new FileReader(file_total_station_tolerance));
+//            BufferedReader br2 = new BufferedReader(new FileReader(file_known_points));
+//
+//            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
+//            String readline = "";
+//            String write_text = "";
+//            while ((readline = br1.readLine()) != null) {
+//                write_text += readline + ",";
+//            }
+//            bw.flush();
+//            bw.write(write_text.substring(0, write_text.length() - 1) + "\n");
+//            bw.flush();
+//
+//            while ((readline = br2.readLine()) != null) {
+//                bw.flush();
+//                bw.write(readline + "\n");
+//                bw.flush();
+//            }
+//
+//            bw.close();
+//            br1.close();
+//            br2.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void handle_file_ob() {

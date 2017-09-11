@@ -16,7 +16,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 吕世望 on 2017/5/1.
@@ -27,6 +29,7 @@ public class observe_sort_honrizontal extends AppCompatActivity {
     private String ProjectName_now;
     private File file_dist;
     private File file_hza;
+    private File file_vca;
     private File file_in2;
 
     private TextView textView_in2_name;
@@ -37,13 +40,15 @@ public class observe_sort_honrizontal extends AppCompatActivity {
     private List<String> list_vca_text = new ArrayList<String>();
     private List<String> list_dist_text = new ArrayList<String>();
 
+    private List<String> list_station_points = new ArrayList<String>();
+    private Integer file_size;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.observe_sort_honrizontal);
 
         init();
-
         handle_file();
 
         AlertDialog.Builder AD_file_handled = new AlertDialog.Builder(observe_sort_honrizontal.this);
@@ -65,33 +70,36 @@ public class observe_sort_honrizontal extends AppCompatActivity {
         }
 
         file_hza = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".hza");
+        file_vca = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".vca");
         file_dist = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".dist");
-        if (!file_hza.exists() || !file_dist.exists()) {
+        if (!file_hza.exists() || !file_vca.exists() || !file_dist.exists()) {
             AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_sort_honrizontal.this);
             AD_error.setTitle("警告").setMessage("文件缺失！无法生成.in2文件！").setPositiveButton("确定", null).create().show();
         }
 
         file_in2 = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".in2");
-        try {
-            if (file_in2.exists()) {
-                AlertDialog.Builder AD_in2exist=new AlertDialog.Builder(observe_sort_honrizontal.this);
-                AD_in2exist.setMessage("提示").setMessage(".in2文件已存在！是否删除以生成新的文件？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    file_in2.delete();
-                                    file_in2.createNewFile();
-                                }catch (IOException e){
-                                    e.printStackTrace();
-                                }
+
+        if (file_in2.exists()) {
+            AlertDialog.Builder AD_in2exist = new AlertDialog.Builder(observe_sort_honrizontal.this);
+            AD_in2exist.setMessage("提示").setMessage(".in2文件已存在！是否删除以生成新的文件？" +
+                    "\n按“取消”则打开原有的文件")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                file_in2.delete();
+                                file_in2.createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                        }).setNegativeButton("取消",null).create().show();//取消事件不应该是null，需改进
-            }else {//file_in2不存在
+                        }
+                    }).setNegativeButton("取消", null).create().show();
+        } else {//file_in2不存在
+            try {
                 file_in2.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -102,6 +110,11 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             while ((line_Hz = br_Hz.readLine()) != null) {
                 list_hza_text.add(line_Hz);
             }
+            BufferedReader br_V = new BufferedReader(new FileReader(file_vca));
+            String line_V = "";
+            while ((line_V = br_V.readLine()) != null) {
+                list_vca_text.add(line_V);
+            }
             BufferedReader br_S = new BufferedReader(new FileReader(file_dist));
             String line_S = "";
             while ((line_S = br_Hz.readLine()) != null) {
@@ -109,9 +122,29 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             }
 
             br_Hz.close();
+            br_V.close();
             br_S.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if (list_hza_text.size() == list_vca_text.size() && list_hza_text.size() == list_dist_text.size()) {
+            file_size = list_hza_text.size();
+        } else {
+            makeToast("Error：.hza .vca .dist三个文件的长度不一致！请检查");
+        }
+
+        for (int i = 0; i < file_size; i++) {
+            list_station_points.add(list_hza_text.get(i).split(",")[0]);
+        }
+        //去掉重复的元素
+        Set set_station_points=new HashSet();
+        set_station_points.addAll(list_station_points);
+        list_station_points.clear();
+        list_station_points.addAll(set_station_points);
+
+        for(int i=0;i<list_station_points.size();i++){
+
         }
 
         return true;
