@@ -511,7 +511,6 @@ public class observe_now extends AppCompatActivity {
                                     .getSystemService(Context.INPUT_METHOD_SERVICE);
                             inputManager.showSoftInput(editText_focus_name, 0);
                         }
-
                     }, 250);
                 } else {
                     points_name[1] = "NULL";
