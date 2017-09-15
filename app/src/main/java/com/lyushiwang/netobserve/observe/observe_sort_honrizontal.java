@@ -206,7 +206,9 @@ public class observe_sort_honrizontal extends AppCompatActivity {
                         String focus_point = list_hza_text.get(i)[1];
                         Double Hz_angle = Double.valueOf(list_hza_text.get(i)[2]);
                         String string_Hz_angle = String.valueOf(my_func.rad2ang_show(Hz_angle));
-                        bw_in2.write(focus_point + "," + "L" + "," + string_Hz_angle);
+                        bw_in2.write(focus_point + ",L," + string_Hz_angle);
+
+
                     }
                 }
             } catch (IOException e) {
