@@ -287,7 +287,6 @@ public class observe_now extends AppCompatActivity {
                                                         + "个点盘左观测成功！\n请观测下一个点");
                                             }
                                         }
-
                                     } else {
                                         int size_RIGHT = list_order_name_RIGHT.size();
                                         if (size_RIGHT > 0) {
@@ -376,21 +375,46 @@ public class observe_now extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             List<Integer> list_error_1_round = check_data_round_end(list_Obdata);
+            List<String[]> list_error_gecehui = check_gecehui(list_Obdata);
+
             if (list_error_1_round.size() == 0) {
-                AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
-                AD_check_measfun.setMessage("本测站数据合格！\n是否进入下一测站？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                list_listview.clear();
-                                listview_adapter = new MyAdapter(observe_now.this, list_listview);
-                                listview.setAdapter(listview_adapter);
-                                listview_adapter.notifyDataSetChanged();
-                                next_station();
-                            }
-                        }).create().show();
+                if (list_error_gecehui.size() == 0) {
+                    AlertDialog.Builder AD_check_measfun = new AlertDialog.Builder(observe_now.this);
+                    AD_check_measfun.setMessage("本测站数据合格！\n是否进入下一测站？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    list_listview.clear();
+                                    listview_adapter = new MyAdapter(observe_now.this, list_listview);
+                                    listview.setAdapter(listview_adapter);
+                                    listview_adapter.notifyDataSetChanged();
+                                    next_station();
+                                }
+                            }).create().show();
+                } else {
+                    textView_tips.setText("各测回方向限差超限！");
+                    String text_AD = "类别 , 方向点名\n";
+                    for (String[] item : list_error_gecehui) {
+                        text_AD += text_AD + item[0] + " , " + item[1] + "\n";
+                    }
+                    AlertDialog.Builder AD_error_list = new AlertDialog.Builder(observe_now.this);
+                    AD_error_list.setTitle("提示：各测回方向限差超限！").setMessage(text_AD)
+                            .setPositiveButton("确定", null).create().show();
+                }
             } else {
-                textView_tips.setText("本测站数据超限！请及时处理");
+                textView_tips.setText("最后一个测回超限！请重新观测");
+//                if (list_error_1_round.contains(1)) {
+//                    AlertDialog.Builder AD_error_face_right = new AlertDialog.Builder(observe_now.this);
+//                    AD_error_face_right.setMessage("盘右水平角归零差超限！\n请重新观测！").create().show();
+//                }
+                if (list_error_1_round.contains(3)) {
+                    AlertDialog.Builder AD_error_2C = new AlertDialog.Builder(observe_now.this);
+                    AD_error_2C.setMessage("本测回水平角2C互差超限！\n请重新观测！").create().show();
+                }
+                if (list_error_1_round.contains(5)) {
+                    AlertDialog.Builder AD_error_zhibiaocha = new AlertDialog.Builder(observe_now.this);
+                    AD_error_zhibiaocha.setMessage("本测回竖直角指标差超限！\n请重新观测！").create().show();
+                }
             }
         }
     };
@@ -709,40 +733,10 @@ public class observe_now extends AppCompatActivity {
 //        else {}
     public void clear_station() {
         list_focus_points.clear();
-//        list_sub_focus.clear();
         list_order_name_RIGHT.clear();
         list_Obdata.clear();
         i_cehuishu = 1;
         i_focus_points = 0;
-    }
-
-    public boolean check_data_round_left(List<Observe_data> List_data) {
-        boolean is_checked;
-        int error = 0;
-
-        int first = 2 * (i_cehuishu - 1) * (i_focus_points + 1);
-        int sencond = 2 * (i_cehuishu - 1) * (i_focus_points + 1) + i_focus_points;
-        int third = (2 * i_cehuishu - 1) * (i_focus_points + 1);
-        int forth = (2 * i_cehuishu - 1) * (i_focus_points + 1) + i_focus_points;
-
-//        if (i_focus_points > 2) {
-//            //检查盘左半测回归零差
-//            Double Hz_0_LEFT = List_data.get(first).getHz();
-//            Double Hz_end_LEFT = List_data.get(sencond).getHz();
-//            Double guilingcha = my_func.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
-//
-//            if (guilingcha > hz_toler_guiling) {
-//                //该半测回归零差超限
-//                error += 1;
-//            }
-//        }
-
-        if (error == 0) {
-            is_checked = true;
-        } else {
-            is_checked = false;
-        }
-        return is_checked;
     }
 
     public boolean check_observe_data(String[] strings_Total_station) {
@@ -760,6 +754,7 @@ public class observe_now extends AppCompatActivity {
     }
 
     public List<Integer> check_data_round_end(List<Observe_data> List_data) {
+        //仅计算一个测回或一个测站内的限差
         boolean is_checked;
         List<Integer> list_error = new ArrayList<Integer>();
 
@@ -922,7 +917,7 @@ public class observe_now extends AppCompatActivity {
                 list_error_fangxiang.add(error_set);
             }
         }
-        return list_error_fangxiang;
+        return list_error_fangxiang;//这个列表包含超限的点，以及超限的类型
     }
 
     public void next_station() {
@@ -1079,37 +1074,6 @@ public class observe_now extends AppCompatActivity {
             }
         }
 
-        //写入全站仪误差参数
-//        File file_total_station_tolerance = new File(my_func.get_main_file_path() + "/"
-//                + ProjectName_now, "total station tolerance.ini");
-//        File file_known_points = new File(my_func.get_main_file_path() + "/"
-//                + ProjectName_now, "known points.txt");
-//        try {
-//            BufferedReader br1 = new BufferedReader(new FileReader(file_total_station_tolerance));
-//            BufferedReader br2 = new BufferedReader(new FileReader(file_known_points));
-//
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
-//            String readline = "";
-//            String write_text = "";
-//            while ((readline = br1.readLine()) != null) {
-//                write_text += readline + ",";
-//            }
-//            bw.flush();
-//            bw.write(write_text.substring(0, write_text.length() - 1) + "\n");
-//            bw.flush();
-//
-//            while ((readline = br2.readLine()) != null) {
-//                bw.flush();
-//                bw.write(readline + "\n");
-//                bw.flush();
-//            }
-//
-//            bw.close();
-//            br1.close();
-//            br2.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void handle_file_ob() {

@@ -12,8 +12,10 @@ import com.lyushiwang.netobserve.R;
 import com.tools.My_Func;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class observe_sort_honrizontal extends AppCompatActivity {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Timer timer=new Timer();
+                        Timer timer = new Timer();
                         timer.schedule(new TimerTask() {
                             @Override
                             public void run() {
@@ -65,7 +67,7 @@ public class observe_sort_honrizontal extends AppCompatActivity {
 
                                 makeToast("生成成功！");
                             }
-                        },200);
+                        }, 200);
                     }
                 }).setNegativeButton("取消", null).create().show();
     }
@@ -117,11 +119,45 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             }
         }
 
+        //写入全站仪误差参数和已知点坐标
+        File file_total_station_tolerance = new File(my_func.get_main_file_path() + "/"
+                + ProjectName_now, "total station tolerance.ini");
+        File file_known_points = new File(my_func.get_main_file_path() + "/"
+                + ProjectName_now, "known points.txt");
+        try {
+            BufferedReader br1 = new BufferedReader(new FileReader(file_total_station_tolerance));
+            BufferedReader br2 = new BufferedReader(new FileReader(file_known_points));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
 
+            String readline = "";
+            String write_text = "";
+            while ((readline = br1.readLine()) != null) {
+                write_text += readline + ",";
+            }
+            bw.flush();
+            bw.write(write_text.substring(0, write_text.length() - 1) + "\n");
+            bw.flush();
+
+            while ((readline = br2.readLine()) != null) {
+                bw.flush();
+                bw.write(readline + "\n");
+                bw.flush();
+            }
+
+            bw.close();
+            br1.close();
+            br2.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean handle_file() {
         try {
+            list_hza_text.clear();
+            list_vca_text.clear();
+            list_dist_text.clear();
+
             BufferedReader br_Hz = new BufferedReader(new FileReader(file_hza));
             String line_Hz = "";
             while ((line_Hz = br_Hz.readLine()) != null) {
@@ -160,8 +196,22 @@ public class observe_sort_honrizontal extends AppCompatActivity {
         list_station_points.clear();
         list_station_points.addAll(set_station_points);
 
-        for (int i = 0; i < list_station_points.size(); i++) {
+        for (String station : list_station_points) {
+            try {
+                BufferedWriter bw_in2 = new BufferedWriter(new FileWriter(file_in2));
+                bw_in2.write(station + "\n");
 
+                for (int i = 0; i < file_size; i++) {
+                    if (list_hza_text.get(i)[0].equals(station)) {
+                        String focus_point = list_hza_text.get(i)[1];
+                        Double Hz_angle = Double.valueOf(list_hza_text.get(i)[2]);
+                        String string_Hz_angle = String.valueOf(my_func.rad2ang_show(Hz_angle));
+                        bw_in2.write(focus_point + "," + "L" + "," + string_Hz_angle);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return true;
