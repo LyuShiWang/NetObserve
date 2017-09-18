@@ -124,43 +124,57 @@ public class My_Func {
         return list_temp.toString();
     }
 
-    public double rad2ang(double radian){
+    public double rad2ang(double radian) {
         //弧度转为纯角度，单位：度°
-        double angle=radian*180/Math.PI;
+        double angle = radian * 180 / Math.PI;
         return angle;
     }
 
     public double rad2ang_show(double radian) {
-        //弧度转为度分秒形式，用于显示
+        //弧度转为度.分秒形式，用于显示
         //249.47005=249°47′00.5″
         double angle = radian * 180 / Math.PI;
         double du = Math.floor(angle);
-        double fen = Math.floor((angle - du)*60);
-        double miao=Math.floor((angle-du-fen/60)*60*60*10)/10;
-        miao=baoliu_weishu(miao,2);
-        double result=du+fen/100+miao/100/100;
-        result=baoliu_weishu(result,5);
+        double fen = Math.floor((angle - du) * 60);
+        double miao = Math.floor((angle - du - fen / 60) * 60 * 60 * 10) / 10;
+        miao = baoliu_weishu(miao, 2);
+        double result = du + fen / 100 + miao / 100 / 100;
+        result = baoliu_weishu(result, 5);
         return result;
     }
 
-    public double ang2second(double angle){
+    public double rad2ang_show(String radian) {
+        //弧度转为度.分秒形式，用于显示
+        //249.47005=249°47′00.5″
+        Double radian_double = Double.valueOf(radian);
+        double angle = radian_double * 180 / Math.PI;
+        double du = Math.floor(angle);
+        double fen = Math.floor((angle - du) * 60);
+        double miao = Math.floor((angle - du - fen / 60) * 60 * 60 * 10) / 10;
+        miao = baoliu_weishu(miao, 2);
+        double result = du + fen / 100 + miao / 100 / 100;
+        result = baoliu_weishu(result, 5);
+        return result;
+    }
+
+    public double ang2second(double angle) {
         //纯角度转为纯秒数
-        double miao=angle*60*60;
+        double miao = angle * 60 * 60;
         return miao;
     }
 
-    public double baoliu_weishu(double number,int weishu){
+    public double baoliu_weishu(double number, int weishu) {
         //根据四舍五入的原则来保留位数
         BigDecimal b = new BigDecimal(number);
-        double number1 = b.setScale(weishu,BigDecimal.ROUND_HALF_UP).doubleValue();
+        double number1 = b.setScale(weishu, BigDecimal.ROUND_HALF_UP).doubleValue();
         return number1;
     }
 
-    public double baoliu_weishu(String number,int weishu){
+    public double baoliu_weishu(String number, int weishu) {
         //根据四舍五入的原则来保留位数
-        Double number1=Double.valueOf(number);
+        Double number1 = Double.valueOf(number);
         BigDecimal b = new BigDecimal(number1);
-        double number2 = b.setScale(weishu,BigDecimal.ROUND_HALF_UP).doubleValue();
+        double number2 = b.setScale(weishu, BigDecimal.ROUND_HALF_UP).doubleValue();
         return number2;
     }
 }

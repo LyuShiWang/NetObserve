@@ -63,9 +63,10 @@ public class observe_sort_honrizontal extends AppCompatActivity {
                             @Override
                             public void run() {
                                 init();
-                                handle_file();
 
-                                makeToast("生成成功！");
+                                if(handle_file()) {
+                                    makeToast("生成成功！");
+                                }
                             }
                         }, 200);
                     }
@@ -153,6 +154,8 @@ public class observe_sort_honrizontal extends AppCompatActivity {
     }
 
     public boolean handle_file() {
+        boolean isHandle = true;
+
         try {
             list_hza_text.clear();
             list_vca_text.clear();
@@ -177,46 +180,47 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             br_Hz.close();
             br_V.close();
             br_S.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        if (list_hza_text.size() == list_vca_text.size() && list_hza_text.size() == list_dist_text.size()) {
-            file_size = list_hza_text.size();
-        } else {
-            makeToast("Error：.hza .vca .dist三个文件的长度不一致！请检查");
-        }
+            if (list_hza_text.size() == list_vca_text.size() && list_hza_text.size() == list_dist_text.size()) {
+                file_size = list_hza_text.size();
+            } else {
+                makeToast("Error：.hza .vca .dist三个文件的长度不一致！请检查");
+            }
 
-        for (int i = 0; i < file_size; i++) {
-            list_station_points.add(list_hza_text.get(i)[0]);
-        }
-        //去掉重复的元素，使该list中只含有所有测站点
-        Set set_station_points = new HashSet();
-        set_station_points.addAll(list_station_points);
-        list_station_points.clear();
-        list_station_points.addAll(set_station_points);
+            for (int i = 0; i < file_size; i++) {
+                list_station_points.add(list_hza_text.get(i)[0]);
+            }
+            //去掉重复的元素，使该list中只含有所有测站点
+            Set set_station_points = new HashSet();
+            set_station_points.addAll(list_station_points);
+            list_station_points.clear();
+            list_station_points.addAll(set_station_points);
 
-        for (String station : list_station_points) {
-            try {
+            for (String station : list_station_points) {
                 BufferedWriter bw_in2 = new BufferedWriter(new FileWriter(file_in2));
                 bw_in2.write(station + "\n");
 
                 for (int i = 0; i < file_size; i++) {
                     if (list_hza_text.get(i)[0].equals(station)) {
                         String focus_point = list_hza_text.get(i)[1];
-                        Double Hz_angle = Double.valueOf(list_hza_text.get(i)[2]);
-                        String string_Hz_angle = String.valueOf(my_func.rad2ang_show(Hz_angle));
-                        bw_in2.write(focus_point + ",L," + string_Hz_angle);
+                        String hza_item = list_hza_text.get(i)[2];//单位：弧度
+                        String vca_item = list_vca_text.get(i)[2];//单位：弧度
+                        String dist_item = list_dist_text.get(i)[2];//单位：米
 
+                        Double Hz_angle = my_func.rad2ang_show(hza_item);//单位：度.分秒
+                        bw_in2.write(focus_point + ",L," + Hz_angle + "\n");
 
+                        Double S_distance = Double.valueOf(dist_item) * Math.cos(Double.valueOf(vca_item));
+                        bw_in2.write(focus_point + ",S," + S_distance + "\n");
                     }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            isHandle = false;
         }
 
-        return true;
+        return isHandle;
     }
 
     public void makeToast(String text) {
