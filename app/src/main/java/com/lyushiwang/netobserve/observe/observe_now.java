@@ -143,7 +143,7 @@ public class observe_now extends AppCompatActivity {
 
     private List<Double[]> calculate_Hz = new ArrayList<Double[]>();
     private List<Double[]> calculate_V = new ArrayList<Double[]>();
-    private List<Double[]> calculate_S = new ArrayList<Double[]>();
+    private List<Double[]> calculate_S = new ArrayList<Double[]>();//横向是不同照准点的值，纵向是不同测回数的值
 
     private List<Double> Hz_bencehui = new ArrayList<Double>();
     private List<Double> V_bencehui = new ArrayList<Double>();
@@ -375,7 +375,7 @@ public class observe_now extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             List<Integer> list_error_1_round = check_data_round_end(list_Obdata);
-            List<String[]> list_error_gecehui = check_gecehui(list_Obdata);
+            List<String[]> list_error_gecehui = check_gecehui(calculate_Hz,calculate_V,calculate_S);
 
             if (list_error_1_round.size() == 0) {
                 if (list_error_gecehui.size() == 0) {
@@ -866,16 +866,17 @@ public class observe_now extends AppCompatActivity {
         return list_error;
     }
 
-    public List<String[]> check_gecehui(List<Observe_data> List_data) {
+    public List<String[]> check_gecehui(List<Double[]> focus_Hz,List<Double[]> focus_V,List<Double[]> focus_S) {
+        //检查各个照准方向的各测回间的限差
         List<String[]> list_error_fangxiang = new ArrayList<String[]>();
-        String[] error_set = new String[2];
+        String[] error_set;
 
         //进行测回间的Hz互差检查
         error_set = new String[2];
         ArrayList<Double> Hz_gecehui = new ArrayList<Double>();
         for (int i = 0; i < i_focus_points; i++) {
             for (int j = 0; j < i_cehuishu; j++) {
-                Hz_gecehui.add(calculate_Hz.get(j)[i]);
+                Hz_gecehui.add(focus_Hz.get(j)[i]);
             }
             Double delta_Hz = Collections.max(Hz_gecehui) - Collections.min(Hz_gecehui);//单位：弧度
             delta_Hz = my_func.rad2ang_show(delta_Hz);//单位：秒 ″
@@ -891,7 +892,7 @@ public class observe_now extends AppCompatActivity {
         List<Double> V_gecehui = new ArrayList<Double>();
         for (int i = 0; i < i_focus_points; i++) {
             for (int j = 0; j < i_cehuishu; j++) {
-                V_gecehui.add(calculate_V.get(j)[i]);
+                V_gecehui.add(focus_V.get(j)[i]);
             }
             Double delta_V = Collections.max(V_gecehui) - Collections.min(V_gecehui);//单位：弧度
             delta_V = my_func.rad2ang_show(delta_V) * 100 * 100;//单位：秒 ″
@@ -907,7 +908,7 @@ public class observe_now extends AppCompatActivity {
         List<Double> S_gecehui = new ArrayList<Double>();
         for (int i = 0; i < i_focus_points; i++) {
             for (int j = 0; j < i_cehuishu; j++) {
-                S_gecehui.add(calculate_S.get(j)[i]);
+                S_gecehui.add(focus_S.get(j)[i]);
             }
             Double delta_S = Collections.max(S_gecehui) - Collections.min(S_gecehui);//单位：米
             delta_S = delta_S * 1000;//单位：毫米

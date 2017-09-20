@@ -51,16 +51,16 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
 
         init();
 
-//        localAddress =netTool.getLocAddress();
-//        String Index=netTool.getLocAddrIndex();
-//        String Name=netTool.getLocDeviceName();
-//        netTool.scan();
-//
-//        String text="本机IP地址为："+ localAddress +"\n"+
-//                "本机IP地址前缀为："+Index+"\n"+
-//                "本机设备名为："+Name;
-//        AlertDialog.Builder AD_IPAddress=new AlertDialog.Builder(UploadData.this);
-//        AD_IPAddress.setMessage(text).setPositiveButton("确定",null).create().show();
+        localAddress =netTool.getLocAddress();
+        String Index=netTool.getLocAddrIndex();
+        String Name=netTool.getLocDeviceName();
+        netTool.scan();
+
+        String text="本机IP地址为："+ localAddress +"\n"+
+                "本机IP地址前缀为："+Index+"\n"+
+                "本机设备名为："+Name;
+        AlertDialog.Builder AD_IPAddress=new AlertDialog.Builder(UploadData.this);
+        AD_IPAddress.setMessage(text).setPositiveButton("确定",null).create().show();
     }
 
     protected void init() {
@@ -107,7 +107,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
         }
     }
 
-    //    public static String getLocalIpAddress(){
+//        public static String getLocalIpAddress(){
 //        try{
 //            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
 //                NetworkInterface intf = en.nextElement();
@@ -131,7 +131,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
             public void run() {
                 try {
                     //1.创建客户端Socket，指定服务器地址和端口
-                    String ServeIPAdress="169.254.80.80";
+                    String ServeIPAdress="192.168.253.1";
                     Socket socket = new Socket(ServeIPAdress, 12345);
                     //2.获取输出流，向服务器端发送信息
                     OutputStream os = socket.getOutputStream();//字节输出流

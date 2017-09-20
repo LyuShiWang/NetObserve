@@ -66,6 +66,8 @@ public class observe_sort_honrizontal extends AppCompatActivity {
 
                                 if(handle_file()) {
                                     makeToast("生成成功！");
+                                }else{
+                                    makeToast("生成失败！请重试");
                                 }
                             }
                         }, 200);
