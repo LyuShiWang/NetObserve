@@ -101,7 +101,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
         file_in2 = new File(my_functions.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
         if (file_in2.exists()) {
             //将该in2文件上传即可
-            connect_PC();
+            connect_PC(ProjectName);
         } else {
             makeToast("没有找到in2文件！");
         }
@@ -125,13 +125,13 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
 //        }
 //        return null;
 //    }
-    public void connect_PC() {
+    public void connect_PC(final String ProjectName) {
         new Thread() {
             @Override
             public void run() {
                 try {
                     //1.创建客户端Socket，指定服务器地址和端口
-                    String ServeIPAdress="192.168.253.1";
+                    String ServeIPAdress="192.168.1.126";
                     Socket socket = new Socket(ServeIPAdress, 12345);
                     //2.获取输出流，向服务器端发送信息
                     OutputStream os = socket.getOutputStream();//字节输出流
@@ -139,8 +139,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                     //获取客户端的IP地址
                     InetAddress address = InetAddress.getLocalHost();
                     String ip = address.getHostAddress();
-                    pw.write("："+"客户端：" + ip + "接入服务器"+"\n");
-                    pw.write("："+"等待上传.in2文件");
+                    pw.write(ProjectName+"\n");
                     try {
                         String line;
                         BufferedReader bf = new BufferedReader(new FileReader(file_in2));

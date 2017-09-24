@@ -206,7 +206,15 @@ public class observe_now extends AppCompatActivity {
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                write_file_Hz_V_S();
+                next_station_or_save2exit();
+                AlertDialog.Builder AD_save_and_exit = new AlertDialog.Builder(observe_now.this);
+                AD_save_and_exit.setMessage("保存成功！是否退出观测？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }).setNegativeButton("取消", null).create().show();
             }
         });
 
@@ -375,7 +383,8 @@ public class observe_now extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             List<Integer> list_error_1_round = check_data_round_end(list_Obdata);
-            List<String[]> list_error_gecehui = check_gecehui(calculate_Hz,calculate_V,calculate_S);
+            List<String[]> list_error_gecehui = check_gecehui(calculate_Hz, calculate_V, calculate_S);
+            //如果是读取.ob文件的数据，那么应如何进行上面两步的处理？需改正
 
             if (list_error_1_round.size() == 0) {
                 if (list_error_gecehui.size() == 0) {
@@ -388,7 +397,10 @@ public class observe_now extends AppCompatActivity {
                                     listview_adapter = new MyAdapter(observe_now.this, list_listview);
                                     listview.setAdapter(listview_adapter);
                                     listview_adapter.notifyDataSetChanged();
-                                    next_station();
+
+
+                                    write_file_Hz_V_S();
+                                    next_station_or_save2exit();
                                 }
                             }).create().show();
                 } else {
@@ -507,7 +519,8 @@ public class observe_now extends AppCompatActivity {
                             textView_tips.setText("没有读取到已有的观测数据！请进行观测！");
                         }
                     }
-                }).setNegativeButton("取消", null).create().show();
+                }).setNegativeButton("取消", null) //这里点击取消的事件不应是null，需改正
+                .create().show();
     }
 
     public String[] get_points_name_set(String station_name) {
@@ -754,7 +767,8 @@ public class observe_now extends AppCompatActivity {
     }
 
     public List<Integer> check_data_round_end(List<Observe_data> List_data) {
-        //仅计算一个测回或一个测站内的限差
+        //只能检查最后一个测回内的限差
+        //只能计算最后一个测回各方向的Hz、V、S值，并添加到列表中
         boolean is_checked;
         List<Integer> list_error = new ArrayList<Integer>();
 
@@ -764,23 +778,11 @@ public class observe_now extends AppCompatActivity {
 //        int third = (2 * i_cehuishu - 1) * (i_focus_points + 1);
 //        int forth = (2 * i_cehuishu - 1) * (i_focus_points + 1) + i_focus_points;
 
-        //不归零
+        //不归零，只有前后两个照准点
         int first = 2 * (i_cehuishu - 1) * i_focus_points;
         int sencond = (2 * i_cehuishu - 1) * i_focus_points - 1;
         int third = (2 * i_cehuishu - 1) * i_focus_points;
         int forth = 2 * i_cehuishu * i_focus_points - 1;
-
-        //进行一测回内的检查
-//        if (i_focus_points > 2) {
-//            //检查盘右半测回归零差
-//            Double Hz_0_LEFT = List_data.get(third).getHz();
-//            Double Hz_end_LEFT = List_data.get(forth).getHz();//单位：弧度
-//            Double guilingcha = my_func.rad2ang_show(Hz_end_LEFT - Hz_0_LEFT) * 100 * 100;//单位：秒″
-//            if (guilingcha > hz_toler_guiling) {
-//                //该半测回归零差超限
-//                list_error.add(1);
-//            }
-//        }
 
         //进行一测回各方向Hz的2C互差检查
         Hz_2C.clear();
@@ -866,7 +868,7 @@ public class observe_now extends AppCompatActivity {
         return list_error;
     }
 
-    public List<String[]> check_gecehui(List<Double[]> focus_Hz,List<Double[]> focus_V,List<Double[]> focus_S) {
+    public List<String[]> check_gecehui(List<Double[]> focus_Hz, List<Double[]> focus_V, List<Double[]> focus_S) {
         //检查各个照准方向的各测回间的限差
         List<String[]> list_error_fangxiang = new ArrayList<String[]>();
         String[] error_set;
@@ -921,7 +923,7 @@ public class observe_now extends AppCompatActivity {
         return list_error_fangxiang;//这个列表包含超限的点，以及超限的类型
     }
 
-    public void next_station() {
+    public void write_file_Hz_V_S() {
         //将数据写入到 文件中
         List<String> list_hza_text = new ArrayList<String>();
         List<String> list_vca_text = new ArrayList<String>();
@@ -948,11 +950,6 @@ public class observe_now extends AppCompatActivity {
             list_hza_text.add(station_name + "," + focus_point_name + "," + mean_Hz[i]);//单位：弧度
             list_vca_text.add(station_name + "," + focus_point_name + "," + mean_V[i]);//单位：弧度
             list_dist_text.add(station_name + "," + focus_point_name + "," + mean_S[i]);
-
-            //此处仅整理了平面观测的数据
-//            String focus_point_name = list_focus_1_round.get(i);
-//            list_in2_text.add(focus_point_name + ",L," + my_func.rad2ang_show(mean_Hz[i]));
-//            list_in2_text.add(focus_point_name + ",S," + mean_S[i]);
         }
 
         try {
@@ -977,7 +974,9 @@ public class observe_now extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public void next_station_or_save2exit() {
         //清空file_ob_data
         try {
             file_ob_data.delete();
@@ -1096,7 +1095,7 @@ public class observe_now extends AppCompatActivity {
                         Observe_data observe_data = put_data_into_Obdata(
                                 i_cehuishu, face, points_name, strings_Total_station);
                         list_focus_points.add(points_name[1]);
-                        list_Obdata.add(observe_data);
+                        list_Obdata.add(observe_data); //对.ob文件的处理主要是在list_Obdata上
 
                         //显示在手机屏幕上
                         map = new HashMap<String, Object>();
@@ -1108,6 +1107,7 @@ public class observe_now extends AppCompatActivity {
                         map.put("S", my_func.baoliu_weishu(strings_Total_station[3], 3));
                         list_listview.add(map);
                     }
+
                     listview_adapter = new MyAdapter(observe_now.this, list_listview);
                     listview.setAdapter(listview_adapter);
                     listview_adapter.notifyDataSetChanged();
@@ -1207,9 +1207,28 @@ public class observe_now extends AppCompatActivity {
                     }
                 }
             }
-
             station_name = list_Obdata.get(list_Obdata.size() - 1).getStationName();
             editText_station_name.setText(station_name);
+        }
+
+        if (i_cehuishu > 1) {
+            //需要得到calculate_Hz，calculate_V 和calculate_S
+            int first = 2 * (i_cehuishu - 1) * i_focus_points;
+            int forth = 2 * i_cehuishu * i_focus_points - 1;//这是最后一个测回的位置
+
+            List<Observe_data> list_obdata_1_round_temp = new ArrayList<Observe_data>();//用于储存每一个单个测回的数据
+
+
+            int i = 0;
+            while (i <= first) {
+                list_obdata_1_round_temp.clear();
+                list_obdata_1_round_temp = list_Obdata.subList(i, i + 4);
+
+                List<Integer> list_obdata_error = check_data_round_end(list_obdata_1_round_temp);
+                //↑在测量的时候已经检查过了，不需要再检查，但要得到calculate_Hz、V、S
+
+                i += 4;
+            }
         }
     }
 }

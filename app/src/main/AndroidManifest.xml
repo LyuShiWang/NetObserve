@@ -43,8 +43,7 @@
         <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_vertical" />
         <activity android:name="com.lyushiwang.netobserve.setting.setting_tolerance_distance" />
         <activity android:name="com.lyushiwang.netobserve.setting.setting_weather" />
-        <activity
-            android:name="com.lyushiwang.netobserve.setting.setting_common"
+        <activity android:name="com.lyushiwang.netobserve.setting.setting_common"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity android:name="com.lyushiwang.netobserve.connect.ConnectRobot" />

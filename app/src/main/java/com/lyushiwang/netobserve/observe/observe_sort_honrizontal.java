@@ -58,19 +58,20 @@ public class observe_sort_honrizontal extends AppCompatActivity {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Timer timer = new Timer();
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                init();
+//                        Timer timer = new Timer();
+//                        timer.schedule(new TimerTask() {
+//                            @Override
+//                            public void run() {
+//
+//                            }
+//                        }, 200);
+                        init();
 
-                                if(handle_file()) {
-                                    makeToast("生成成功！");
-                                }else{
-                                    makeToast("生成失败！请重试");
-                                }
-                            }
-                        }, 200);
+                        if(handle_file()) {
+                            makeToast("生成成功！");
+                        }else{
+                            makeToast("生成失败！请重试");
+                        }
                     }
                 }).setNegativeButton("取消", null).create().show();
     }
