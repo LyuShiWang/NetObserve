@@ -2,6 +2,8 @@ package com.lyushiwang.netobserve.observe;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
@@ -17,13 +19,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by 吕世望 on 2017/5/1.
@@ -48,6 +47,8 @@ public class observe_sort_honrizontal extends AppCompatActivity {
     private List<String> list_station_points = new ArrayList<String>();
     private Integer file_size;
 
+    private Handler MsgHandler;//消息处理
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,98 +68,122 @@ public class observe_sort_honrizontal extends AppCompatActivity {
 //                        }, 200);
                         init();
 
-                        if(handle_file()) {
-                            makeToast("生成成功！");
-                        }else{
-                            makeToast("生成失败！请重试");
-                        }
+                        MsgHandler = new android.os.Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                if (msg.what == 1)//生成.in2文件
+                                    if (handle_file()) {
+                                        makeToast("生成成功！");
+                                        display_file_in2();
+                                    } else {
+                                        makeToast("生成失败！请重试");
+                                    }
+                                if (msg.what == 2)//读取已有的.in2文件
+                                    Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        };
                     }
                 }).setNegativeButton("取消", null).create().show();
     }
 
     public void init() {
-        textView_in2_name = (TextView) findViewById(R.id.textView_in2_name);
-        textView_in2_text = (TextView) findViewById(R.id.textView_in2_text);
-        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
+        new Thread(new Runnable() {
+            public void run() {
+                textView_in2_name = (TextView) findViewById(R.id.textView_in2_name);
+                textView_in2_text = (TextView) findViewById(R.id.textView_in2_text);
+                imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
 
-        try {
-            final File ProjectNow = my_func.get_ProjectNow();
-            BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
-            ProjectName_now = bf.readLine();
-        } catch (Exception e) {
-            e.printStackTrace();
-            makeToast("Error：无法读取ProjectNow文件！");
-        }
+                try {
+                    final File ProjectNow = my_func.get_ProjectNow();
+                    BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
+                    ProjectName_now = bf.readLine();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    makeToast("Error：无法读取ProjectNow文件！");
+                }
 
-        file_hza = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".hza");
-        file_vca = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".vca");
-        file_dist = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".dist");
-        if (!file_hza.exists() || !file_vca.exists() || !file_dist.exists()) {
-            AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_sort_honrizontal.this);
-            AD_error.setTitle("警告").setMessage("文件缺失！无法生成.in2文件！").setPositiveButton("确定", null).create().show();
-        }
+                file_hza = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".hza");
+                file_vca = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".vca");
+                file_dist = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".dist");
+                if (!file_hza.exists() || !file_vca.exists() || !file_dist.exists()) {
+                    AlertDialog.Builder AD_error = new AlertDialog.Builder(observe_sort_honrizontal.this);
+                    AD_error.setTitle("警告").setMessage("文件缺失！无法生成.in2文件！").setPositiveButton("确定", null).create().show();
+                }
 
-        file_in2 = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".in2");
+                file_in2 = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".in2");
 
-        if (file_in2.exists()) {
-            AlertDialog.Builder AD_in2exist = new AlertDialog.Builder(observe_sort_honrizontal.this);
-            AD_in2exist.setMessage("提示").setMessage(".in2文件已存在！是否删除以生成新的文件？" +
-                    "\n按“取消”则打开原有的文件")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                file_in2.delete();
-                                file_in2.createNewFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).setNegativeButton("取消", null).create().show();
-        } else {//file_in2不存在
-            try {
-                file_in2.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+                if (file_in2.exists()) {
+                    AlertDialog.Builder AD_in2exist = new AlertDialog.Builder(observe_sort_honrizontal.this);
+                    AD_in2exist.setMessage("提示").setMessage(".in2文件已存在！是否删除以生成新的文件？" +
+                            "\n按“取消”则打开原有的文件")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try {
+                                        file_in2.delete();
+                                        file_in2.createNewFile();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Message msg = new Message();
+                                    msg.what = 2;
+                                    MsgHandler.sendMessage(msg);
+                                }
+                            }).create().show();
+                } else {//file_in2不存在
+                    try {
+                        file_in2.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                //写入全站仪误差参数和已知点坐标
+                File file_total_station_tolerance = new File(my_func.get_main_file_path() + "/"
+                        + ProjectName_now, "total station tolerance.ini");
+                File file_known_points = new File(my_func.get_main_file_path() + "/"
+                        + ProjectName_now, "known points.txt");
+                try {
+                    BufferedReader br1 = new BufferedReader(new FileReader(file_total_station_tolerance));
+                    BufferedReader br2 = new BufferedReader(new FileReader(file_known_points));
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
+
+                    String readline = "";
+                    String write_text = "";
+                    while ((readline = br1.readLine()) != null) {
+                        write_text += readline + ",";
+                    }
+                    bw.flush();
+                    bw.write(write_text.substring(0, write_text.length() - 1) + "\n");
+                    bw.flush();
+
+                    while ((readline = br2.readLine()) != null) {
+                        bw.flush();
+                        bw.write(readline + "\n");
+                        bw.flush();
+                    }
+
+                    bw.close();
+                    br1.close();
+                    br2.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 1;
+                MsgHandler.sendMessage(msg);
             }
-        }
-
-        //写入全站仪误差参数和已知点坐标
-        File file_total_station_tolerance = new File(my_func.get_main_file_path() + "/"
-                + ProjectName_now, "total station tolerance.ini");
-        File file_known_points = new File(my_func.get_main_file_path() + "/"
-                + ProjectName_now, "known points.txt");
-        try {
-            BufferedReader br1 = new BufferedReader(new FileReader(file_total_station_tolerance));
-            BufferedReader br2 = new BufferedReader(new FileReader(file_known_points));
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file_in2, true));
-
-            String readline = "";
-            String write_text = "";
-            while ((readline = br1.readLine()) != null) {
-                write_text += readline + ",";
-            }
-            bw.flush();
-            bw.write(write_text.substring(0, write_text.length() - 1) + "\n");
-            bw.flush();
-
-            while ((readline = br2.readLine()) != null) {
-                bw.flush();
-                bw.write(readline + "\n");
-                bw.flush();
-            }
-
-            bw.close();
-            br1.close();
-            br2.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        }).start();
     }
 
     public boolean handle_file() {
         boolean isHandle = true;
-
         try {
             list_hza_text.clear();
             list_vca_text.clear();
@@ -176,7 +201,7 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             }
             BufferedReader br_S = new BufferedReader(new FileReader(file_dist));
             String line_S = "";
-            while ((line_S = br_Hz.readLine()) != null) {
+            while ((line_S = br_S.readLine()) != null) {
                 list_dist_text.add(line_S.split(","));
             }
 
@@ -200,8 +225,10 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             list_station_points.addAll(set_station_points);
 
             for (String station : list_station_points) {
-                BufferedWriter bw_in2 = new BufferedWriter(new FileWriter(file_in2));
+                BufferedWriter bw_in2 = new BufferedWriter(new FileWriter(file_in2, true));
+                bw_in2.flush();
                 bw_in2.write(station + "\n");
+                bw_in2.flush();
 
                 for (int i = 0; i < file_size; i++) {
                     if (list_hza_text.get(i)[0].equals(station)) {
@@ -211,12 +238,21 @@ public class observe_sort_honrizontal extends AppCompatActivity {
                         String dist_item = list_dist_text.get(i)[2];//单位：米
 
                         Double Hz_angle = my_func.rad2ang_show(hza_item);//单位：度.分秒
+                        if (Hz_angle < 0.0001) {
+                            Hz_angle = 0.0;
+                        }
+                        bw_in2.flush();
                         bw_in2.write(focus_point + ",L," + Hz_angle + "\n");
+                        bw_in2.flush();
 
                         Double S_distance = Double.valueOf(dist_item) * Math.cos(Double.valueOf(vca_item));
+                        S_distance = my_func.baoliu_weishu(S_distance, 6);
+                        bw_in2.flush();
                         bw_in2.write(focus_point + ",S," + S_distance + "\n");
+                        bw_in2.flush();
                     }
                 }
+                bw_in2.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -224,6 +260,10 @@ public class observe_sort_honrizontal extends AppCompatActivity {
         }
 
         return isHandle;
+    }
+
+    public void display_file_in2(){
+        String file_path=file_in2.getAbsolutePath();
     }
 
     public void makeToast(String text) {

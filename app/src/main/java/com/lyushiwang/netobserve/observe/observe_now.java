@@ -407,7 +407,7 @@ public class observe_now extends AppCompatActivity {
                     textView_tips.setText("各测回方向限差超限！");
                     String text_AD = "类别 , 方向点名\n";
                     for (String[] item : list_error_gecehui) {
-                        text_AD += text_AD + item[0] + " , " + item[1] + "\n";
+                        text_AD += item[0] + " \t\t " + item[1] + "\n";
                     }
                     AlertDialog.Builder AD_error_list = new AlertDialog.Builder(observe_now.this);
                     AD_error_list.setTitle("提示：各测回方向限差超限！").setMessage(text_AD)
@@ -877,6 +877,7 @@ public class observe_now extends AppCompatActivity {
         error_set = new String[2];
         ArrayList<Double> Hz_gecehui = new ArrayList<Double>();
         for (int i = 0; i < i_focus_points; i++) {
+            Hz_gecehui.clear();
             for (int j = 0; j < i_cehuishu; j++) {
                 Hz_gecehui.add(focus_Hz.get(j)[i]);
             }
@@ -893,6 +894,7 @@ public class observe_now extends AppCompatActivity {
         error_set = new String[2];
         List<Double> V_gecehui = new ArrayList<Double>();
         for (int i = 0; i < i_focus_points; i++) {
+            V_gecehui.clear();
             for (int j = 0; j < i_cehuishu; j++) {
                 V_gecehui.add(focus_V.get(j)[i]);
             }
@@ -909,6 +911,7 @@ public class observe_now extends AppCompatActivity {
         error_set = new String[2];
         List<Double> S_gecehui = new ArrayList<Double>();
         for (int i = 0; i < i_focus_points; i++) {
+            S_gecehui.clear();
             for (int j = 0; j < i_cehuishu; j++) {
                 S_gecehui.add(focus_S.get(j)[i]);
             }
@@ -978,12 +981,12 @@ public class observe_now extends AppCompatActivity {
 
     public void next_station_or_save2exit() {
         //清空file_ob_data
-        try {
-            file_ob_data.delete();
-            file_ob_data.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            file_ob_data.delete();
+//            file_ob_data.createNewFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         //初始化
         editText_station_name.setText("");
@@ -1218,17 +1221,24 @@ public class observe_now extends AppCompatActivity {
 
             List<Observe_data> list_obdata_1_round_temp = new ArrayList<Observe_data>();//用于储存每一个单个测回的数据
 
+            final int max_cehuishu = i_cehuishu;
 
             int i = 0;
             while (i <= first) {
+                i_cehuishu = 1;
+
                 list_obdata_1_round_temp.clear();
-                list_obdata_1_round_temp = list_Obdata.subList(i, i + 4);
+                list_obdata_1_round_temp.add(list_Obdata.get(i));
+                list_obdata_1_round_temp.add(list_Obdata.get(i + 1));
+                list_obdata_1_round_temp.add(list_Obdata.get(i + 2));
+                list_obdata_1_round_temp.add(list_Obdata.get(i + 3));
 
                 List<Integer> list_obdata_error = check_data_round_end(list_obdata_1_round_temp);
                 //↑在测量的时候已经检查过了，不需要再检查，但要得到calculate_Hz、V、S
 
-                i += 4;
+                i += i_focus_points * 2;
             }
+            i_cehuishu = max_cehuishu;
         }
     }
 }
