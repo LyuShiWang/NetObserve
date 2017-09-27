@@ -65,7 +65,6 @@ public class observe_sort_honrizontal extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         define_palettes();
                         init();
-
                     }
                 }).setNegativeButton("取消", null).create().show();
     }
@@ -109,11 +108,13 @@ public class observe_sort_honrizontal extends AppCompatActivity {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+                            handle_file();
                         }
                     })
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            display_file_in2();
                         }
                     }).create().show();
         } else {//file_in2不存在
@@ -122,12 +123,11 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            handle_file();
         }
     }
 
-    public boolean handle_file() {
-        boolean isHandle = true;
-
+    public void handle_file() {
         //写入全站仪误差参数和已知点坐标
         File file_total_station_tolerance = new File(my_func.get_main_file_path() + "/"
                 + ProjectName_now, "total station tolerance.ini");
@@ -229,15 +229,25 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            isHandle = false;
         }
-
-        return isHandle;
+        display_file_in2();
     }
 
     public void display_file_in2() {
         String file_path = file_in2.getAbsolutePath();
         textView_in2_name.setText(file_path);
+
+        String content = "";
+        try {
+            BufferedReader br_in2 = new BufferedReader(new FileReader(file_in2));
+            String line = "";
+            while ((line = br_in2.readLine()) != null) {
+                content += line + "\n";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        textView_in2_text.setText(content);
     }
 
     public void makeToast(String text) {
