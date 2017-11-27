@@ -147,11 +147,14 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             bw.write(write_text.substring(0, write_text.length() - 1) + "\n");
             bw.flush();
 
+            String text_known_points = "";
             while ((readline = br2.readLine()) != null) {
-                bw.flush();
-                bw.write(readline + "\n");
-                bw.flush();
+                String[] set_p = readline.split(",");
+                text_known_points += set_p[0] + "," + set_p[1] + "," + set_p[2] + "\n";//in2文件中，已知点坐标不能带有Z坐标
             }
+            bw.flush();
+            bw.write(text_known_points);
+            bw.flush();
 
             bw.close();
             br1.close();

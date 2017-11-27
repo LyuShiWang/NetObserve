@@ -131,8 +131,8 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
             public void run() {
                 try {
                     //1.创建客户端Socket，指定服务器地址和端口
-                    String ServeIPAdress="192.168.1.126";
-                    Socket socket = new Socket(ServeIPAdress, 12345);
+                    String ServeIPAdress="39.108.189.248";
+                    Socket socket = new Socket(ServeIPAdress, 8884);
                     //2.获取输出流，向服务器端发送信息
                     OutputStream os = socket.getOutputStream();//字节输出流
                     PrintWriter pw = new PrintWriter(os);//将输出流包装为打印流
