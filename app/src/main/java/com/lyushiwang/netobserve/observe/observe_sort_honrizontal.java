@@ -140,6 +140,7 @@ public class observe_sort_honrizontal extends AppCompatActivity {
 
             String readline = "";
             String write_text = "";
+
             while ((readline = br1.readLine()) != null) {
                 write_text += readline + ",";
             }
