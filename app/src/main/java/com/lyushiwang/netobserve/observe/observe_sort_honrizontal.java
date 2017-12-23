@@ -125,6 +125,13 @@ public class observe_sort_honrizontal extends AppCompatActivity {
             }
             handle_file();
         }
+
+        imageButton_houtui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void handle_file() {
