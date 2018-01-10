@@ -106,7 +106,7 @@ public class observe_manage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder AD_file_in1 = new AlertDialog.Builder(observe_manage.this);
-                AD_file_in1.setMessage("是否将观测数据进行竖直方向上的整理，生成.in1文件？")
+                AD_file_in1.setMessage("是否获取水准仪观测数据文件？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

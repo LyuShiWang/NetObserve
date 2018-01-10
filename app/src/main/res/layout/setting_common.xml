@@ -579,7 +579,7 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/imageButton_houtui_common"
+            android:id="@+id/imageButton_houtui"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout6"

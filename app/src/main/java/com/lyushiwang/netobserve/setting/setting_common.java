@@ -36,7 +36,7 @@ public class setting_common extends AppCompatActivity {
     private EditText editText_cehuicha;
     private Button button_queding_common;
     private Button button_qingchu_common;
-    private ImageButton imageButton_houtui_common;
+    private ImageButton imageButton_houtui;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class setting_common extends AppCompatActivity {
         editText_cehuicha = (EditText) findViewById(R.id.editText_cehuicha);
         button_queding_common = (Button) findViewById(R.id.button_queding_setting);
         button_qingchu_common = (Button) findViewById(R.id.button_qingchu_common);
-        imageButton_houtui_common = (ImageButton) findViewById(R.id.imageButton_houtui_common);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
     protected void do_click() {
@@ -110,7 +110,7 @@ public class setting_common extends AppCompatActivity {
             }
         });
 
-        imageButton_houtui_common.setOnClickListener(new View.OnClickListener() {
+        imageButton_houtui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

@@ -46,10 +46,10 @@
             <TextView
                 android:id="@+id/textView_in1_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_height="548dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
@@ -60,12 +60,21 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/button_get_vert_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorPrimary"
+            android:text="获取数据" />
+
         <ImageButton
             android:id="@+id/imageButton_houtui"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:background="@drawable/houtui"
             app:srcCompat="@drawable/houtui" />

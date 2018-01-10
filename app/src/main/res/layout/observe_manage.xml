@@ -178,11 +178,11 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:clickable="false"
-            android:editable="false"
             android:layout_toEndOf="@+id/imageView4"
             android:layout_toRightOf="@+id/imageView4"
-            android:text="三角高程观测数据整理"
+            android:clickable="false"
+            android:editable="false"
+            android:text="水准测量数据接收"
             android:textColor="@android:color/background_light"
             android:textSize="25sp" />
 
