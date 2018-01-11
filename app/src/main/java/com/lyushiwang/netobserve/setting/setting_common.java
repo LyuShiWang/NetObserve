@@ -60,7 +60,7 @@ public class setting_common extends AppCompatActivity {
         editText_cehuicha = (EditText) findViewById(R.id.editText_cehuicha);
         button_queding_common = (Button) findViewById(R.id.button_queding_setting);
         button_qingchu_common = (Button) findViewById(R.id.button_qingchu_common);
-        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
+        imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui_common);
     }
 
     protected void do_click() {
