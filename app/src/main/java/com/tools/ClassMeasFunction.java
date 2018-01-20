@@ -3,6 +3,7 @@ package com.tools;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Binder;
@@ -13,6 +14,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +22,8 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.net.Socket;
+
+import com.tools.My_Func;
 
 /**
  * Created by win10 on 2017/5/4.
@@ -35,6 +39,8 @@ public class ClassMeasFunction extends Service {
     public listenThread liThread = null;
     private boolean flag;//线程是否停止的标签
     private final IBinder binder = new LocalBinder();
+
+    private My_Func my_func;
 
     @Nullable
     @Override
@@ -174,6 +180,7 @@ public class ClassMeasFunction extends Service {
         outputStream.write(command.getBytes("utf-8"));//向输出流中写入命令，即可向全站仪发送命令
         long timeBegin = Calendar.getInstance().getTimeInMillis();//得到程序运行的初始时间
         long timeNow = Calendar.getInstance().getTimeInMillis();//得到程序运行的过程的时间
+
         while (!survingString.toString().endsWith("\r\n")) {
             if (timeNow - timeBegin <= errorTime) {
                 timeNow = Calendar.getInstance().getTimeInMillis();//得到程序运行的过程的时间
@@ -192,6 +199,34 @@ public class ClassMeasFunction extends Service {
         }
         return result;
 //		return new String[]{"2323","1656"};
+    }
+
+    public StringBuilder receiveData() throws IOException{
+        //判断蓝牙是否断开
+        if (!socket.isConnected()) {
+            socket.connect();
+            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
+        }
+
+        String command="";
+        StringBuilder nodata=new StringBuilder();
+
+        survingString.setLength(0);//清除消息集合
+        String result = new String();//存储结果
+        outputStream.write(command.getBytes("utf-8"));//向输出流中写入命令，即可向全站仪发送命令
+        long timeBegin = Calendar.getInstance().getTimeInMillis();//得到程序运行的初始时间
+        long timeNow = Calendar.getInstance().getTimeInMillis();//得到程序运行的过程的时间
+
+        while (!survingString.toString().endsWith("\r\n")) {
+            if (timeNow - timeBegin <= 15000) {
+                timeNow = Calendar.getInstance().getTimeInMillis();//得到程序运行的过程的时间
+            } else {
+                return nodata;
+            }
+        }
+        result = survingString.toString();
+        return survingString;
     }
 
     //得到盘位

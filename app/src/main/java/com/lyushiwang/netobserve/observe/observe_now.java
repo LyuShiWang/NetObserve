@@ -398,7 +398,6 @@ public class observe_now extends AppCompatActivity {
                                     listview.setAdapter(listview_adapter);
                                     listview_adapter.notifyDataSetChanged();
 
-
                                     write_file_Hz_V_S();
                                     next_station_or_save2exit();
                                 }
@@ -1033,15 +1032,6 @@ public class observe_now extends AppCompatActivity {
     }
 
     public void get_file_Hz_V_S() {
-        try {
-            final File ProjectNow = my_func.get_ProjectNow();
-            BufferedReader bf = new BufferedReader(new FileReader(ProjectNow));
-            ProjectName_now = bf.readLine();
-        } catch (Exception e) {
-            e.printStackTrace();
-            makeToast("Error：无法读取ProjectNow文件！");
-        }
-
 //        file_in2 = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".in2");
 //        if (file_in2.exists()) {
 //            file_in2.delete();
@@ -1051,32 +1041,35 @@ public class observe_now extends AppCompatActivity {
 //                e.printStackTrace();
 //            }
 //        }
-
-        file_hza = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".hza");
-        if (!file_hza.exists()) {
-            try {
-                file_hza.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+        ProjectName_now=my_func.get_ProjectNowName();
+        if (!ProjectName_now.equals("")) {
+            file_hza = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".hza");
+            if (!file_hza.exists()) {
+                try {
+                    file_hza.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        file_vca = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".vca");
-        if (!file_vca.exists()) {
-            try {
-                file_vca.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+            file_vca = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".vca");
+            if (!file_vca.exists()) {
+                try {
+                    file_vca.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        file_dist = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".dist");
-        if (!file_dist.exists()) {
-            try {
-                file_dist.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+            file_dist = new File(my_func.get_main_file_path() + "/" + ProjectName_now, ProjectName_now + ".dist");
+            if (!file_dist.exists()) {
+                try {
+                    file_dist.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        }else{
+            makeToast("Error：读取ProjectNow文件出错！");
         }
-
     }
 
     public void handle_file_ob() {
@@ -1232,6 +1225,7 @@ public class observe_now extends AppCompatActivity {
                 list_obdata_1_round_temp.add(list_Obdata.get(i + 1));
                 list_obdata_1_round_temp.add(list_Obdata.get(i + 2));
                 list_obdata_1_round_temp.add(list_Obdata.get(i + 3));
+                //有问题，应该是添加8个数据而不是4个
 
                 List<Integer> list_obdata_error = check_data_round_end(list_obdata_1_round_temp);
                 //↑在测量的时候已经检查过了，不需要再检查，但要得到calculate_Hz、V、S

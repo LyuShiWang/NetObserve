@@ -35,6 +35,18 @@ public class My_Func {
         return fileNow;
     }
 
+    public String get_ProjectNowName(){
+        String projectName="";
+        File fileNow=get_ProjectNow();
+        try {
+            BufferedReader bf = new BufferedReader(new FileReader(fileNow));
+            projectName = bf.readLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return projectName;
+    }
+
     public String read_ProjectNow_Name(File ProjectNow) {
         String ProjectName_now = null;
         try {

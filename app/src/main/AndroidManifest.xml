@@ -60,7 +60,9 @@
 
         <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_honrizontal"
             android:exported="true"/>
-        <activity android:name="com.lyushiwang.netobserve.observe.observe_sort_vertical" />
+        <activity
+            android:name="com.lyushiwang.netobserve.observe.observe_sort_vertical"
+            android:exported="true"/>
 
         <activity android:name="com.lyushiwang.netobserve.UploadData" />
         <activity android:name="com.lyushiwang.netobserve.Feedback" />
