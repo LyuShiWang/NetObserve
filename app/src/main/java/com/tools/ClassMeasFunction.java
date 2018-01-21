@@ -201,32 +201,22 @@ public class ClassMeasFunction extends Service {
 //		return new String[]{"2323","1656"};
     }
 
-    public StringBuilder receiveData() throws IOException{
+    public String receiveData() throws IOException{
         //判断蓝牙是否断开
         if (!socket.isConnected()) {
             socket.connect();
             inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
         }
 
         String command="";
         StringBuilder nodata=new StringBuilder();
 
-        survingString.setLength(0);//清除消息集合
+//        survingString.setLength(0);//清除消息集合
         String result = new String();//存储结果
-        outputStream.write(command.getBytes("utf-8"));//向输出流中写入命令，即可向全站仪发送命令
         long timeBegin = Calendar.getInstance().getTimeInMillis();//得到程序运行的初始时间
         long timeNow = Calendar.getInstance().getTimeInMillis();//得到程序运行的过程的时间
-
-        while (!survingString.toString().endsWith("\r\n")) {
-            if (timeNow - timeBegin <= 15000) {
-                timeNow = Calendar.getInstance().getTimeInMillis();//得到程序运行的过程的时间
-            } else {
-                return nodata;
-            }
-        }
         result = survingString.toString();
-        return survingString;
+        return result;
     }
 
     //得到盘位

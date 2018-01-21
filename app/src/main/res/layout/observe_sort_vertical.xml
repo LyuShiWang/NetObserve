@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:layout_weight="4"
+            android:layout_weight="100"
             android:background="@drawable/squre_border"
             android:textSize="20sp" />
     </LinearLayout>
@@ -50,7 +50,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:textSize="20sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </ScrollView>
 

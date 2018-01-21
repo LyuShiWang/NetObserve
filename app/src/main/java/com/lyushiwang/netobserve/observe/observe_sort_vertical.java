@@ -123,9 +123,7 @@ public class observe_sort_vertical extends AppCompatActivity {
             AD_check_BT.setMessage("未打开蓝牙！请打开！").create().show();
         } else {
             try{
-                String[] data=new String[5];
-                data=classmeasFun.VB_TMC_GetFace();
-                textView_in1_text.setText(data.toString());
+
             } catch (Exception e) {
                 e.printStackTrace();
                 android.app.AlertDialog.Builder AD_check_measfun = new android.app.AlertDialog.Builder(observe_sort_vertical.this);
@@ -153,18 +151,9 @@ public class observe_sort_vertical extends AppCompatActivity {
                 AlertDialog.Builder AD_receive=new AlertDialog.Builder(observe_sort_vertical.this);
                 AlertDialog adg_receive= AD_receive.setMessage("正在接受文件...").show();
                 try{
-                    StringBuilder data = classmeasFun.receiveData();
-                    String string_data=data.substring(0, data.length() - 2).toString().trim();
-
-                    StringBuilder data_temp=new StringBuilder();
-                    data_temp.append("450\r\n");
-                    data_temp.append("550\r\n");
-                    data_temp.append("650\r\n");
-                    data_temp.append("750\r\n");
-                    data_temp.append(" \r\n");
-
+                    String data = classmeasFun.receiveData();
                     adg_receive.dismiss();
-                    //textView_in1_text.setText(string_data);
+                    textView_in1_text.setText(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                     android.app.AlertDialog.Builder AD_check_measfun = new android.app.AlertDialog.Builder(observe_sort_vertical.this);
