@@ -51,12 +51,14 @@ import java.util.TimerTask;
 public class observe_sort_vertical extends AppCompatActivity {
 
     private StringBuilder survingString;//存储消息
-    private TextView textView_in1_name;
+    private EditText editText_in1_name;
     private TextView textView_in1_text;
     private Button button_get_vert_data;
+    private Button button_check;
     private ImageButton imageButton_houtui;
 
     private My_Func my_func = new My_Func();
+    private  String ProName=new String();
 
     private ClassMeasFunction classmeasFun;//GeoCom
     private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
@@ -98,13 +100,15 @@ public class observe_sort_vertical extends AppCompatActivity {
 
         define_palettes();
         init();
-        //getData();
+        givetip();
+        button_check.setOnClickListener(listener_check);
         button_get_vert_data.setOnClickListener(listener_get);
     }
 
     protected void define_palettes(){
-        textView_in1_name=(TextView)findViewById(R.id.textView_in1_name);
+        editText_in1_name=(EditText) findViewById(R.id.editText_in1_name);
         textView_in1_text=(TextView)findViewById(R.id.textView_in1_text);
+        button_check=(Button)findViewById(R.id.button_check);
         button_get_vert_data=(Button)findViewById(R.id.button_get_vert_data);
         imageButton_houtui=(ImageButton)findViewById(R.id.imageButton_houtui);
     }
@@ -114,32 +118,26 @@ public class observe_sort_vertical extends AppCompatActivity {
     private void init(){
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
         bindContactService();
+        ProName=null;
     }
 
-    public void getData(){
-        if (!BluetoothAdap.isEnabled()) {
-            android.app.AlertDialog.Builder AD_check_BT = new android.app.AlertDialog.Builder(
-                    observe_sort_vertical.this);
-            AD_check_BT.setMessage("未打开蓝牙！请打开！").create().show();
-        } else {
-            try{
+    public void givetip(){
+        AlertDialog.Builder AD_tip=new AlertDialog.Builder(observe_sort_vertical.this);
+        AD_tip.setTitle("提示").setMessage("输入工程名后，点击“确定”。然后在水准仪上发送数据，提示“接收成功”后点击“获取数据”");
+        AlertDialog adg_tip=AD_tip.show();
+    }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                android.app.AlertDialog.Builder AD_check_measfun = new android.app.AlertDialog.Builder(observe_sort_vertical.this);
-                AD_check_measfun.setMessage("未连接到蓝牙模块！请重试")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent_to_bluedevices = new Intent();
-                                intent_to_bluedevices.setClass(
-                                        observe_sort_vertical.this, ConnectRobot.class);
-                                startActivity(intent_to_bluedevices);
-                            }
-                        }).create().show();
+    Button.OnClickListener listener_check=new Button.OnClickListener(){
+        public void onClick(View v){
+            ProName=editText_in1_name.getText().toString();
+            if (ProName.equals("")||ProName.equals(null)){
+                AlertDialog.Builder AD_error=new AlertDialog.Builder(observe_sort_vertical.this);
+                AlertDialog adg_error=AD_error.setTitle("警告").setMessage("工程名出错！请检查后重新输入").show();
+            }else{
+                makeToast("输入工程名成功！");
             }
         }
-    }
+    };
 
     Button.OnClickListener listener_get=new Button.OnClickListener(){
         public void onClick(View v) {
@@ -149,11 +147,14 @@ public class observe_sort_vertical extends AppCompatActivity {
                 AlertDialog adg_check_BT= AD_check_BT.setMessage("未打开蓝牙！请打开！").show();
             } else {
                 AlertDialog.Builder AD_receive=new AlertDialog.Builder(observe_sort_vertical.this);
-                AlertDialog adg_receive= AD_receive.setMessage("正在接受文件...").show();
+                AlertDialog adg_receive= AD_receive.setMessage("正在接收文件...").show();
+                String data=new String();
                 try{
-                    String data = classmeasFun.receiveData();
+                    data = classmeasFun.receiveData();
                     adg_receive.dismiss();
-                    textView_in1_text.setText(data);
+
+                    textView_in1_text.setText("");
+                    textView_in1_text.setText(ProName+".GSI\r\n"+data);
                 } catch (Exception e) {
                     e.printStackTrace();
                     android.app.AlertDialog.Builder AD_check_measfun = new android.app.AlertDialog.Builder(observe_sort_vertical.this);
@@ -167,6 +168,28 @@ public class observe_sort_vertical extends AppCompatActivity {
                                     startActivity(intent_to_bluedevices);
                                 }
                             }).create().show();
+                }
+
+                if (!data.equals(null)&&!data.equals("")){
+                    File filefolder_in1=new File(my_func.get_main_file_path(),ProName);
+                    if (!filefolder_in1.exists()){
+                        filefolder_in1.mkdir();
+                    }
+
+                    File file_in1=new File(my_func.get_main_file_path()+"/"+ProName,
+                            ProName+".GSI");
+                    try{
+                        if (!file_in1.exists()){
+                            file_in1.createNewFile();
+                        }
+                        BufferedWriter bw=new BufferedWriter(new FileWriter(file_in1,true));
+                        bw.flush();bw.write(data);bw.flush();bw.close();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    AlertDialog.Builder AD_data_error=new AlertDialog.Builder(observe_sort_vertical.this);
+                    AlertDialog adg_data_error=AD_data_error.setTitle("警告").setMessage("接收的数据出现问题！").show();
                 }
             }
         }
