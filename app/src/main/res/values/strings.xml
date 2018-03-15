@@ -2,10 +2,14 @@
     <string name="app_name">NetObserve</string>
     <string name="DeviceList">设备列表</string>
     <string name="connectRobot">connectRobot</string>
-    <string name="查找">查找</string>
+    <string name="look_for">查找</string>
     <string name="上传">上传</string>
     <string name="结果反馈">结果反馈</string>
     <string name="交互">交互</string>
     <string name="请选择上传的工程">请选择上传的工程</string>
     <string name="确定">确定</string>
+    <string name="get_data">获取数据</string>
+    <string name="transfer">转换格式</string>
+    <string name="project_name">工程名：</string>
+    <string name="todo">TODO</string>
 </resources>

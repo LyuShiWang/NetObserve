@@ -17,9 +17,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:text="工程名："
+            android:text="@string/project_name"
             android:textSize="20sp" />
 
         <EditText
@@ -39,8 +40,8 @@
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:textSize="18dp"
-            android:text="@string/确定" />
+            android:textSize="18sp"
+            android:text="@string/确定" android:layout_marginStart="10dp" android:layout_marginEnd="20dp" />
     </LinearLayout>
 
     <ScrollView
@@ -60,7 +61,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:textSize="12sp" />
+                android:textSize="12sp" android:layout_marginStart="10dp" android:layout_marginEnd="5dp" />
         </LinearLayout>
     </ScrollView>
 
@@ -75,19 +76,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="38dp"
+            android:layout_marginStart="38dp"
+            android:layout_toEndOf="@+id/imageButton_houtui"
+            android:layout_toRightOf="@+id/imageButton_houtui"
             android:background="@color/colorPrimary"
-            android:text="获取数据" />
+            android:text="@string/get_data"
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/imageButton_houtui"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
-            android:layout_weight="1"
             android:background="@drawable/houtui"
-            app:srcCompat="@drawable/houtui" />
+            app:srcCompat="@drawable/houtui" android:contentDescription="@string/todo" android:layout_marginStart="15dp" />
+
+        <Button
+            android:id="@+id/button_transfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_toEndOf="@+id/button_get_vert_data"
+            android:layout_toRightOf="@+id/button_get_vert_data"
+            android:background="@color/colorPrimary"
+            android:text="@string/transfer" />
     </RelativeLayout>
 
 </LinearLayout>

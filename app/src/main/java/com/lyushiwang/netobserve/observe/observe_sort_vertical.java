@@ -2,6 +2,8 @@ package com.lyushiwang.netobserve.observe;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
@@ -55,6 +57,7 @@ public class observe_sort_vertical extends AppCompatActivity {
     private TextView textView_in1_text;
     private Button button_get_vert_data;
     private Button button_check;
+    private Button button_tranfer;
     private ImageButton imageButton_houtui;
 
     private My_Func my_func = new My_Func();
@@ -103,6 +106,7 @@ public class observe_sort_vertical extends AppCompatActivity {
         givetip();
         button_check.setOnClickListener(listener_check);
         button_get_vert_data.setOnClickListener(listener_get);
+        button_tranfer.setOnClickListener(listener_transfer);
     }
 
     protected void define_palettes(){
@@ -110,6 +114,7 @@ public class observe_sort_vertical extends AppCompatActivity {
         textView_in1_text=(TextView)findViewById(R.id.textView_in1_text);
         button_check=(Button)findViewById(R.id.button_check);
         button_get_vert_data=(Button)findViewById(R.id.button_get_vert_data);
+        button_tranfer=(Button)findViewById(R.id.button_transfer);
         imageButton_houtui=(ImageButton)findViewById(R.id.imageButton_houtui);
     }
 
@@ -195,6 +200,24 @@ public class observe_sort_vertical extends AppCompatActivity {
             }
         }
     };
+
+    Button.OnClickListener listener_transfer=new Button.OnClickListener() {
+        public void onClick(View v) {
+            AlertDialog.Builder AD_transfer=new AlertDialog.Builder(observe_sort_vertical.this);
+            AD_transfer.setMessage("是否将"+ProName+".GSI文件转为.in1文件？")
+                    .setPositiveButton("确定",new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ProgressDialog PD_transfer=new ProgressDialog(observe_sort_vertical.this);
+                }}).show();
+        }
+    };
+
+    public boolean transfer_data(String GSIFileName){
+        boolean istransfered=false;
+
+        return istransfered;
+    }
 
     public void makeToast(String text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
