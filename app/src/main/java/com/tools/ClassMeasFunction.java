@@ -440,4 +440,7 @@ public class ClassMeasFunction extends Service {
         return result;
     }
 
+    public void CleanData(){
+        survingString=new StringBuilder();
+    }
 }

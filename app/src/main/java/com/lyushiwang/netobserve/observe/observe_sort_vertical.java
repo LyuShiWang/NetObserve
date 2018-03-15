@@ -134,6 +134,7 @@ public class observe_sort_vertical extends AppCompatActivity {
                 AlertDialog.Builder AD_error=new AlertDialog.Builder(observe_sort_vertical.this);
                 AlertDialog adg_error=AD_error.setTitle("警告").setMessage("工程名出错！请检查后重新输入").show();
             }else{
+                classmeasFun.CleanData();
                 makeToast("输入工程名成功！");
             }
         }
