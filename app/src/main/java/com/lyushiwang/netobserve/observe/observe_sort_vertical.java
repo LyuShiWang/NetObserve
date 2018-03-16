@@ -203,12 +203,35 @@ public class observe_sort_vertical extends AppCompatActivity {
 
     Button.OnClickListener listener_transfer=new Button.OnClickListener() {
         public void onClick(View v) {
-            AlertDialog.Builder AD_transfer=new AlertDialog.Builder(observe_sort_vertical.this);
+            final AlertDialog.Builder AD_transfer=new AlertDialog.Builder(observe_sort_vertical.this);
             AD_transfer.setMessage("是否将"+ProName+".GSI文件转为.in1文件？")
                     .setPositiveButton("确定",new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ProgressDialog PD_transfer=new ProgressDialog(observe_sort_vertical.this);
+
+                    PD_transfer.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    PD_transfer.setTitle("提示");
+                    PD_transfer.setCanceledOnTouchOutside(false);//dialog弹出后会点击屏幕，dialog不消失；点击物理返回键dialog消失
+                    PD_transfer.setMessage("正在转换格式，请等待......");
+                    PD_transfer.setOnDismissListener(new DialogInterface.OnDismissListener(){
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            String filename=ProName+".gsi";
+                            if(transfer_data(filename)){
+                                AlertDialog.Builder AD_true=new AlertDialog.Builder(observe_sort_vertical.this);
+                                AD_true.setTitle("提示").setMessage("转换成功！")
+                                        .setPositiveButton("确定",new DialogInterface.OnClickListener(){
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        });
+                            }else{
+
+                            }
+                        }
+                    });
                 }}).show();
         }
     };
