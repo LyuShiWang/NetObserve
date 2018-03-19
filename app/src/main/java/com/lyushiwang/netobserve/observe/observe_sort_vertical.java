@@ -65,6 +65,7 @@ public class observe_sort_vertical extends AppCompatActivity {
     private String ProName = new String();
 
     private Dialog dialog_tip;
+    private StringBuffer knowing_points = new StringBuffer();//已知点
 
     private ClassMeasFunction classmeasFun;//GeoCom
     private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
@@ -264,8 +265,6 @@ public class observe_sort_vertical extends AppCompatActivity {
         File file_gsi = new File(my_func.get_main_file_path() + "/" + "0802",
                 "0802.GSI");
 
-        StringBuffer knowing_points = new StringBuffer();//已知点
-
         try {
             BufferedReader gsi_reader = new BufferedReader(new FileReader(file_gsi));
             String read_line = "";
@@ -276,7 +275,12 @@ public class observe_sort_vertical extends AppCompatActivity {
                 //String row_number=first_data_word.substring(3,first_data_word.length());
                 if (Word_Index == "41") {
                     Integer row_number = Integer.valueOf(first_data_word.substring(3, first_data_word.length()));
-                    if (row_number != 1) {
+                    if (row_number != 1) {//每一个41模块的结尾，进行数据读取
+                        String[] observe_line=String.valueOf(Code_Block.charAt(-1)).split( " ");
+                        String observe_height=observe_line[-1];
+                        observe_height=observe_height.substring(7,observe_height.length());
+                        String observe_distance=observe_line[-2];
+                        observe_distance=observe_distance.substring(7,observe_distance.length());
                         Code_Block = new StringBuffer();
                     }
                 }
