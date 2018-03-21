@@ -276,29 +276,32 @@ public class observe_sort_vertical extends AppCompatActivity {
                 if (Word_Index == "41") {
                     Integer row_number = Integer.valueOf(first_data_word.substring(3, first_data_word.length()));
                     if (row_number != 1) {//每一个41模块的结尾，进行数据读取
-                        String[] observe_line=String.valueOf(Code_Block.charAt(-1)).split( " ");
-                        String observe_height=observe_line[-1];
-                        observe_height=observe_height.substring(7,observe_height.length());
-                        String observe_distance=observe_line[-2];
-                        observe_distance=observe_distance.substring(7,observe_distance.length());
+                        String[] observe_line = String.valueOf(Code_Block.charAt(-1)).split(" ");
+                        String observe_height = observe_line[-1];
+                        observe_height = observe_height.substring(7, observe_height.length());
+                        String observe_distance = observe_line[-2];
+                        observe_distance = observe_distance.substring(7, observe_distance.length());
                         Code_Block = new StringBuffer();
                     }
                 }
                 Code_Block.append(read_line);
 
-                String name_code=first_data_word.substring(7,first_data_word.length());
-                String point_name=name_code.replaceFirst("0*","");//去掉左边的零
+                String name_code = first_data_word.substring(7, first_data_word.length());
+                String point_name = name_code.replaceFirst("0*", "");//去掉左边的零
+                if (point_name==""){
+                    point_name="0";
+                }
 
-                String second_data_word=read_line.split("")[1];
-                Word_Index=second_data_word.substring(0,2);
-                if (Word_Index=="83"){//第二个Data word information的开头是“83”，是已知点
-                    String height_code=second_data_word.substring(7,second_data_word.length());
-                    String knowing_height=height_code.replaceFirst("^0*", "");//去掉左边的零
-                    if (knowing_height==""){
-                        knowing_height="0";
+                String second_data_word = read_line.split("")[1];
+                Word_Index = second_data_word.substring(0, 2);
+                if (Word_Index == "83") {//第二个Data word information的开头是“83”，是已知点
+                    String height_code = second_data_word.substring(7, second_data_word.length());
+                    String knowing_height = height_code.replaceFirst("^0*", "");//去掉左边的零
+                    if (knowing_height == "") {
+                        knowing_height = "0";
                     }
 
-                    knowing_points.append(point_name+","+knowing_height);
+                    knowing_points.append(point_name + "," + knowing_height);
                 }
             }
         } catch (IOException e) {
