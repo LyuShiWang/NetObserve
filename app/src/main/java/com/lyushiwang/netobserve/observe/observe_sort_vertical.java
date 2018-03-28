@@ -66,6 +66,8 @@ public class observe_sort_vertical extends AppCompatActivity {
 
     private Dialog dialog_tip;
     private StringBuffer knowing_points = new StringBuffer();//已知点
+    private StringBuffer Code_Block = new StringBuffer();
+    private String write_content = new String();
 
     private ClassMeasFunction classmeasFun;//GeoCom
     private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
@@ -268,7 +270,6 @@ public class observe_sort_vertical extends AppCompatActivity {
         try {
             BufferedReader gsi_reader = new BufferedReader(new FileReader(file_gsi));
             String read_line = "";
-            StringBuffer Code_Block = new StringBuffer();
             while ((read_line = gsi_reader.readLine()) != null) {
                 String first_data_word = read_line.split(" ")[0];
                 String Word_Index = first_data_word.substring(0, 2);
@@ -276,42 +277,86 @@ public class observe_sort_vertical extends AppCompatActivity {
                 if (Word_Index == "41") {
                     Integer row_number = Integer.valueOf(first_data_word.substring(3, first_data_word.length()));
                     if (row_number != 1) {//每一个41模块的结尾，进行数据读取
-                        String[] observe_line = String.valueOf(Code_Block.charAt(-1)).split(" ");
-                        String observe_height = observe_line[-1];
-                        observe_height = observe_height.substring(7, observe_height.length());
-                        String observe_distance = observe_line[-2];
-                        observe_distance = observe_distance.substring(7, observe_distance.length());
-                        Code_Block = new StringBuffer();
+                        if (handle_41_block(Code_Block)) {
+                            Code_Block = new StringBuffer();
+                        }
                     }
                 }
                 Code_Block.append(read_line);
 
-                String name_code = first_data_word.substring(7, first_data_word.length());
-                String point_name = name_code.replaceFirst("0*", "");//去掉左边的零
-                if (point_name==""){
-                    point_name="0";
-                }
 
-                String second_data_word = read_line.split("")[1];
-                Word_Index = second_data_word.substring(0, 2);
-                if (Word_Index == "83") {//第二个Data word information的开头是“83”，是已知点
-                    String height_code = second_data_word.substring(7, second_data_word.length());
-                    String knowing_height = height_code.replaceFirst("^0*", "");//去掉左边的零
-                    if (knowing_height == "") {
-                        knowing_height = "0";
-                    }
-
-                    knowing_points.append(point_name + "," + knowing_height);
-                }
             }
         } catch (IOException e) {
             e.printStackTrace();
             makeToast("读取.gsi文件出错！");
         }
 
-        String write_content = new String();
 
         return istransfered;
+    }
+
+    public boolean handle_41_block(StringBuffer Code_Block) {
+        String[] code_block = Code_Block.toString().split("\n");
+        boolean ishandled = false;
+        String Word_Index = new String();
+
+        String[] end_observe_line = String.valueOf(Code_Block.charAt(-1)).split(" ");
+
+        String end_point = end_observe_line[0];
+        end_point = end_point.substring(7, end_point.length());
+
+        String observe_height = end_observe_line[-1];
+        observe_height = observe_height.substring(7, observe_height.length());
+
+        String observe_distance = end_observe_line[-2];
+        observe_distance = observe_distance.substring(7, observe_distance.length());
+
+
+        String[] first_line = String.valueOf(Code_Block.charAt(1)).split(" ");
+        String name_code = first_line[0];
+        String start_point_name = name_code.substring(7, name_code.length()).replaceFirst("0*", "");//去掉左边的零
+        if (start_point_name == "") {
+            start_point_name = "O";
+        }
+        String second_data_word = first_line[1];
+        Word_Index = second_data_word.substring(0, 2);
+        if (Word_Index == "83") {//第二个Data word information的开头是“83”，是已知点
+            String height_data = get_measurement_data(second_data_word);
+            knowing_points.append(start_point_name + "," + height_data);
+        }
+
+        String[] end_line = String.valueOf(Code_Block.charAt(-1)).split("");
+        name_code = end_line[0];
+        String end_point_name = name_code.substring(7, name_code.length()).replaceFirst("0*", "");//去掉左边的零
+        if (end_point_name == "") {
+            end_point_name = "O";
+        }
+        String distance_code = end_line[4];
+        String distance_data = get_measurement_data(distance_code);
+
+        return ishandled;
+    }
+
+    public String get_measurement_data(String data_word) {
+        String unit_number = String.valueOf(data_word.charAt(5));
+
+        String data = data_word.substring(7, data_word.length()).replaceFirst("^0*", "");//去掉左边的零
+        if (data == "") {
+            data = "0";
+        }
+
+        switch (unit_number) {
+            case "6":
+                data = String.valueOf(Double.valueOf(data) / 10000);
+            case "0":
+                data = String.valueOf(Double.valueOf(data) / 1000);
+            case "8":
+                data = String.valueOf(Double.valueOf(data) / 100000);
+            default:
+                data = "error";
+        }
+
+        return data;
     }
 
     public void makeToast(String text) {
