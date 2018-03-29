@@ -65,7 +65,9 @@ public class observe_sort_vertical extends AppCompatActivity {
     private String ProName = new String();
 
     private Dialog dialog_tip;
+    private ProgressDialog PD_transfer;
     private StringBuffer knowing_points = new StringBuffer();//已知点
+    private StringBuffer observe_data = new StringBuffer();//观测数据
     private StringBuffer Code_Block = new StringBuffer();
     private String write_content = new String();
 
@@ -130,6 +132,42 @@ public class observe_sort_vertical extends AppCompatActivity {
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
         bindContactService();
         ProName = null;
+
+        PD_transfer = new ProgressDialog(observe_sort_vertical.this);
+
+        PD_transfer.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        PD_transfer.setTitle("提示");
+        PD_transfer.setCanceledOnTouchOutside(false);//dialog弹出后会点击屏幕，dialog不消失；点击物理返回键dialog消失
+        PD_transfer.setMessage("正在转换格式，请等待......");
+        PD_transfer.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                String filename = ProName + ".gsi";
+                if (transfer_data(filename)) {
+                    dialog_tip = new AlertDialog.Builder(observe_sort_vertical.this)
+                            .setTitle("提示")
+                            .setMessage("转换成功！")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog_tip.dismiss();
+                                }
+                            }).create();
+                    dialog_tip.show();
+                } else {
+                    dialog_tip = new AlertDialog.Builder(observe_sort_vertical.this)
+                            .setTitle("提示")
+                            .setMessage("转换失败，请检查")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog_tip.dismiss();
+                                }
+                            }).create();
+                    dialog_tip.show();
+                }
+            }
+        });
     }
 
     public void givetip() {
@@ -217,41 +255,7 @@ public class observe_sort_vertical extends AppCompatActivity {
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ProgressDialog PD_transfer = new ProgressDialog(observe_sort_vertical.this);
-
-                            PD_transfer.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                            PD_transfer.setTitle("提示");
-                            PD_transfer.setCanceledOnTouchOutside(false);//dialog弹出后会点击屏幕，dialog不消失；点击物理返回键dialog消失
-                            PD_transfer.setMessage("正在转换格式，请等待......");
-                            PD_transfer.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    String filename = ProName + ".gsi";
-                                    if (transfer_data(filename)) {
-                                        dialog_tip = new AlertDialog.Builder(observe_sort_vertical.this)
-                                                .setTitle("提示")
-                                                .setMessage("转换成功！")
-                                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog_tip.dismiss();
-                                                    }
-                                                }).create();
-                                        dialog_tip.show();
-                                    } else {
-                                        dialog_tip = new AlertDialog.Builder(observe_sort_vertical.this)
-                                                .setTitle("提示")
-                                                .setMessage("转换失败，请检查")
-                                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog_tip.dismiss();
-                                                    }
-                                                }).create();
-                                        dialog_tip.show();
-                                    }
-                                }
-                            });
+                            PD_transfer.show();
                         }
                     }).show();
         }
@@ -270,7 +274,7 @@ public class observe_sort_vertical extends AppCompatActivity {
         try {
             BufferedReader gsi_reader = new BufferedReader(new FileReader(file_gsi));
             String read_line = "";
-            while ((read_line = gsi_reader.readLine()) != null) {
+            while ((read_line = gsi_reader.readLine()) != null || (read_line = gsi_reader.readLine()) != "\u001A") {
                 String first_data_word = read_line.split(" ")[0];
                 String Word_Index = first_data_word.substring(0, 2);
                 //String row_number=first_data_word.substring(3,first_data_word.length());
@@ -322,7 +326,7 @@ public class observe_sort_vertical extends AppCompatActivity {
         Word_Index = second_data_word.substring(0, 2);
         if (Word_Index == "83") {//第二个Data word information的开头是“83”，是已知点
             String height_data = get_measurement_data(second_data_word);
-            knowing_points.append(start_point_name + "," + height_data);
+            knowing_points.append(start_point_name + "," + height_data + "\n");
         }
 
         String[] end_line = String.valueOf(Code_Block.charAt(-1)).split("");
@@ -334,6 +338,12 @@ public class observe_sort_vertical extends AppCompatActivity {
         String distance_code = end_line[4];
         String distance_data = get_measurement_data(distance_code);
 
+        String measure_height_code = end_line[5];
+        String measure_height = get_measurement_data(measure_height_code);
+
+        observe_data.append(start_point_name + "," + end_point_name + "," + measure_height + "," + distance_data);
+
+        ishandled = true;
         return ishandled;
     }
 
