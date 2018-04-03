@@ -12,7 +12,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +41,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOError;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,6 +74,10 @@ public class observe_sort_vertical extends AppCompatActivity {
     private StringBuffer observe_data = new StringBuffer();//观测数据
     private StringBuffer Code_Block = new StringBuffer();
     private String write_content = new String();
+
+    private HandlerThread thread;
+    private Handler handler;
+    private Handler MsgHandler;
 
     private ClassMeasFunction classmeasFun;//GeoCom
     private BluetoothAdapter BluetoothAdap;// 本地蓝牙适配器
@@ -162,12 +170,27 @@ public class observe_sort_vertical extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog_tip.dismiss();
+                                    handler.removeCallbacks(mRunnable);
                                 }
                             }).create();
                     dialog_tip.show();
+                    handler.removeCallbacks(mRunnable);
                 }
             }
         });
+
+        handler = new Handler();
+        MsgHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 1) {
+                    PD_transfer.dismiss();
+                }
+                if (msg.what == 2) {
+                    Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        };
     }
 
     public void givetip() {
@@ -256,6 +279,10 @@ public class observe_sort_vertical extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             PD_transfer.show();
+                            thread = new HandlerThread("MyHandlerThread");
+                            thread.start();
+                            handler = new Handler(thread.getLooper());
+                            handler.post(mRunnable);
                         }
                     }).show();
         }
@@ -274,21 +301,24 @@ public class observe_sort_vertical extends AppCompatActivity {
         try {
             BufferedReader gsi_reader = new BufferedReader(new FileReader(file_gsi));
             String read_line = "";
-            while ((read_line = gsi_reader.readLine()) != null || (read_line = gsi_reader.readLine()) != "\u001A") {
-                String first_data_word = read_line.split(" ")[0];
-                String Word_Index = first_data_word.substring(0, 2);
-                //String row_number=first_data_word.substring(3,first_data_word.length());
-                if (Word_Index == "41") {
-                    Integer row_number = Integer.valueOf(first_data_word.substring(3, first_data_word.length()));
-                    if (row_number != 1) {//每一个41模块的结尾，进行数据读取
-                        if (handle_41_block(Code_Block)) {
-                            Code_Block = new StringBuffer();
+            while ((read_line = gsi_reader.readLine()) != null) {
+                byte byte_test = read_line.getBytes("UTF-8")[0];
+                System.out.println(byte_test);
+
+                if (byte_test != 26) {
+                    String first_data_word = read_line.split(" ")[0];
+                    String Word_Index = first_data_word.substring(0, 2);
+                    //String row_number=first_data_word.substring(3,first_data_word.length());
+                    if (Word_Index == "41") {
+                        Integer row_number = Integer.valueOf(first_data_word.substring(3, first_data_word.length()));
+                        if (row_number != 1) {//每一个41模块的结尾，进行数据读取
+                            if (handle_41_block(Code_Block)) {
+                                Code_Block = new StringBuffer();
+                            }
                         }
                     }
+                    Code_Block.append(read_line);
                 }
-                Code_Block.append(read_line);
-
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -303,18 +333,6 @@ public class observe_sort_vertical extends AppCompatActivity {
         String[] code_block = Code_Block.toString().split("\n");
         boolean ishandled = false;
         String Word_Index = new String();
-
-        String[] end_observe_line = String.valueOf(Code_Block.charAt(-1)).split(" ");
-
-        String end_point = end_observe_line[0];
-        end_point = end_point.substring(7, end_point.length());
-
-        String observe_height = end_observe_line[-1];
-        observe_height = observe_height.substring(7, observe_height.length());
-
-        String observe_distance = end_observe_line[-2];
-        observe_distance = observe_distance.substring(7, observe_distance.length());
-
 
         String[] first_line = String.valueOf(Code_Block.charAt(1)).split(" ");
         String name_code = first_line[0];
@@ -368,6 +386,15 @@ public class observe_sort_vertical extends AppCompatActivity {
 
         return data;
     }
+
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Message msg2 = new Message();
+            msg2.what = 1;
+            MsgHandler.sendMessage(msg2);
+        }
+    };
 
     public void makeToast(String text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
