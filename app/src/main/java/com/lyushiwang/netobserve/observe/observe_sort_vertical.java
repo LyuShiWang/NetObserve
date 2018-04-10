@@ -296,7 +296,7 @@ public class observe_sort_vertical extends AppCompatActivity {
 
         //test
         File file_gsi = new File(my_func.get_main_file_path() + "/" + "0802",
-                "0802.GSI");
+                "0802 - 副本.GSI");
 
         try {
             BufferedReader gsi_reader = new BufferedReader(new FileReader(file_gsi));
@@ -317,14 +317,14 @@ public class observe_sort_vertical extends AppCompatActivity {
                             }
                         }
                     }
-                    Code_Block.append(read_line+"\n");
-                }else{//文件已读完
-                    if (handle_41_block(Code_Block)){
+                    Code_Block.append(read_line + "\n");
+                } else {//文件已读完
+                    if (handle_41_block(Code_Block)) {
                         System.out.println("The file is over!");
                     }
                 }
             }
-            istransfered=true;
+            istransfered = true;
         } catch (IOException e) {
             e.printStackTrace();
             makeToast("读取.gsi文件出错！");
@@ -352,7 +352,7 @@ public class observe_sort_vertical extends AppCompatActivity {
             knowing_points.append(start_point_name + "," + height_data + "\n");
         }
 
-        String[] end_line = String.valueOf(Code_Block[Code_Block.length-1]).split("");
+        String[] end_line = String.valueOf(Code_Block[Code_Block.length - 1]).split(" ");
         name_code = end_line[0];
         String end_point_name = name_code.substring(7, name_code.length()).replaceFirst("0*", "");//去掉左边的零
         if (end_point_name == "") {
@@ -374,17 +374,17 @@ public class observe_sort_vertical extends AppCompatActivity {
         String unit_number = String.valueOf(data_word.charAt(5));
 
         String data = data_word.substring(7, data_word.length()).replaceFirst("^0*", "");//去掉左边的零
-        if (data == "") {
+        if (data.equals("")) {
             data = "0";
         }
 
         switch (unit_number) {
             case "6":
-                data = String.valueOf(Double.valueOf(data) / 10000);
+                data = String.valueOf(Double.valueOf(data) / 10000);break;
             case "0":
-                data = String.valueOf(Double.valueOf(data) / 1000);
+                data = String.valueOf(Double.valueOf(data) / 1000);break;
             case "8":
-                data = String.valueOf(Double.valueOf(data) / 100000);
+                data = String.valueOf(Double.valueOf(data) / 100000);break;
             default:
                 data = "error";
         }
