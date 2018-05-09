@@ -314,16 +314,22 @@ public class observe_sort_vertical extends AppCompatActivity {
                         if (row_number != 1) {//每一个41模块的结尾，进行数据读取
                             if (handle_41_block(Code_Block)) {
                                 Code_Block = new StringBuffer();
+                            }else{
+                                System.out.println("Failed handling 41 data block!");
+                                makeToast("处理数据失败！");
                             }
                         }
                     }
                     Code_Block.append(read_line + "\n");
                 } else {//文件已读完
                     if (handle_41_block(Code_Block)) {
-                        System.out.println("The file is over!");
+                        System.out.println("The file is over!The last string is \"SUB\"!");
                     }
                 }
             }
+
+            //接下来把observe_data里面的数据写入到.in2文件中
+
             istransfered = true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -337,36 +343,42 @@ public class observe_sort_vertical extends AppCompatActivity {
     public boolean handle_41_block(StringBuffer Code_Block1) {
         String[] Code_Block = Code_Block1.toString().split("\n");
         boolean ishandled = false;
-        String Word_Index = new String();
 
-        String[] first_line = String.valueOf(Code_Block[1]).split(" ");
-        String name_code = first_line[0];
-        String start_point_name = name_code.substring(7, name_code.length()).replaceFirst("0*", "");//去掉左边的零
-        if (start_point_name == "") {
-            start_point_name = "O";
+        try {
+            String Word_Index = new String();
+
+            String[] first_line = String.valueOf(Code_Block[1]).split(" ");
+            String name_code = first_line[0];
+            String start_point_name = name_code.substring(7, name_code.length()).replaceFirst("0*", "");//去掉左边的零
+            if (start_point_name == "") {
+                start_point_name = "O";
+            }
+            String second_data_word = first_line[1];
+            Word_Index = second_data_word.substring(0, 2);
+            if (Word_Index.equals("83")) {//第二个Data word information的开头是“83”，是已知点
+                String height_data = get_measurement_data(second_data_word);
+                knowing_points.append(start_point_name + "," + height_data + "\n");
+            }
+
+            String[] end_line = String.valueOf(Code_Block[Code_Block.length - 1]).split(" ");
+            name_code = end_line[0];
+            String end_point_name = name_code.substring(7, name_code.length()).replaceFirst("0*", "");//去掉左边的零
+            if (end_point_name == "") {
+                end_point_name = "O";
+            }
+            String distance_code = end_line[4];
+            String distance_data = get_measurement_data(distance_code);
+
+            String measure_height_code = end_line[5];
+            String measure_height = get_measurement_data(measure_height_code);
+
+            observe_data.append(start_point_name + "," + end_point_name + "," + measure_height + "," + distance_data);
+
+            ishandled = true;
+        } catch (IOError e) {
+            e.printStackTrace();
+            ishandled = false;
         }
-        String second_data_word = first_line[1];
-        Word_Index = second_data_word.substring(0, 2);
-        if (Word_Index.equals("83")) {//第二个Data word information的开头是“83”，是已知点
-            String height_data = get_measurement_data(second_data_word);
-            knowing_points.append(start_point_name + "," + height_data + "\n");
-        }
-
-        String[] end_line = String.valueOf(Code_Block[Code_Block.length - 1]).split(" ");
-        name_code = end_line[0];
-        String end_point_name = name_code.substring(7, name_code.length()).replaceFirst("0*", "");//去掉左边的零
-        if (end_point_name == "") {
-            end_point_name = "O";
-        }
-        String distance_code = end_line[4];
-        String distance_data = get_measurement_data(distance_code);
-
-        String measure_height_code = end_line[5];
-        String measure_height = get_measurement_data(measure_height_code);
-
-        observe_data.append(start_point_name + "," + end_point_name + "," + measure_height + "," + distance_data);
-
-        ishandled = true;
         return ishandled;
     }
 
@@ -379,12 +391,15 @@ public class observe_sort_vertical extends AppCompatActivity {
         }
 
         switch (unit_number) {
-            case "6":
-                data = String.valueOf(Double.valueOf(data) / 10000);break;
             case "0":
-                data = String.valueOf(Double.valueOf(data) / 1000);break;
+                data = String.valueOf(Double.valueOf(data) / 1000);
+                break;
+            case "6":
+                data = String.valueOf(Double.valueOf(data) / 10000);
+                break;
             case "8":
-                data = String.valueOf(Double.valueOf(data) / 100000);break;
+                data = String.valueOf(Double.valueOf(data) / 100000);
+                break;
             default:
                 data = "error";
         }
