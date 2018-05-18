@@ -75,6 +75,9 @@ public class observe_sort_vertical extends AppCompatActivity {
     private StringBuffer Code_Block = new StringBuffer();
     private String write_content = new String();
 
+    private File file_gsi;
+    private File file_in1;
+
     private HandlerThread thread;
     private Handler handler;
     private Handler MsgHandler;
@@ -244,12 +247,7 @@ public class observe_sort_vertical extends AppCompatActivity {
                 }
 
                 if (!data.equals(null) && !data.equals("")) {
-                    File filefolder_in1 = new File(my_func.get_main_file_path(), ProName);
-                    if (!filefolder_in1.exists()) {
-                        filefolder_in1.mkdir();
-                    }
-
-                    File file_gsi = new File(my_func.get_main_file_path() + "/" + ProName,
+                    file_gsi = new File(my_func.get_main_file_path() + "/" + ProName,
                             ProName + ".GSI");
                     try {
                         if (!file_gsi.exists()) {
@@ -278,6 +276,16 @@ public class observe_sort_vertical extends AppCompatActivity {
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            file_in1 = new File(my_func.get_main_file_path() + "/" + ProName,
+                                    ProName + ".in1");
+                            try {
+                                if (!file_in1.exists()) {
+                                    file_in1.createNewFile();
+                                }
+                            }catch (IOException e){
+                                e.printStackTrace();
+                            }
+
                             PD_transfer.show();
                             thread = new HandlerThread("MyHandlerThread");
                             thread.start();
@@ -312,9 +320,12 @@ public class observe_sort_vertical extends AppCompatActivity {
                     if (Word_Index == "41") {
                         Integer row_number = Integer.valueOf(first_data_word.substring(3, first_data_word.length()));
                         if (row_number != 1) {//每一个41模块的结尾，进行数据读取
+                            knowing_points = new StringBuffer();
+                            observe_data = new StringBuffer();
+
                             if (handle_41_block(Code_Block)) {
                                 Code_Block = new StringBuffer();
-                            }else{
+                            } else {
                                 System.out.println("Failed handling 41 data block!");
                                 makeToast("处理数据失败！");
                             }
@@ -328,14 +339,30 @@ public class observe_sort_vertical extends AppCompatActivity {
                 }
             }
 
-            //接下来把observe_data里面的数据写入到.in2文件中
+            //接下来把observe_data里面的数据写入到.in1文件中
+            try {
+                BufferedWriter bw_in1=new BufferedWriter(new FileWriter(file_in1));
+                if (knowing_points.length() != 0) {
+                    if (observe_data.length() != 0) {
+                        bw_in1.flush();
+                        bw_in1.write(knowing_points.toString());
+                        bw_in1.write(observe_data.toString());
+                        bw_in1.flush();
+                    } else {
+                        makeToast("未找到观测点高程！请重试");
+                    }
+                } else {
+                    makeToast("未找到已知点高程！请重试");
+                }
 
-            istransfered = true;
+                istransfered = true;
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             makeToast("读取.gsi文件出错！");
         }
-
 
         return istransfered;
     }
