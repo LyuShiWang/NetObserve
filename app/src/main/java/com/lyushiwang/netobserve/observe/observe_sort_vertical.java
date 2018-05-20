@@ -1,6 +1,7 @@
 package com.lyushiwang.netobserve.observe;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -43,6 +44,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOError;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -139,6 +141,7 @@ public class observe_sort_vertical extends AppCompatActivity {
 
     //初始化
     @SuppressLint("NewApi")
+    @TargetApi(11)
     private void init() {
         BluetoothAdap = BluetoothAdapter.getDefaultAdapter();// 获取本地蓝牙适配器
         bindContactService();
@@ -215,6 +218,7 @@ public class observe_sort_vertical extends AppCompatActivity {
         }
     };
 
+
     Button.OnClickListener listener_get = new Button.OnClickListener() {
         public void onClick(View v) {
             if (!BluetoothAdap.isEnabled()) {
@@ -282,7 +286,7 @@ public class observe_sort_vertical extends AppCompatActivity {
                                 if (!file_in1.exists()) {
                                     file_in1.createNewFile();
                                 }
-                            }catch (IOException e){
+                            } catch (IOException e) {
                                 e.printStackTrace();
                             }
 
@@ -317,8 +321,8 @@ public class observe_sort_vertical extends AppCompatActivity {
                     String first_data_word = read_line.split(" ")[0];
                     String Word_Index = first_data_word.substring(0, 2);
                     //String row_number=first_data_word.substring(3,first_data_word.length());
-                    if (Word_Index == "41") {
-                        Integer row_number = Integer.valueOf(first_data_word.substring(3, first_data_word.length()));
+                    if (Word_Index.equals("41")) {
+                        Integer row_number = Integer.valueOf(first_data_word.substring(3, 6));
                         if (row_number != 1) {//每一个41模块的结尾，进行数据读取
                             knowing_points = new StringBuffer();
                             observe_data = new StringBuffer();
@@ -341,7 +345,7 @@ public class observe_sort_vertical extends AppCompatActivity {
 
             //接下来把observe_data里面的数据写入到.in1文件中
             try {
-                BufferedWriter bw_in1=new BufferedWriter(new FileWriter(file_in1));
+                BufferedWriter bw_in1 = new BufferedWriter(new FileWriter(file_in1));
                 if (knowing_points.length() != 0) {
                     if (observe_data.length() != 0) {
                         bw_in1.flush();
@@ -356,7 +360,7 @@ public class observe_sort_vertical extends AppCompatActivity {
                 }
 
                 istransfered = true;
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         } catch (IOException e) {
@@ -394,7 +398,9 @@ public class observe_sort_vertical extends AppCompatActivity {
                 end_point_name = "O";
             }
             String distance_code = end_line[4];
-            String distance_data = get_measurement_data(distance_code);
+            Double data_distance_code = Double.valueOf(get_measurement_data(distance_code))/1000;
+            DecimalFormat df_data=new DecimalFormat("0.00000000");
+            String distance_data=df_data.format(data_distance_code);
 
             String measure_height_code = end_line[5];
             String measure_height = get_measurement_data(measure_height_code);
@@ -402,7 +408,7 @@ public class observe_sort_vertical extends AppCompatActivity {
             observe_data.append(start_point_name + "," + end_point_name + "," + measure_height + "," + distance_data);
 
             ishandled = true;
-        } catch (IOError e) {
+        } catch (Error e) {
             e.printStackTrace();
             ishandled = false;
         }
