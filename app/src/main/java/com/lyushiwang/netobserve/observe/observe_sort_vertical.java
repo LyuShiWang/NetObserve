@@ -307,8 +307,8 @@ public class observe_sort_vertical extends AppCompatActivity {
         //      ProName+".GSI");
 
         //test
-        File file_gsi = new File(my_func.get_main_file_path() + "/" + "0802",
-                "0802 - 副本.GSI");
+        File file_gsi = new File(my_func.get_main_file_path() + "/" + "0709",
+                "0709.gsi");
 
         try {
             BufferedReader gsi_reader = new BufferedReader(new FileReader(file_gsi));
@@ -322,11 +322,8 @@ public class observe_sort_vertical extends AppCompatActivity {
                     String Word_Index = first_data_word.substring(0, 2);
                     //String row_number=first_data_word.substring(3,first_data_word.length());
                     if (Word_Index.equals("41")) {
-                        Integer row_number = Integer.valueOf(first_data_word.substring(3, 6));
+                        Integer row_number = Integer.valueOf(first_data_word.substring(2, 6));
                         if (row_number != 1) {//每一个41模块的结尾，进行数据读取
-                            knowing_points = new StringBuffer();
-                            observe_data = new StringBuffer();
-
                             if (handle_41_block(Code_Block)) {
                                 Code_Block = new StringBuffer();
                             } else {
@@ -375,6 +372,7 @@ public class observe_sort_vertical extends AppCompatActivity {
         String[] Code_Block = Code_Block1.toString().split("\n");
         boolean ishandled = false;
 
+
         try {
             String Word_Index = new String();
 
@@ -398,14 +396,14 @@ public class observe_sort_vertical extends AppCompatActivity {
                 end_point_name = "O";
             }
             String distance_code = end_line[4];
-            Double data_distance_code = Double.valueOf(get_measurement_data(distance_code))/1000;
-            DecimalFormat df_data=new DecimalFormat("0.00000000");
-            String distance_data=df_data.format(data_distance_code);
+            Double data_distance_code = Double.valueOf(get_measurement_data(distance_code)) / 1000;
+            DecimalFormat df_data = new DecimalFormat("0.00000000");
+            String distance_data = df_data.format(data_distance_code);
 
             String measure_height_code = end_line[5];
             String measure_height = get_measurement_data(measure_height_code);
 
-            observe_data.append(start_point_name + "," + end_point_name + "," + measure_height + "," + distance_data);
+            observe_data.append(start_point_name + "," + end_point_name + "," + measure_height + "," + distance_data + "\n");
 
             ishandled = true;
         } catch (Error e) {
