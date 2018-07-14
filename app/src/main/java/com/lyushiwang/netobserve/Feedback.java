@@ -100,7 +100,7 @@ public class Feedback extends AppCompatActivity {
             public void run() {
                 try {
                     //1.创建客户端Socket，指定服务器地址和端口
-                    String serviceIP = "192.168.1.107";
+                    String serviceIP = "10.6.0.54";
                     Socket socket = new Socket(serviceIP, 54321);
                     InputStream is = socket.getInputStream(); // 获取输入流
                     InputStreamReader isr = new InputStreamReader(is);
