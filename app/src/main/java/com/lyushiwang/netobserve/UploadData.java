@@ -3,6 +3,8 @@ package com.lyushiwang.netobserve;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -37,9 +40,9 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
     private List<String> list_project = new ArrayList<String>();
     private ArrayAdapter<String> project_adapter;
     private String ProjectName;
-
     private String localAddress;//存储本机ip
     private String localDeviceName;//存储本机设备名
+    private Handler MsgHandler;
 
     private File file_in2 = new File(my_functions.get_main_file_path() + "/" + ProjectName, ProjectName + ".in2");
 
@@ -51,16 +54,30 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
 
         init();
 
-        localAddress =netTool.getLocAddress();
-        String Index=netTool.getLocAddrIndex();
-        String Name=netTool.getLocDeviceName();
-        netTool.scan();
-
-        String text="本机IP地址为："+ localAddress +"\n"+
-                "本机IP地址前缀为："+Index+"\n"+
-                "本机设备名为："+Name;
+        //        localAddress =netTool.getLocAddress();
+        //        String Index=netTool.getLocAddrIndex();
+        //        String Name=netTool.getLocDeviceName();
+        //        netTool.scan();
+        //
+        //        String text="本机IP地址为："+ localAddress +"\n"+
+        //                "本机IP地址前缀为："+Index+"\n"+
+        //                "本机设备名为："+Name;
         AlertDialog.Builder AD_IPAddress=new AlertDialog.Builder(UploadData.this);
-        AD_IPAddress.setMessage(text).setPositiveButton("确定",null).create().show();
+        //        AD_IPAddress.setMessage(text).setPositiveButton("确定",null).create().show();
+
+        MsgHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 1) {
+                    makeToast("平差完毕！请接收.ou2文件！");
+                    AlertDialog.Builder AD_check=new AlertDialog.Builder(UploadData.this);
+                    AD_check.setMessage("平差完毕！请接收.ou2文件！").show();
+                }
+                if (msg.what == 2) {
+                    makeToast("平差出错！");
+                }
+            }
+        };
     }
 
     protected void init() {
@@ -92,7 +109,7 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                     public void onClick(DialogInterface dialog, int which) {
                         ProjectName = project_adapter.getItem(position);
                         uploadproject(ProjectName);
-//                        makeToast("已上传！");
+                        //                        makeToast("已上传！");
                     }
                 }).setNegativeButton("取消", null).create().show();
     }
@@ -102,29 +119,30 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
         if (file_in2.exists()) {
             //将该in2文件上传即可
             connect_PC(ProjectName);
+            wait4checked();
         } else {
             makeToast("没有找到in2文件！");
         }
     }
 
-//        public static String getLocalIpAddress(){
-//        try{
-//            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-//                NetworkInterface intf = en.nextElement();
-//                for (Enumeration<InetAddress> enumIpAddr = intf
-//                        .getInetAddresses(); enumIpAddr.hasMoreElements();) {
-//                    InetAddress inetAddress = enumIpAddr.nextElement();
-//                    if (!inetAddress.isLoopbackAddress()
-//                            && inetAddress instanceof Inet4Address) {
-//                        return inetAddress.getHostAddress().toString();
-//                    }
-//                }
-//            }
-//        }catch (SocketException e) {
-//            Log.i("", "WifiPreference IpAddress---error-" + e.toString());
-//        }
-//        return null;
-//    }
+    //        public static String getLocalIpAddress(){
+    //        try{
+    //            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+    //                NetworkInterface intf = en.nextElement();
+    //                for (Enumeration<InetAddress> enumIpAddr = intf
+    //                        .getInetAddresses(); enumIpAddr.hasMoreElements();) {
+    //                    InetAddress inetAddress = enumIpAddr.nextElement();
+    //                    if (!inetAddress.isLoopbackAddress()
+    //                            && inetAddress instanceof Inet4Address) {
+    //                        return inetAddress.getHostAddress().toString();
+    //                    }
+    //                }
+    //            }
+    //        }catch (SocketException e) {
+    //            Log.i("", "WifiPreference IpAddress---error-" + e.toString());
+    //        }
+    //        return null;
+    //    }
     public void connect_PC(final String ProjectName) {
         new Thread() {
             @Override
@@ -136,9 +154,10 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                     //2.获取输出流，向服务器端发送信息
                     OutputStream os = socket.getOutputStream();//字节输出流
                     PrintWriter pw = new PrintWriter(os);//将输出流包装为打印流
+                    pw = new PrintWriter(socket.getOutputStream());
                     //获取客户端的IP地址
-                    InetAddress address = InetAddress.getLocalHost();
-                    String ip = address.getHostAddress();
+                    //                    InetAddress address = InetAddress.getLocalHost();
+                    //                    String ip = address.getHostAddress();
                     pw.write(ProjectName+"\n");
                     try {
                         String line;
@@ -148,12 +167,51 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
                         }
                     } catch (Exception e) {
                     }
-                    pw.flush();
+                    pw.flush();//刷新打印流，这样就把pw中的数据发送到服务器端
+                    pw.close();//关闭打印流
                     socket.shutdownOutput();//关闭输出流
-                    socket.close();
+                    socket.close();//关闭套接字
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                Thread check_thread=new Thread(new CheckThread());
+                try {
+                    Thread.sleep(1000);
+                }catch (Exception e){
+
+                }
+                check_thread.start();
+            }
+        }.start();
+    }
+
+    class CheckThread implements Runnable{
+        public void run(){
+            try{
+                //等待服务器传回“平差完毕”的讯号
+                String ServeIPAdress="10.6.0.54";
+                Socket socket_check = new Socket(ServeIPAdress, 8886);
+                BufferedReader br_check=new BufferedReader(new InputStreamReader(socket_check.getInputStream()));
+
+                String ischecked=br_check.readLine();
+                Message msg=new Message();
+                if (ischecked.equals("checked")){
+                    msg.what=1;
+                    MsgHandler.sendMessage(msg);
+                }else{
+                    msg.what=2;
+                    MsgHandler.sendMessage(msg);
+                }
+            }catch (Exception e){
+            }
+        }
+    }
+    public void wait4checked(){
+        new Thread(){
+            @Override
+            public void run(){
+
             }
         }.start();
     }
