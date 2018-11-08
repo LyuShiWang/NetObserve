@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Xml;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -72,13 +73,17 @@ public class Feedback extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == 1) {
-                    textView_show_result.setText(content);
+                    String textview_text1=content.replace(" ","  ");
+                    String textview_text2=textview_text1.replace("-","--");
+                    textView_show_result.setText(textview_text2);
+
+//                    textView_show_result.setText(content);
                 }
                 if (msg.what == 2) {
                     AlertDialog.Builder AD_error = new AlertDialog.Builder(Feedback.this);
                     AD_error.setMessage("服务端IP地址错误！").create().show();
-                    textView_show_result.setText("服务端IP地址错误！");
-                    textView_show_result.setTextSize(15);
+//                    textView_show_result.setText("服务端IP地址错误！");
+//                    textView_show_result.setTextSize(15);
                 }
             }
         };
@@ -117,7 +122,7 @@ public class Feedback extends AppCompatActivity {
 //                    makeToast("接收反馈成功");
 
                     File ProjectLocation = new File(my_func.get_main_file_path(), ProjectName_now);
-                    File file_rt2 = new File(ProjectLocation, ProjectName_now + ".rt2");
+                    File file_rt2 = new File(ProjectLocation, ProjectName_now + ".ou2");
                     if (!file_rt2.exists()) {
                         try {
                             file_rt2.createNewFile();

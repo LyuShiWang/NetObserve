@@ -243,6 +243,8 @@ public class UploadData extends AppCompatActivity implements AdapterView.OnItemC
 
                     while ((ischecked = br_check.readLine()) != null) {
                         Log.i("Tips:", "已连接，已接收到反馈信息");
+                        //Thread.sleep(1000);
+
                         Message msg = new Message();
                         if (ischecked.equals("checked")) {
                             msg.what = 1;
