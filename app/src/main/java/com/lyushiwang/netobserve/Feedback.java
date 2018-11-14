@@ -20,6 +20,7 @@ import com.tools.NetTool;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,11 +74,11 @@ public class Feedback extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == 1) {
-                    String textview_text1=content.replace(" ","  ");
-                    String textview_text2=textview_text1.replace("-","--");
-                    textView_show_result.setText(textview_text2);
+//                    String textview_text1=content.replace(" ","  ");
+//                    String textview_text2=textview_text1.replace("-","--");
+//                    textView_show_result.setText(textview_text2);
 
-//                    textView_show_result.setText(content);
+                    textView_show_result.setText(content);
                 }
                 if (msg.what == 2) {
                     AlertDialog.Builder AD_error = new AlertDialog.Builder(Feedback.this);
@@ -122,16 +123,16 @@ public class Feedback extends AppCompatActivity {
 //                    makeToast("接收反馈成功");
 
                     File ProjectLocation = new File(my_func.get_main_file_path(), ProjectName_now);
-                    File file_rt2 = new File(ProjectLocation, ProjectName_now + ".ou2");
-                    if (!file_rt2.exists()) {
+                    File file_ou2 = new File(ProjectLocation, ProjectName_now + ".ou2");
+                    if (!file_ou2.exists()) {
                         try {
-                            file_rt2.createNewFile();
+                            file_ou2.createNewFile();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                     try {
-                        FileWriter fw = new FileWriter(file_rt2.getAbsoluteFile());
+                        FileWriter fw = new FileWriter(file_ou2.getAbsoluteFile());
                         BufferedWriter bw = new BufferedWriter(fw);
                         bw.write(content);
                         bw.close();
@@ -155,6 +156,27 @@ public class Feedback extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    public void get_temp(View v){
+        File ProjectLocation = new File(my_func.get_main_file_path(), ProjectName_now);
+        File file_ou2 = new File(ProjectLocation, ProjectName_now + ".ou2");
+
+        File file_gsi=new File(my_func.get_main_file_path()+"/"+"0709","0709.gsi");
+        try{
+            String line;
+            BufferedReader br=new BufferedReader(new FileReader(file_gsi));
+            while(((line=br.readLine())!=null)){
+                System.out.println(line);
+                content=content+line+"\n";
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+//        content.replace("."," . ");
+
+        textView_show_result.setText(content);
     }
 
     public void makeToast(String text) {

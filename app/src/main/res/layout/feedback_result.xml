@@ -14,7 +14,7 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="接收反馈"
-        android:onClick="get_result"
+        android:onClick="get_temp"
         android:textSize="30sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -39,7 +39,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/button_get_result"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </ScrollView>
 

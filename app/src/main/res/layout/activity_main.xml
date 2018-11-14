@@ -123,8 +123,7 @@
                 android:layout_height="150dp"
                 android:layout_marginLeft="10dp"
                 android:layout_alignLeft="@+id/frameLayout2"
-                android:background="@android:color/holo_green_light"
-                android:layout_weight="0.03">
+                android:background="@android:color/holo_green_light">
 
                 <ImageButton
                     android:id="@+id/imageButton4"
