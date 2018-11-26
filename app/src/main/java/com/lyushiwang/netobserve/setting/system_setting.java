@@ -24,11 +24,11 @@ public class system_setting extends AppCompatActivity {
     private My_Func my_func = new My_Func();
     private Context mContext;
 
-    private TextView dangqiangongcheng;
-    private Button cezhanshezhi;
-    private Button xianchashezhi;
-    private Button qixiangcanshu;
-    private Button changyongcanshu;
+    private TextView ProjectNow;
+    private Button StationSettings;
+    private Button ToleranceSettings;
+    private Button WeatherSettings;
+    private Button CommonSettings;
     private ImageButton imageButton_houtui;
 
     @Override
@@ -41,7 +41,7 @@ public class system_setting extends AppCompatActivity {
         mContext = getApplicationContext();
         Intent intent1_2_1 = getIntent();
         String ProjectName_now = intent1_2_1.getStringExtra("ProjectName_now");//读取当前工程名
-        dangqiangongcheng.setText("当前工程：" + ProjectName_now);
+        ProjectNow.setText("当前工程：" + ProjectName_now);
         create_setting_files();//如果系统文件（.ini）不存在，则创建它们
         //.ini位于程序总目录内，不属于任何工程
 
@@ -49,11 +49,11 @@ public class system_setting extends AppCompatActivity {
     }
 
     protected void define_palettes() {
-        dangqiangongcheng = (TextView) findViewById(R.id.textview_dangqiangongcheng);
-        cezhanshezhi = (Button) findViewById(R.id.button_observe);
-        xianchashezhi = (Button) findViewById(R.id.button_xianchashezhi);
-        qixiangcanshu = (Button) findViewById(R.id.button_qixiangcanshu);
-        changyongcanshu = (Button) findViewById(R.id.button_changyongcanshu);
+        ProjectNow = (TextView) findViewById(R.id.textview_dangqiangongcheng);
+        StationSettings = (Button) findViewById(R.id.button_observe);
+        ToleranceSettings = (Button) findViewById(R.id.button_xianchashezhi);
+        WeatherSettings = (Button) findViewById(R.id.button_qixiangcanshu);
+        CommonSettings = (Button) findViewById(R.id.button_changyongcanshu);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
@@ -110,7 +110,7 @@ public class system_setting extends AppCompatActivity {
     }
 
     protected void do_click(final String ProjectName_now) {
-        cezhanshezhi.setOnClickListener(new View.OnClickListener() {
+        StationSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent_setting2station = new Intent();
@@ -120,7 +120,7 @@ public class system_setting extends AppCompatActivity {
             }
         });
 
-        xianchashezhi.setOnClickListener(new View.OnClickListener() {
+        ToleranceSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder AD_tolerance_choice = new AlertDialog.Builder(system_setting.this);
@@ -147,7 +147,7 @@ public class system_setting extends AppCompatActivity {
             }
         });
 
-        qixiangcanshu.setOnClickListener(new View.OnClickListener() {
+        WeatherSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent_setting2weather = new Intent();
@@ -156,7 +156,7 @@ public class system_setting extends AppCompatActivity {
             }
         });
 
-        changyongcanshu.setOnClickListener(new View.OnClickListener() {
+        CommonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent_setting2common = new Intent();

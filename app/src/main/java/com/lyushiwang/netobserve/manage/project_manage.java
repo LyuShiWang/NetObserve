@@ -27,7 +27,7 @@ import java.util.List;
 public class project_manage extends AppCompatActivity {
     private My_Func my_func = new My_Func();
     private Context mContext;
-    private Button xinjiangongcheng, dakaigongcheng, guanbigongcheng, lingcungongcheng, shanchugongcheng, zuijinshiyonggongcheng;
+    private Button CreateNewProject, OpenProject, CloseProject, SaveProject, DeleteProject, Newly_UsedProject;
     private ImageButton imageButton_houtui;
 
     @Override
@@ -52,17 +52,17 @@ public class project_manage extends AppCompatActivity {
     }
 
     protected void define_palettes() {
-        xinjiangongcheng = (Button) findViewById(R.id.gongcheng_button1);
-        dakaigongcheng = (Button) findViewById(R.id.gongcheng_button2);
-        guanbigongcheng = (Button) findViewById(R.id.gongcheng_button3);
-        lingcungongcheng = (Button) findViewById(R.id.gongcheng_button4);
-        shanchugongcheng = (Button) findViewById(R.id.gongcheng_button5);
-        zuijinshiyonggongcheng = (Button) findViewById(R.id.gongcheng_button6);
+        CreateNewProject = (Button) findViewById(R.id.gongcheng_button1);
+        OpenProject = (Button) findViewById(R.id.gongcheng_button2);
+        CloseProject = (Button) findViewById(R.id.gongcheng_button3);
+        SaveProject = (Button) findViewById(R.id.gongcheng_button4);
+        DeleteProject = (Button) findViewById(R.id.gongcheng_button5);
+        Newly_UsedProject = (Button) findViewById(R.id.gongcheng_button6);
         imageButton_houtui = (ImageButton) findViewById(R.id.imageButton_houtui);
     }
 
     protected void do_click() {
-        xinjiangongcheng.setOnClickListener(new View.OnClickListener() {
+        CreateNewProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(),"点击新建成功！",Toast.LENGTH_LONG).show();
@@ -72,7 +72,7 @@ public class project_manage extends AppCompatActivity {
             }
         });
 
-        dakaigongcheng.setOnClickListener(new View.OnClickListener() {
+        OpenProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final File ProjectNow = my_func.get_ProjectNow();
@@ -117,7 +117,7 @@ public class project_manage extends AppCompatActivity {
             }
         });
 
-        guanbigongcheng.setOnClickListener(new View.OnClickListener() {
+        CloseProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 File ProjectNow = my_func.get_ProjectNow();
@@ -142,14 +142,14 @@ public class project_manage extends AppCompatActivity {
             }
         });
 
-        lingcungongcheng.setOnClickListener(new View.OnClickListener() {
+        SaveProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
 
-        shanchugongcheng.setOnClickListener(new View.OnClickListener() {
+        DeleteProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final File ProjectList = my_func.get_ProjectList();
@@ -178,7 +178,7 @@ public class project_manage extends AppCompatActivity {
             }
         });
 
-        zuijinshiyonggongcheng.setOnClickListener(new View.OnClickListener() {
+        Newly_UsedProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
